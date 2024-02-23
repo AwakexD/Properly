@@ -26,6 +26,22 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<Amenity> Amenities { get; set; }
+
+        public DbSet<Lease> Leases { get; set; }
+
+        public DbSet<Listing> Listings { get; set; }
+
+        public DbSet<ListingType> ListingTypes { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
+
+        public DbSet<Property> Properties { get; set; }
+
+        public DbSet<PropertyAmenity> PropertyAmenities { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
