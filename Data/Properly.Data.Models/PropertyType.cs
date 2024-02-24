@@ -2,9 +2,10 @@
 {
     using Properly.Data.Common.Models;
 
-    public class ListingType : BaseDeletableModel<int>
+    public class PropertyType : BaseDeletableModel<int>
     {
         public string Name { get; set; }
 
+        public virtual Property Property { get; set; }
     }
 }

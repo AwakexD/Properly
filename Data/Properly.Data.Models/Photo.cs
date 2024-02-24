@@ -11,8 +11,6 @@
             this.Id = Guid.NewGuid();
         }
 
-        public Guid ListingId { get; set; }
-
-        public virtual Listing Listing { get; set; }
+        public string Url { get; set; }
     }
 }

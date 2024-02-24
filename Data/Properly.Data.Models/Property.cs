@@ -10,27 +10,27 @@
         public Property()
         {
             this.Id = Guid.NewGuid();
-            this.Amenities = new HashSet<PropertyAmenity>();
+            this.PropertyFeatures = new HashSet<PropertyFeature>();
         }
 
-        public string OwnerId { get; set; }
+        public int Size { get; set; }
 
-        public virtual ApplicationUser Owner { get; set; }
+        public int Bathrooms { get; set; }
+
+        public int Bedrooms { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime ConstructionDate { get; set; }
 
         public int AddressId { get; set; }
 
         public virtual Address Address { get; set; }
 
-        public int Bedrooms { get; set; }
+        public int PropertyTypeId { get; set; }
 
-        public int Bathrooms { get; set; }
+        public virtual PropertyType PropertyType { get; set; }
 
-        public double Size { get; set; }
-
-        public DateTime ConstructionDate { get; set; }
-
-        public string Description { get; set; }
-
-        public virtual ICollection<PropertyAmenity> Amenities { get; set; }
+        public virtual ICollection<PropertyFeature> PropertyFeatures { get; set; }
     }
 }
