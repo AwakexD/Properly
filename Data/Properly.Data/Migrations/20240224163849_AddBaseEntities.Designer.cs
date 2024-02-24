@@ -12,8 +12,8 @@ using Properly.Data;
 namespace Properly.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240224134904_CreateBaseModels")]
-    partial class CreateBaseModels
+    [Migration("20240224163849_AddBaseEntities")]
+    partial class AddBaseEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,10 +140,14 @@ namespace Properly.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -163,14 +167,15 @@ namespace Properly.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PropertyId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StreetName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.HasKey("Id");
 
@@ -320,6 +325,7 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -339,6 +345,7 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DeletedOn")
@@ -398,6 +405,7 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -428,6 +436,7 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -479,10 +488,10 @@ namespace Properly.Data.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Bathrooms")
+                    b.Property<int?>("Bathrooms")
                         .HasColumnType("int");
 
-                    b.Property<int>("Bedrooms")
+                    b.Property<int?>("Bedrooms")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ConstructionDate")
@@ -495,6 +504,8 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -511,13 +522,11 @@ namespace Properly.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PropertyTypeId")
-                        .IsUnique();
+                    b.HasIndex("PropertyTypeId");
 
                     b.ToTable("Properties");
                 });
@@ -566,6 +575,7 @@ namespace Properly.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -663,7 +673,9 @@ namespace Properly.Data.Migrations
                 {
                     b.HasOne("Properly.Data.Models.ApplicationUser", "Creator")
                         .WithMany("Listings")
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Properly.Data.Models.ListingStatus", "ListingStatus")
                         .WithMany()
@@ -702,14 +714,14 @@ namespace Properly.Data.Migrations
             modelBuilder.Entity("Properly.Data.Models.Property", b =>
                 {
                     b.HasOne("Properly.Data.Models.Address", "Address")
-                        .WithOne("Property")
-                        .HasForeignKey("Properly.Data.Models.Property", "AddressId")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Properly.Data.Models.PropertyType", "PropertyType")
-                        .WithOne("Property")
-                        .HasForeignKey("Properly.Data.Models.Property", "PropertyTypeId")
+                        .WithMany()
+                        .HasForeignKey("PropertyTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -737,11 +749,6 @@ namespace Properly.Data.Migrations
                     b.Navigation("Property");
                 });
 
-            modelBuilder.Entity("Properly.Data.Models.Address", b =>
-                {
-                    b.Navigation("Property");
-                });
-
             modelBuilder.Entity("Properly.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
@@ -766,11 +773,6 @@ namespace Properly.Data.Migrations
             modelBuilder.Entity("Properly.Data.Models.Property", b =>
                 {
                     b.Navigation("PropertyFeatures");
-                });
-
-            modelBuilder.Entity("Properly.Data.Models.PropertyType", b =>
-                {
-                    b.Navigation("Property");
                 });
 #pragma warning restore 612, 618
         }

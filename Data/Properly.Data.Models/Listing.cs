@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Properly.Data.Models
+﻿namespace Properly.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using Properly.Data.Common.Models;
 
@@ -15,21 +15,29 @@ namespace Properly.Data.Models
             this.Photos = new HashSet<Photo>();
         }
 
+        [Range(0, int.MaxValue)]
         public int Price { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(Property))]
         public Guid PropertyId { get; set; }
 
         public virtual Property Property { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(ListingType))]
         public int ListingTypeId { get; set; }
 
         public virtual ListingType ListingType { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
 
-        [ForeignKey("CreatorId")]
         public virtual ApplicationUser Creator { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(ListingStatus))]
         public int ListingStatusId { get; set; }
 
         public virtual ListingStatus ListingStatus { get; set; }

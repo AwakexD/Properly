@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Properly.Common\Properly.Common.csproj" />
     <ProjectReference Include="..\Properly.Data.Common\Properly.Data.Common.csproj" />
   </ItemGroup>
   

@@ -1,6 +1,7 @@
 ﻿namespace Properly.Data.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Properly.Data.Common.Models;
 
@@ -11,6 +12,7 @@
             this.PropertyFeatures = new HashSet<PropertyFeature>();
         }
 
+        [Required]
         public string Name { get; set; }
 
         public virtual ICollection<PropertyFeature> PropertyFeatures { get; set; }
