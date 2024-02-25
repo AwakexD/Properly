@@ -3,10 +3,10 @@
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class PropertyFeature
-    {
-        public int Id { get; set; }
+    using Properly.Data.Common.Models;
 
+    public class PropertyFeature : BaseDeletableModel<int>
+    {
         [ForeignKey(nameof(Property))]
         public Guid PropertyId { get; set; }
 
