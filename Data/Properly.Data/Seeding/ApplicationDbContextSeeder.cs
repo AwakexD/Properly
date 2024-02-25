@@ -6,6 +6,7 @@
 
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Properly.Data.Seeding.Listing;
 
     public class ApplicationDbContextSeeder : ISeeder
     {
@@ -27,6 +28,10 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new PropertyTypesSeeder(),
+                              new ListingTypesSeeder(),
+                              new ListingStatusesSeeder(),
+                              new FeaturesSeeder(),
                           };
 
             foreach (var seeder in seeders)
