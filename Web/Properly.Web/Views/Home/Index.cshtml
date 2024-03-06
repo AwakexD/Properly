@@ -1,11 +1,11 @@
 ﻿@using Properly.Common
+@model Properly.Web.ViewModels.Home.IndexViewModel;
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>@Model.FeaturesCount</p>
 </div>
 
 <section class="main-section">
@@ -22,12 +22,14 @@
 
 <section class="homes-foryou">
     <h1>Homes for you</h1>
-        
     <div class="homes-list">
-        <div class="property-container">
-            <img src="./listing.png" alt="Estate image">
-            <h2><strong>$20,000,000</strong></h2>
-            <p>1200 Bel Air Rd, Los Angeles, CA 90077</p>
-        </div>
+    @foreach (var listing in Model.ListingModels)
+    {
+        <div class="listing-container">
+            <img src="@listing.PhotoUrl" alt="Property image">
+            <h2><strong>$@listing.Price</strong></h2>
+            <p>@listing.Address</p>
+        </div>       
+    }
     </div>
 </section>

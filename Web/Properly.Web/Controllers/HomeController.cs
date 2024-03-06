@@ -1,16 +1,30 @@
 ﻿namespace Properly.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
 
-    using Properly.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using Properly.Web.ViewModels;
+    using Properly.Web.ViewModels.Home;
+    using Properly.Web.ViewModels.Listing;
 
     public class HomeController : BaseController
     {
         public IActionResult Index()
         {
-            return this.View();
+            // Test view model
+            // TODO : Service
+            var viewModel = new IndexViewModel()
+            {
+                ListingModels = new HashSet<ListingIndexViewModel>()
+                {
+                    new ListingIndexViewModel()
+                        { Address = "10644 Bellagio Rd, Los Angeles, CA 90077", Price = 20000000 },
+                    new ListingIndexViewModel()
+                        { Address = "594 S Mapleton Dr, Los Angeles, CA 90024", Price = 6000000 },
+                },
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()
