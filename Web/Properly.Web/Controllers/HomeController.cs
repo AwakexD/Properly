@@ -22,6 +22,8 @@
                         { Address = "10644 Bellagio Rd, Los Angeles, CA 90077", Price = 20000000 },
                     new ListingIndexViewModel()
                         { Address = "594 S Mapleton Dr, Los Angeles, CA 90024", Price = 6000000 },
+                    new ListingIndexViewModel()
+                        { Address = "594 S Mapleton Dr, Los Angeles, CA 90024", Price = 6000000 },
                 },
             };
             return this.View(viewModel);
