@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\Properly.Services.Mapping\Properly.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>

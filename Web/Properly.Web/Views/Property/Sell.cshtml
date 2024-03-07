@@ -1,0 +1,55 @@
+﻿@{
+    this.ViewData["Title"] = "Sell a property";
+}
+
+@if (this.User.Identity.IsAuthenticated)
+{
+    <h1>@this.ViewData["Title"]</h1>
+
+    <form method="post" class="container mt-5">
+        <div class="form-group">
+            <label for="Size">Size:</label>
+            <input type="number" class="form-control" id="Size" name="Size" required>
+        </div>
+        <div class="form-group">
+            <label for="Bathrooms">Bathrooms:</label>
+            <input type="number" class="form-control" id="Bathrooms" name="Bathrooms" required>
+        </div>
+        <div class="form-group">
+            <label for="Bedrooms">Bedrooms:</label>
+            <input type="number" class="form-control" id="Bedrooms" name="Bedrooms" required>
+        </div>
+        <div class="form-group">
+            <label for="Description">Description:</label>
+            <textarea class="form-control" id="Description" name="Description" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="ConstructionDate">Construction Date:</label>
+            <input type="date" class="form-control" id="ConstructionDate" name="ConstructionDate" required>
+        </div>
+        <div class="form-group">
+            <label for="Address_StreetName">Street Name:</label>
+            <input type="text" class="form-control" id="Address_StreetName" name="Address.StreetName" required>
+        </div>
+        <div class="form-group">
+            <label for="Address_City">City:</label>
+            <input type="text" class="form-control" id="Address_City" name="Address.City" required>
+        </div>
+        <div class="form-group">
+            <label for="Address_ZipCode">Zip Code:</label>
+            <input type="text" class="form-control" id="Address_ZipCode" name="Address.ZipCode" required>
+        </div>
+        <div class="form-group">
+            <label for="Address_Country">Country:</label>
+            <input type="text" class="form-control" id="Address_Country" name="Address.Country" required>
+        </div>
+        @* TODO : Dropdown menu for PropertyType and ListingType *@
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+}
+else
+{
+    <h1>You must be logged in</h1>
+}
+
