@@ -25,13 +25,13 @@ public static class EntityConstants
 
     public class PropertyConstants
     {
-        public const int SizeMinLength = 5;
+        public const int SizeMinLength = 3;
         public const int SizeMaxLength = 30_000;
 
         public const int BathroomsMaxLength = 100;
         public const int BedroomsMaxLength = 100;
 
         public const int DescriptionMinLength = 10;
-        public const int DescriptionMaxLength = 5000;
+        public const int DescriptionMaxLength = 8000;
     }
 }
