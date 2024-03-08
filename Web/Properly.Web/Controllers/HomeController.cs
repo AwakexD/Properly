@@ -12,8 +12,8 @@
     {
         public IActionResult Index()
         {
+            // TODO : Service that will retrieve the data from the db
             // Test view model
-            // TODO : Service
             var viewModel = new IndexViewModel()
             {
                 ListingModels = new HashSet<ListingIndexViewModel>()

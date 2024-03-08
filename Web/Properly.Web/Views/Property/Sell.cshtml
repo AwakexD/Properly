@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Properly.Web.ViewModels.Sell.SellFormModel;
+
+@{
     this.ViewData["Title"] = "Sell a property";
 }
 
@@ -7,42 +9,80 @@
     <h1>@this.ViewData["Title"]</h1>
 
     <form method="post" class="container mt-5">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label for="Size">Size:</label>
-            <input type="number" class="form-control" id="Size" name="Size" required>
+            <input type="number" class="form-control" id="Size" name="Size">
+            <span asp-validation-for="Size" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="Bathrooms">Bathrooms:</label>
-            <input type="number" class="form-control" id="Bathrooms" name="Bathrooms" required>
+            <input type="number" class="form-control" id="Bathrooms" name="Bathrooms">
+            <span asp-validation-for="Bathrooms" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="Bedrooms">Bedrooms:</label>
-            <input type="number" class="form-control" id="Bedrooms" name="Bedrooms" required>
+            <input type="number" class="form-control" id="Bedrooms" name="Bedrooms">
+            <span asp-validation-for="Bedrooms" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="Price">Price:</label>
+            <input type="number" class="form-control" id="Price" name="Price">
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="Description">Description:</label>
-            <textarea class="form-control" id="Description" name="Description" rows="4" required></textarea>
+            <textarea class="form-control" id="Description" name="Description" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="ConstructionDate">Construction Date:</label>
-            <input type="date" class="form-control" id="ConstructionDate" name="ConstructionDate" required>
+            <input type="date" class="form-control" id="ConstructionDate" name="ConstructionDate">
+            <span asp-validation-for="ConstructionDate" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="Address_StreetName">Street Name:</label>
-            <input type="text" class="form-control" id="Address_StreetName" name="Address.StreetName" required>
+            <label for="StreetName">Street Name:</label>
+            <input type="text" class="form-control" id="StreetName" name="StreetName">
+            <span asp-validation-for="StreetName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="Address_City">City:</label>
-            <input type="text" class="form-control" id="Address_City" name="Address.City" required>
+            <label for="City">City:</label>
+            <input type="text" class="form-control" id="City" name="City">
+            <span asp-validation-for="City" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="Address_ZipCode">Zip Code:</label>
-            <input type="text" class="form-control" id="Address_ZipCode" name="Address.ZipCode" required>
+            <label for="ZipCode">Zip Code:</label>
+            <input type="text" class="form-control" id="ZipCode" name="ZipCode">
+            <span asp-validation-for="ZipCode" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="Address_Country">Country:</label>
-            <input type="text" class="form-control" id="Address_Country" name="Address.Country" required>
+            <label for="Country">Country:</label>
+            <input type="text" class="form-control" id="Country" name="Country">
+            <span asp-validation-for="Country" class="text-danger"></span>
         </div>
+
+        <div class="form-group">
+            <label for="PropertyType">Property Type:</label>
+            <select class="form-control" id="PropertyType" name="PropertyType">
+                <option value="">Select Property Type</option>
+                @foreach (var type  in Model.PropertyTypes)
+                {
+                    <option value="@type.Id">@type.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ListingType">Listing Type:</label>
+            <select class="form-control" id="ListingType" name="ListingType">
+                <option value="">Select Listing Type</option>
+                @foreach (var type in Model.ListingTypes)
+                {
+                    <option value="@type.Id">@type.Name</option>
+                }
+            </select>
+        </div>
+
         @* TODO : Dropdown menu for PropertyType and ListingType *@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
