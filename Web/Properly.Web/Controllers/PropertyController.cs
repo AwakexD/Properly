@@ -6,15 +6,16 @@
     using Microsoft.AspNetCore.Mvc;
     using Properly.Data;
     using Properly.Web.ViewModels.Sell;
+    using Properly.Web.ViewModels.Sell.Options;
 
     public class PropertyController : BaseController
     {
         // TODO : Remove db dependency
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext context;
 
         public PropertyController(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public IActionResult Sell()
@@ -22,17 +23,24 @@
             // TODO : Move out PropertyTypes and ListingTypes into service
             var viewModel = new SellFormModel()
             {
-                PropertyTypes = _context.PropertyTypes.Select(x => new PropertyTypesFormModel()
+                ListingOptions = new ListingOptions()
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                }).ToList(),
-                ListingTypes = _context.ListingTypes.Select(x => new ListingTypesFormModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                }).ToList(),
-                
+                    PropertyTypes = this.context.PropertyTypes.Select(x => new PropertyTypeFormModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                    }).ToList(),
+                    ListingTypes = this.context.ListingTypes.Select(x => new ListingTypeFormModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                    }).ToList(),
+                    Features = this.context.Features.Select(x => new FeatureFormModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                    }),
+                },
             };
             return this.View(viewModel);
         }
@@ -46,8 +54,7 @@
             }
 
             // TODO : Create service that will add the listing to the db
-
-            return Redirect("/");
+            return this.Redirect("/");
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Sell
+﻿namespace Properly.Web.ViewModels.Sell.Options
 {
-    public class ListingTypesFormModel
+    public class ListingTypeFormModel
     {
         public int Id { get; set; }
 

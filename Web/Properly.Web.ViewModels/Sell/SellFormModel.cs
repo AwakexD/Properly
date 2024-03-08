@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Properly.Web.ViewModels.Sell.Options;
+
     using static Properly.Common.EntityConstants.PropertyConstants;
 
     public class SellFormModel : AddressFormModel
@@ -43,9 +45,8 @@
 
         public int ListingType { get; set; }
 
-        // Data for the dropdown menus
-        public IEnumerable<PropertyTypesFormModel> PropertyTypes { get; set; }
+        public IEnumerable<int> SelectedFeatures { get; set; }
 
-        public IEnumerable<ListingTypesFormModel> ListingTypes { get; set; }
+        public ListingOptions ListingOptions { get; set; }
     }
 }
