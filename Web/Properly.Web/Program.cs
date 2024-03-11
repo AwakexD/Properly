@@ -1,4 +1,6 @@
-﻿namespace Properly.Web
+﻿using AutoMapper;
+
+namespace Properly.Web
 {
     using System.Reflection;
 
@@ -9,7 +11,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
     using Properly.Data;
     using Properly.Data.Common;
     using Properly.Data.Common.Repositories;
@@ -17,6 +18,7 @@
     using Properly.Data.Repositories;
     using Properly.Data.Seeding;
     using Properly.Services.Data;
+    using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Services.Messaging;
     using Properly.Web.ViewModels;
@@ -65,6 +67,15 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IPropertyService, PropertyService>();
+            services.AddTransient<IOptionsService, OptionService>();
+
+            // Register mapping
+            // TODO : Fix automapper registration
+            // Error here
+            services.AddSingleton(typeof(IMapper), AutoMapperConfig.MapperInstance);
+
+            // TODO : WebApplicationBuilderExtensions
         }
 
         private static void Configure(WebApplication app)

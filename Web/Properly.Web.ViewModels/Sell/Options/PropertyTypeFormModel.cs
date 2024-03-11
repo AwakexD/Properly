@@ -1,6 +1,9 @@
 ﻿namespace Properly.Web.ViewModels.Sell.Options
 {
-    public class PropertyTypeFormModel
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
+    public class PropertyTypeFormModel : IMapFrom<PropertyType>
     {
         public int Id { get; set; }
 

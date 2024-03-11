@@ -2,58 +2,69 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Properly.Data;
+    using Properly.Data.Models;
+    using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Sell;
     using Properly.Web.ViewModels.Sell.Options;
 
     public class PropertyController : BaseController
     {
-        // TODO : Remove db dependency
-        private readonly ApplicationDbContext context;
+        private readonly IOptionsService optionsService;
+        private readonly IPropertyService propertyService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PropertyController(ApplicationDbContext context)
+        public PropertyController(
+            IOptionsService optionsService,
+            IPropertyService propertyService,
+            UserManager<ApplicationUser> userManager)
         {
-            this.context = context;
+            this.optionsService = optionsService;
+            this.propertyService = propertyService;
+            this.userManager = userManager;
         }
 
-        public IActionResult Sell()
+        public async Task<IActionResult> Sell()
         {
             // TODO : Move out PropertyTypes and ListingTypes into service
             var viewModel = new SellFormModel()
             {
-                ListingOptions = new ListingOptions()
+                ListingOptions =
                 {
-                    PropertyTypes = this.context.PropertyTypes.Select(x => new PropertyTypeFormModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }).ToList(),
-                    ListingTypes = this.context.ListingTypes.Select(x => new ListingTypeFormModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }).ToList(),
-                    Features = this.context.Features.Select(x => new FeatureFormModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }),
+                    PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                    ListingTypes = await this.optionsService.GetListingTypes(),
+                    Features = await this.optionsService.GetFeatures(),
                 },
             };
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Sell(SellFormModel model)
+        public async Task<IActionResult> Sell(SellFormModel viewModel)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model);
+                viewModel = new SellFormModel()
+                {
+                    ListingOptions =
+                    {
+                        PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                        ListingTypes = await this.optionsService.GetListingTypes(),
+                        Features = await this.optionsService.GetFeatures(),
+                    },
+                };
+
+                return this.View(viewModel);
             }
 
-            // TODO : Create service that will add the listing to the db
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.propertyService.CreateListingAsync(viewModel, user.Id);
+
             return this.Redirect("/");
         }
     }

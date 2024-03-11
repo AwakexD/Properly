@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Properly.Web.ViewModels.Sell.Options;
-
     using static Properly.Common.EntityConstants.PropertyConstants;
 
     public class SellFormModel : AddressFormModel
@@ -48,5 +46,7 @@
         public IEnumerable<int> SelectedFeatures { get; set; }
 
         public ListingOptions ListingOptions { get; set; }
+
+        // TODO : Photo upload for every listing
     }
 }

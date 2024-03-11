@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Properly.Data.Common\Properly.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\Properly.Data.Models\Properly.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\Properly.Web.ViewModels\Properly.Web.ViewModels.csproj" />
     <ProjectReference Include="..\Properly.Services.Mapping\Properly.Services.Mapping.csproj" />
   </ItemGroup>
 

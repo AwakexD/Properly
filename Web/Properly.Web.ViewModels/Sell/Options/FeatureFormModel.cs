@@ -1,6 +1,9 @@
 ﻿namespace Properly.Web.ViewModels.Sell.Options
 {
-    public class FeatureFormModel
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
+    public class FeatureFormModel : IMapFrom<Feature>
     {
         public int Id { get; set; }
 
