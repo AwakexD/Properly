@@ -1,6 +1,7 @@
 ﻿namespace Properly.Services.Data
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -10,22 +11,20 @@
     using Properly.Data.Common.Repositories;
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
+    using Properly.Services.Mapping;
     using Properly.Web.ViewModels.Sell.Options;
 
     public class OptionService : IOptionsService
     {
-        private readonly IMapper mapper;
         private readonly IDeletableEntityRepository<PropertyType> propertyTypesRepository;
         private readonly IDeletableEntityRepository<ListingType> listingTypesRepository;
         private readonly IDeletableEntityRepository<Feature> featuresRepository;
 
         public OptionService(
-            IMapper mapper,
             IDeletableEntityRepository<PropertyType> propertyTypesRepository,
             IDeletableEntityRepository<ListingType> listingTypesRepository,
             IDeletableEntityRepository<Feature> featuresRepository)
         {
-            this.mapper = mapper;
             this.propertyTypesRepository = propertyTypesRepository;
             this.listingTypesRepository = listingTypesRepository;
             this.featuresRepository = featuresRepository;
@@ -38,8 +37,8 @@
                 return null;
             }
 
-            var propertyTypes = await this.propertyTypesRepository.AllAsNoTracking().ToListAsync();
-            var propertyTypeFormModels = this.mapper.Map<IEnumerable<PropertyTypeFormModel>>(propertyTypes);
+            var propertyTypeFormModels = await this.propertyTypesRepository.AllAsNoTracking()
+                .To<PropertyTypeFormModel>().ToListAsync();
 
             return propertyTypeFormModels;
         }
@@ -51,8 +50,8 @@
                 return null;
             }
 
-            var listingTypes = await this.listingTypesRepository.AllAsNoTracking().ToListAsync();
-            var listingTypesFormModels = this.mapper.Map<IEnumerable<ListingTypeFormModel>>(listingTypes);
+            var listingTypesFormModels =
+                await this.listingTypesRepository.AllAsNoTracking().To<ListingTypeFormModel>().ToListAsync();
 
             return listingTypesFormModels;
         }
@@ -64,8 +63,8 @@
                 return null;
             }
 
-            var features = await this.featuresRepository.AllAsNoTracking().ToListAsync();
-            var featuresFormModels = this.mapper.Map<IEnumerable<FeatureFormModel>>(features);
+            var featuresFormModels =
+                await this.featuresRepository.AllAsNoTracking().To<FeatureFormModel>().ToListAsync();
 
             return featuresFormModels;
         }

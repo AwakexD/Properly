@@ -1,13 +1,24 @@
-﻿namespace Properly.Web.ViewModels.Sell
+﻿using System.Linq;
+using AutoMapper;
+
+namespace Properly.Web.ViewModels.Sell
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
     using static Properly.Common.EntityConstants.PropertyConstants;
 
     public class SellFormModel : AddressFormModel
     {
+        public SellFormModel()
+        {
+            ListingOptions = new ListingOptions();
+        }
+
         [Required(ErrorMessage = "{0} is required.")]
         [Range(SizeMinLength, SizeMaxLength, ErrorMessage = "Property size must be between {1} and {2} sqft.")]
         [Display(Name = "Size")]

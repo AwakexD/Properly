@@ -1,9 +1,11 @@
 ﻿namespace Properly.Services.Data
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
     using Properly.Data.Common.Repositories;
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
@@ -12,17 +14,19 @@
 
     public class PropertyService : IPropertyService
     {
+        private readonly IMapper mapper;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
 
         public PropertyService(
+            IMapper mapper,
             IDeletableEntityRepository<Listing> listingRepository)
         {
+            this.mapper = mapper;
             this.listingRepository = listingRepository;
         }
 
         public async Task<string> CreateListingAsync(SellFormModel form, string userId)
         {
-            // TODO : Implement AutoMapper
             var address = new Address()
             {
                 StreetName = form.StreetName,
@@ -63,17 +67,20 @@
             await this.listingRepository.AddAsync(listing);
             await this.listingRepository.SaveChangesAsync();
 
-            return property.Id.ToString();
+            return listing.Id.ToString();
         }
 
-        public Task<ListingOptions> GetListingOptionsFromTheDb()
+        public async Task<IEnumerable<ListingIndexViewModel>> GetAllByAddDate(int count)
         {
-            throw new NotImplementedException();
-        }
+            var listings = await this.listingRepository.AllAsNoTracking()
+                .OrderByDescending(x => x.CreatedOn)
+                .Include(l => l.Property.Address)
+                .Take(count)
+                .ToListAsync();
 
-        public async Task<IEnumerable<ListingIndexViewModel>> GetThreeListings()
-        {
-            throw new NotImplementedException();
+            var listingViewModels = this.mapper.Map<IEnumerable<ListingIndexViewModel>>(listings);
+
+            return listingViewModels;
         }
     }
 }

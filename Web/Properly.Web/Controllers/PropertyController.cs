@@ -1,16 +1,12 @@
 ﻿namespace Properly.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Properly.Data;
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Sell;
-    using Properly.Web.ViewModels.Sell.Options;
 
     public class PropertyController : BaseController
     {
@@ -30,7 +26,6 @@
 
         public async Task<IActionResult> Sell()
         {
-            // TODO : Move out PropertyTypes and ListingTypes into service
             var viewModel = new SellFormModel()
             {
                 ListingOptions =

@@ -2,29 +2,28 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels;
     using Properly.Web.ViewModels.Home;
     using Properly.Web.ViewModels.Listing;
 
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly IPropertyService propertyService;
+
+        public HomeController(IPropertyService propertyService)
         {
-            // TODO : Service that will retrieve the data from the db
-            // Test view model
+            this.propertyService = propertyService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
             var viewModel = new IndexViewModel()
             {
-                ListingModels = new HashSet<ListingIndexViewModel>()
-                {
-                    new ListingIndexViewModel()
-                        { Address = "10644 Bellagio Rd, Los Angeles, CA 90077", Price = 20000000 },
-                    new ListingIndexViewModel()
-                        { Address = "594 S Mapleton Dr, Los Angeles, CA 90024", Price = 6000000 },
-                    new ListingIndexViewModel()
-                        { Address = "594 S Mapleton Dr, Los Angeles, CA 90024", Price = 6000000 },
-                },
+                ListingModels = await this.propertyService.GetAllByAddDate(3),
             };
             return this.View(viewModel);
         }

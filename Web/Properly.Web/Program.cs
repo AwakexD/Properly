@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-
-namespace Properly.Web
+﻿namespace Properly.Web
 {
     using System.Reflection;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -70,9 +69,9 @@ namespace Properly.Web
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<IOptionsService, OptionService>();
 
-            // Register mapping
-            // TODO : Fix automapper registration
-            // Error here
+
+            // Register AutoMapper
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             services.AddSingleton(typeof(IMapper), AutoMapperConfig.MapperInstance);
 
             // TODO : WebApplicationBuilderExtensions

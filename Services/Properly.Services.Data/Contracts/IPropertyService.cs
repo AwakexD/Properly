@@ -10,6 +10,6 @@
     {
         Task<string> CreateListingAsync(SellFormModel form, string userId);
 
-        Task<IEnumerable<ListingIndexViewModel>> GetThreeListings();
+        Task<IEnumerable<ListingIndexViewModel>> GetAllByAddDate(int count);
     }
 }
