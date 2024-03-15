@@ -25,28 +25,28 @@
             this.listingRepository = listingRepository;
         }
 
-        public async Task<string> CreateListingAsync(SellFormModel form, string userId)
+        public async Task<string> CreateListingAsync(CreateListingViewModel form, string userId)
         {
             var address = new Address()
             {
-                StreetName = form.StreetName,
-                City = form.City,
-                ZipCode = form.ZipCode,
-                Country = form.Country,
+                StreetName = form.Address.StreetName,
+                City = form.Address.City,
+                ZipCode = form.Address.ZipCode,
+                Country = form.Address.Country,
             };
 
             var property = new Property()
             {
-                Size = form.Size,
-                Bathrooms = form.Bathrooms,
-                Bedrooms = form.Bedrooms,
-                Description = form.Description,
-                ConstructionDate = form.ConstructionDate,
+                Size = form.Property.Size,
+                Bathrooms = form.Property.Bathrooms,
+                Bedrooms = form.Property.Bedrooms,
+                Description = form.Property.Description,
+                ConstructionDate = form.Property.ConstructionDate,
                 Address = address,
-                PropertyTypeId = form.PropertyType,
+                PropertyTypeId = form.Property.PropertyTypeId,
             };
 
-            foreach (var feature in form.SelectedFeatures)
+            foreach (var feature in form.Property.SelectedFeatures)
             {
                 property.PropertyFeatures.Add(new PropertyFeature()
                 {
@@ -57,9 +57,9 @@
 
             var listing = new Listing()
             {
-                Price = form.Price,
+                Price = form.Listing.Price,
                 Property = property,
-                ListingTypeId = form.ListingType,
+                ListingTypeId = form.Listing.ListingTypeId,
                 CreatorId = userId,
                 ListingStatusId = 1,
             };
@@ -70,7 +70,7 @@
             return listing.Id.ToString();
         }
 
-        public async Task<IEnumerable<ListingIndexViewModel>> GetAllByAddDate(int count)
+        public async Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count)
         {
             var listings = await this.listingRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)

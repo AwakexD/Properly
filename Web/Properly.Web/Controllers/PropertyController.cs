@@ -26,26 +26,27 @@
 
         public async Task<IActionResult> Sell()
         {
-            var viewModel = new SellFormModel()
+            var viewModel = new CreateListingViewModel()
             {
-                ListingOptions =
+                ListingOptions = new ListingOptions()
                 {
                     PropertyTypes = await this.optionsService.GetPropertyTypes(),
                     ListingTypes = await this.optionsService.GetListingTypes(),
                     Features = await this.optionsService.GetFeatures(),
                 },
             };
+
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Sell(SellFormModel viewModel)
+        public async Task<IActionResult> Sell(CreateListingViewModel viewModel)
         {
             if (!this.ModelState.IsValid)
             {
-                viewModel = new SellFormModel()
+                viewModel = new CreateListingViewModel()
                 {
-                    ListingOptions =
+                    ListingOptions = new ListingOptions()
                     {
                         PropertyTypes = await this.optionsService.GetPropertyTypes(),
                         ListingTypes = await this.optionsService.GetListingTypes(),

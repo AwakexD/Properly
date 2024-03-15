@@ -8,8 +8,8 @@
 
     public interface IPropertyService
     {
-        Task<string> CreateListingAsync(SellFormModel form, string userId);
+        Task<string> CreateListingAsync(CreateListingViewModel form, string userId);
 
-        Task<IEnumerable<ListingIndexViewModel>> GetAllByAddDate(int count);
+        Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
     }
 }

@@ -23,7 +23,7 @@
         {
             var viewModel = new IndexViewModel()
             {
-                ListingModels = await this.propertyService.GetAllByAddDate(3),
+                ListingModels = await this.propertyService.GetAllListingsByAddedDate(3),
             };
             return this.View(viewModel);
         }
