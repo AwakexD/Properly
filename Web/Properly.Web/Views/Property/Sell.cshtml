@@ -71,6 +71,7 @@
                     <option value="@type.Id">@type.Name</option>
                 }
             </select>
+            <span asp-validation-for="Property.PropertyTypeId" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -82,6 +83,7 @@
                     <option value="@type.Id">@type.Name</option>
                 }
             </select>
+            <span asp-validation-for="Listing.ListingTypeId" class="text-danger"></span>
         </div>
         
         <div class="form-group row">
