@@ -1,8 +1,11 @@
 ﻿namespace Properly.Web
 {
+    using System;
     using System.Reflection;
 
     using AutoMapper;
+    using CloudinaryDotNet;
+    using dotenv.net;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -68,6 +71,13 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<IOptionsService, OptionService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
+
+            // Cloudinary
+            DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+            Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
+            cloudinary.Api.Secure = true;
+            services.AddSingleton(cloudinary);
 
 
             // Register AutoMapper

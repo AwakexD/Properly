@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     using static Properly.Common.EntityConstants.PropertyConstants;
 
     public class PropertyInputModel

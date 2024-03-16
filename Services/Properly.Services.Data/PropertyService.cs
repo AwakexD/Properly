@@ -15,13 +15,16 @@
     public class PropertyService : IPropertyService
     {
         private readonly IMapper mapper;
+        private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
 
         public PropertyService(
             IMapper mapper,
+            ICloudinaryService cloudinaryService,
             IDeletableEntityRepository<Listing> listingRepository)
         {
             this.mapper = mapper;
+            this.cloudinaryService = cloudinaryService;
             this.listingRepository = listingRepository;
         }
 
@@ -55,12 +58,23 @@
                 });
             }
 
+            var photos = new HashSet<Photo>();
+
+            // ToDO : Fix
+            // System.NullReferenceException: 'Object reference not set to an instance of an object.' UploadedPhotos
+            foreach (var photo in form.UploadedPhotos)
+            {
+                string url = await this.cloudinaryService.UploadImageAsync(photo);
+                photos.Add(new Photo() { Url = url });
+            }
+
             var listing = new Listing()
             {
                 Price = form.Listing.Price,
                 Property = property,
                 ListingTypeId = form.Listing.ListingTypeId,
                 CreatorId = userId,
+                Photos = photos,
                 ListingStatusId = 1,
             };
 
