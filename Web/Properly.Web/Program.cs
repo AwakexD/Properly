@@ -79,7 +79,6 @@
             cloudinary.Api.Secure = true;
             services.AddSingleton(cloudinary);
 
-
             // Register AutoMapper
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             services.AddSingleton(typeof(IMapper), AutoMapperConfig.MapperInstance);

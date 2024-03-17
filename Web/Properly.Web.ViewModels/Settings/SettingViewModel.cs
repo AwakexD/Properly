@@ -1,9 +1,8 @@
 ﻿namespace Properly.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using Properly.Data.Models;
     using Properly.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

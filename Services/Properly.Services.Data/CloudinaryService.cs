@@ -23,7 +23,9 @@
             byte[] imageBytes = await GetBytes(imageFile);
             string fileName = imageFile.FileName;
 
-            using var memoryStream = new MemoryStream();
+            using var memoryStream = new MemoryStream(imageBytes);
+            memoryStream.Position = 0;
+
             var uploadParams = new ImageUploadParams()
             {
                 Folder = "Properly",
@@ -37,7 +39,7 @@
             return uploadResponse.SecureUrl.ToString();
         }
 
-        public string GetImageUrl(string imagePublicId) 
+        public string GetImageUrl(string imagePublicId)
         {
             throw new System.NotImplementedException();
         }

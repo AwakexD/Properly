@@ -58,25 +58,20 @@
                 });
             }
 
-            var photos = new HashSet<Photo>();
-
-            // ToDO : Fix
-            // System.NullReferenceException: 'Object reference not set to an instance of an object.' UploadedPhotos
-            foreach (var photo in form.UploadedPhotos)
-            {
-                string url = await this.cloudinaryService.UploadImageAsync(photo);
-                photos.Add(new Photo() { Url = url });
-            }
-
             var listing = new Listing()
             {
                 Price = form.Listing.Price,
                 Property = property,
                 ListingTypeId = form.Listing.ListingTypeId,
                 CreatorId = userId,
-                Photos = photos,
                 ListingStatusId = 1,
             };
+
+            foreach (var photo in form.UploadedPhotos)
+            {
+                string url = await this.cloudinaryService.UploadImageAsync(photo);
+                listing.Photos.Add(new Photo() { Url = url });
+            }
 
             await this.listingRepository.AddAsync(listing);
             await this.listingRepository.SaveChangesAsync();
