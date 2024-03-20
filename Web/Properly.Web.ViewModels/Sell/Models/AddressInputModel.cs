@@ -2,9 +2,13 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
     using static Properly.Common.EntityConstants.AddressConstants;
 
-    public class AddressInputModel
+    public class AddressInputModel : IHaveCustomMappings
     {
         [Display(Name = "Street Name")]
         [Required(ErrorMessage = "{0} is required.")]
@@ -26,5 +30,14 @@
         [Required(ErrorMessage = "{0} is required.")]
         [StringLength(CountryNameMaxLength, MinimumLength = CountryNameMinLength, ErrorMessage = "{0} must be between {2} and {1} characters.")]
         public string Country { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<AddressInputModel, Address>()
+                .ForMember(x => x.StreetName, opt => opt.MapFrom(s => s.StreetName))
+                .ForMember(x => x.City, opt => opt.MapFrom(s => s.City))
+                .ForMember(x => x.ZipCode, opt => opt.MapFrom(s => s.ZipCode))
+                .ForMember(x => x.Country, opt => opt.MapFrom(s => s.Country));
+        }
     }
 }

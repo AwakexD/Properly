@@ -63,5 +63,10 @@
 
             return this.Redirect("/");
         }
+
+        public IActionResult Buy()
+        {
+            return this.View();
+        }
     }
 }

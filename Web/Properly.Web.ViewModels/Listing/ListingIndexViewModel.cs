@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Listing
+﻿using System.Linq;
+
+namespace Properly.Web.ViewModels.Listing
 {
     using AutoMapper;
     using Properly.Data.Models;
@@ -17,7 +19,9 @@
         {
             configuration.CreateMap<Listing, ListingIndexViewModel>()
                 .ForMember(x => x.Address, opt =>
-                    opt.MapFrom(x => x.Property.Address.StreetName + " " + x.Property.Address.ZipCode));
+                    opt.MapFrom(x => x.Property.Address.StreetName + " " + x.Property.Address.ZipCode))
+                .ForMember(x => x.PhotoUrl, opt =>
+                    opt.MapFrom(x => x.Photos.FirstOrDefault().Url));
         }
     }
 }

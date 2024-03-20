@@ -4,9 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
     using static Properly.Common.EntityConstants.PropertyConstants;
 
-    public class PropertyInputModel
+    public class PropertyInputModel : IHaveCustomMappings
     {
         [Display(Name = "Size")]
         [Required(ErrorMessage = "{0} is required.")]
@@ -37,5 +41,16 @@
         public int PropertyTypeId { get; set; }
 
         public IEnumerable<int> SelectedFeatures { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<PropertyInputModel, Property>()
+                .ForMember(x => x.Size, opt => opt.MapFrom(s => s.Size))
+                .ForMember(x => x.Bathrooms, opt => opt.MapFrom(s => s.Bathrooms))
+                .ForMember(x => x.Bedrooms, opt => opt.MapFrom(s => s.Bedrooms))
+                .ForMember(x => x.Description, opt => opt.MapFrom(s => s.Description))
+                .ForMember(x => x.ConstructionDate, opt => opt.MapFrom(s => s.ConstructionDate))
+                .ForMember(x => x.PropertyTypeId, opt => opt.MapFrom(s => s.PropertyTypeId));
+        }
     }
 }

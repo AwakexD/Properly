@@ -2,7 +2,11 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class ListingInputModel
+    using AutoMapper;
+    using Properly.Data.Models;
+    using Properly.Services.Mapping;
+
+    public class ListingInputModel : IHaveCustomMappings
     {
         [Display(Name = "Price")]
         [Required(ErrorMessage = "{0} is required.")]
@@ -12,5 +16,12 @@
         [Display(Name = "Listing type")]
         [Required(ErrorMessage = "Listing type is required.")]
         public int ListingTypeId { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<ListingInputModel, Listing>()
+                .ForMember(x => x.Price, opt => opt.MapFrom(s => s.Price))
+                .ForMember(x => x.ListingTypeId, opt => opt.MapFrom(s => s.ListingTypeId));
+        }
     }
 }

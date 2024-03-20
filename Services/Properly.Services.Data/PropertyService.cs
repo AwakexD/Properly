@@ -30,42 +30,14 @@
 
         public async Task<string> CreateListingAsync(CreateListingViewModel form, string userId)
         {
-            var address = new Address()
-            {
-                StreetName = form.Address.StreetName,
-                City = form.Address.City,
-                ZipCode = form.Address.ZipCode,
-                Country = form.Address.Country,
-            };
+            var address = this.mapper.Map<Address>(form.Address);
+            var property = this.mapper.Map<Property>(form.Property);
+            property.Address = address;
 
-            var property = new Property()
-            {
-                Size = form.Property.Size,
-                Bathrooms = form.Property.Bathrooms,
-                Bedrooms = form.Property.Bedrooms,
-                Description = form.Property.Description,
-                ConstructionDate = form.Property.ConstructionDate,
-                Address = address,
-                PropertyTypeId = form.Property.PropertyTypeId,
-            };
-
-            foreach (var feature in form.Property.SelectedFeatures)
-            {
-                property.PropertyFeatures.Add(new PropertyFeature()
-                {
-                    Property = property,
-                    FeatureId = feature,
-                });
-            }
-
-            var listing = new Listing()
-            {
-                Price = form.Listing.Price,
-                Property = property,
-                ListingTypeId = form.Listing.ListingTypeId,
-                CreatorId = userId,
-                ListingStatusId = 1,
-            };
+            var listing = this.mapper.Map<Listing>(form.Listing);
+            listing.Property = property;
+            listing.ListingStatusId = 1;
+            listing.CreatorId = userId;
 
             foreach (var photo in form.UploadedPhotos)
             {
@@ -84,6 +56,7 @@
             var listings = await this.listingRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
                 .Include(l => l.Property.Address)
+                .Include(l => l.Photos)
                 .Take(count)
                 .ToListAsync();
 
