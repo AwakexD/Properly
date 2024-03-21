@@ -34,7 +34,7 @@
                 <div class="card mb-3" style="width: 24rem;">
                     <img class="card-img-top" src="@listing.PhotoUrl" alt="Property image">
                     <div class="card-body">
-                        <h2 class="card-text"><strong>$@listing.Price</strong></h2>
+                        <h2 class="card-text"><strong>@listing.Price.ToString("C0")</strong></h2>
                         <p class="card-text">@listing.Address</p>
                     </div>
                 </div>       

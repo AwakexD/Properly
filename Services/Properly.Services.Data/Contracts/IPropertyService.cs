@@ -12,7 +12,7 @@
 
         Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
 
-        Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 8);
+        Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 6);
 
         int GetCount(string type);
     }

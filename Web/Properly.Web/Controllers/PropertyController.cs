@@ -66,14 +66,20 @@ namespace Properly.Web.Controllers
             return this.Redirect("/");
         }
 
-        // ToDO : Create /Buy view model
         // ToDO : Add Search
-        // ToDO : Show all listings in the view
-        public async Task<IActionResult> Buy()
+        public async Task<IActionResult> Buy(int id = 1)
         {
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
             BuyViewModel viewModel = new BuyViewModel()
             {
-                Listings = await this.propertyService.GetAll(1),
+                PageNumber = id,
+                ItemsPerPage = 6,
+                Listings = await this.propertyService.GetAll(id),
+                ListingCount = this.propertyService.GetCount("For Sale"),
             };
 
             return this.View(viewModel);

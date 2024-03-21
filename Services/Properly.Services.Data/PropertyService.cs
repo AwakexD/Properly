@@ -66,24 +66,23 @@
             return listingViewModels;
         }
 
-        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 8)
+        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 6)
         {
             var listings = await this.listingRepository.AllAsNoTracking()
                 .OrderByDescending(l => l.CreatedOn)
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
                 .To<ListingInListViewModel>().ToListAsync();
 
-
             return listings;
         }
 
-        // For Sale
-        // Rent
         public int GetCount(string listingType)
         {
-            return this.listingRepository
+             int count = this.listingRepository
                 .AllAsNoTracking()
-                .Count(l => l.ListingType.Name.ToString() == listingType);
+                .Count(l => l.ListingType.Name == listingType);
+
+             return count;
         }
     }
 }

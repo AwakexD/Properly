@@ -14,9 +14,9 @@
 
         public int NextPageNumber => this.PageNumber + 1;
 
-        public int PagesCount => (int)Math.Ceiling((double)this.RecipesCount / this.ItemsPerPage);
+        public int PagesCount => (int)Math.Ceiling((double)this.ListingCount / this.ItemsPerPage);
 
-        public int RecipesCount { get; set; }
+        public int ListingCount { get; set; }
 
         public int ItemsPerPage { get; set; }
     }
