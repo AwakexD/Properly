@@ -1,1 +1,24 @@
-﻿<h1>Buy page</h1>
+﻿@model Properly.Web.ViewModels.Buy.BuyViewModel
+
+@{
+    this.ViewData["Title"] = "Buy a property"; 
+}
+
+<h1>@this.ViewData["Title"]</h1>
+<hr/>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @foreach (var listing in Model.Listings)
+    {
+        <div class="col">
+            <div class="card">
+                <img src="@listing.PhotoUrl" class="card-img-top"/>
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@listing.Price.ToString("C0")</strong></h5>
+                    <p class="card-text">@listing.Details</p>
+                    <p class="card-text">@listing.FullAddress</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

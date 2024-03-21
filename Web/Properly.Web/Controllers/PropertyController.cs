@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.Controllers
+﻿using Properly.Web.ViewModels.Buy;
+
+namespace Properly.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -64,9 +66,17 @@
             return this.Redirect("/");
         }
 
-        public IActionResult Buy()
+        // ToDO : Create /Buy view model
+        // ToDO : Add Search
+        // ToDO : Show all listings in the view
+        public async Task<IActionResult> Buy()
         {
-            return this.View();
+            BuyViewModel viewModel = new BuyViewModel()
+            {
+                Listings = await this.propertyService.GetAll(1),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

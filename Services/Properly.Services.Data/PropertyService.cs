@@ -9,6 +9,7 @@
     using Properly.Data.Common.Repositories;
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
+    using Properly.Services.Mapping;
     using Properly.Web.ViewModels.Listing;
     using Properly.Web.ViewModels.Sell;
 
@@ -63,6 +64,26 @@
             var listingViewModels = this.mapper.Map<IEnumerable<ListingIndexViewModel>>(listings);
 
             return listingViewModels;
+        }
+
+        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 8)
+        {
+            var listings = await this.listingRepository.AllAsNoTracking()
+                .OrderByDescending(l => l.CreatedOn)
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
+                .To<ListingInListViewModel>().ToListAsync();
+
+
+            return listings;
+        }
+
+        // For Sale
+        // Rent
+        public int GetCount(string listingType)
+        {
+            return this.listingRepository
+                .AllAsNoTracking()
+                .Count(l => l.ListingType.Name.ToString() == listingType);
         }
     }
 }

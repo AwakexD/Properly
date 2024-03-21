@@ -11,5 +11,9 @@
         Task<string> CreateListingAsync(CreateListingViewModel form, string userId);
 
         Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
+
+        Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 8);
+
+        int GetCount(string type);
     }
 }
