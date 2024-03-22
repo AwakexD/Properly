@@ -66,11 +66,12 @@
             return listingViewModels;
         }
 
-        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, int itemsPerPage = 6)
+        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, string type, int itemsPerPage = 6)
         {
             var listings = await this.listingRepository.AllAsNoTracking()
                 .OrderByDescending(l => l.CreatedOn)
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
+                .Where(l => l.ListingType.Name == type)
                 .To<ListingInListViewModel>().ToListAsync();
 
             return listings;

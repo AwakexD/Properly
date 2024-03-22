@@ -1,4 +1,6 @@
-﻿using Properly.Web.ViewModels.Buy;
+﻿using System.Drawing;
+using Microsoft.Build.Framework;
+using Properly.Web.ViewModels.Rent;
 
 namespace Properly.Web.Controllers
 {
@@ -8,6 +10,7 @@ namespace Properly.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
+    using Properly.Web.ViewModels.Buy;
     using Properly.Web.ViewModels.Sell;
 
     public class PropertyController : BaseController
@@ -69,6 +72,8 @@ namespace Properly.Web.Controllers
         // ToDO : Add Search
         public async Task<IActionResult> Buy(int id = 1)
         {
+            const string listingType = "For Sale";
+
             if (id <= 0)
             {
                 return this.NotFound();
@@ -78,8 +83,28 @@ namespace Properly.Web.Controllers
             {
                 PageNumber = id,
                 ItemsPerPage = 6,
-                Listings = await this.propertyService.GetAll(id),
-                ListingCount = this.propertyService.GetCount("For Sale"),
+                Listings = await this.propertyService.GetAll(id, listingType),
+                ListingCount = this.propertyService.GetCount(listingType),
+            };
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Rent(int id = 1)
+        {
+            const string listingType = "Rent";
+
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
+            RentViewModel viewModel = new RentViewModel()
+            {
+                PageNumber = id,
+                ItemsPerPage = 6,
+                Listings = await this.propertyService.GetAll(id, listingType),
+                ListingCount = this.propertyService.GetCount(listingType),
             };
 
             return this.View(viewModel);
