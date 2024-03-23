@@ -11,14 +11,16 @@
     @foreach (var listing in Model.Listings)
     {
         <div class="col">
-            <div class="card">
-                <img src="@listing.PhotoUrl" class="card-img-top"/>
-                <div class="card-body">
-                    <h5 class="card-title"><strong>@listing.Price.ToString("C0")</strong></h5>
-                    <p class="card-text">@listing.Details</p>
-                    <p class="card-text">@listing.FullAddress</p>
+            <a class="card-link" asp-controller="Listing" asp-action="Listing" asp-route-id="@listing.Id" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <img src="@listing.PhotoUrl" class="card-img-top"/>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>@listing.Price.ToString("C0")</strong></h5>
+                        <p class="card-text">@listing.Details</p>
+                        <p class="card-text">@listing.FullAddress</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     }
 </div>

@@ -1,0 +1,28 @@
+﻿@model Properly.Web.ViewModels.Common.BaseListingViewModel
+@{
+    this.ViewData["Title"] = "Listing view";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<div class="card mb-3">
+    <img class="card-img-top" src="@Model.PhotoUrl" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><strong>@Model.Price.ToString("C0")</strong></h5>
+        <p class="card-text">@Model.FullAddress</p>
+        <p class="card-text">@Model.Details</p>
+        
+        <ul class="list-group card-columns">
+            @foreach (var feature in Model.PropertyFeatures)
+            {
+                <li class="list-group-item">@feature</li>
+            }
+        </ul>
+        
+        <p>@Model.Description</p>
+
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        
+        @* ToDO : Extend view *@
+    </div>
+</div>

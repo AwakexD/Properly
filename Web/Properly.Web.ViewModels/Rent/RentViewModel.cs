@@ -8,10 +8,8 @@ namespace Properly.Web.ViewModels.Rent
     using System.Text;
     using System.Threading.Tasks;
 
-    using Properly.Web.ViewModels.Listing;
-
     public class RentViewModel : PagingViewModel
     {
-        public IEnumerable<ListingInListViewModel> Listings;
+        public IEnumerable<BaseListingViewModel> Listings;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Properly.Services.Data
+﻿using System;
+
+namespace Properly.Services.Data
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -10,6 +12,7 @@
     using Properly.Data.Models;
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
+    using Properly.Web.ViewModels.Common;
     using Properly.Web.ViewModels.Listing;
     using Properly.Web.ViewModels.Sell;
 
@@ -55,7 +58,7 @@
         public async Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count)
         {
             var listings = await this.listingRepository.AllAsNoTracking()
-                .OrderByDescending(x => x.CreatedOn)
+                .OrderByDescending(l => l.CreatedOn)
                 .Include(l => l.Property.Address)
                 .Include(l => l.Photos)
                 .Take(count)
@@ -66,15 +69,25 @@
             return listingViewModels;
         }
 
-        public async Task<IEnumerable<ListingInListViewModel>> GetAll(int page, string type, int itemsPerPage = 6)
+        public async Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, int itemsPerPage = 6)
         {
             var listings = await this.listingRepository.AllAsNoTracking()
+                .Where(l => l.ListingType.Name == type)
                 .OrderByDescending(l => l.CreatedOn)
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
-                .Where(l => l.ListingType.Name == type)
-                .To<ListingInListViewModel>().ToListAsync();
+                .To<BaseListingViewModel>().ToListAsync();
 
             return listings;
+        }
+
+        public async Task<BaseListingViewModel> GetListingById(Guid id)
+        {
+            var listing = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .To<BaseListingViewModel>()
+                .FirstOrDefaultAsync();
+
+            return listing;
         }
 
         public int GetCount(string listingType)

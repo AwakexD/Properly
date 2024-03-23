@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Build.Framework;
 using Properly.Web.ViewModels.Rent;
 
@@ -29,6 +31,7 @@ namespace Properly.Web.Controllers
             this.userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Sell()
         {
             var viewModel = new CreateListingViewModel()
@@ -45,6 +48,7 @@ namespace Properly.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Sell(CreateListingViewModel viewModel)
         {
             if (!this.ModelState.IsValid)
