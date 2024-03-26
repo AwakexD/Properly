@@ -1,4 +1,4 @@
-﻿namespace Properly.Data.Models
+﻿namespace Properly.Data.Models.Entities
 {
     using System;
     using System.Collections.Generic;

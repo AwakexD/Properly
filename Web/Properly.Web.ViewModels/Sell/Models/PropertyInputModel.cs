@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
-    using Properly.Data.Models;
+    using Properly.Data.Models.Entities;
     using Properly.Services.Mapping;
 
     using static Properly.Common.EntityConstants.PropertyConstants;

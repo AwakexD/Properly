@@ -1,8 +1,8 @@
 ﻿namespace Properly.Data.Configurations
 {
-    using Properly.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using Properly.Data.Models.User;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {

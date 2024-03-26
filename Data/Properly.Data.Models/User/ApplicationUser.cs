@@ -1,5 +1,5 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace Properly.Data.Models
+namespace Properly.Data.Models.User
 {
     using System;
     using System.Collections.Generic;
@@ -7,16 +7,17 @@ namespace Properly.Data.Models
     using Properly.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
+    using Properly.Data.Models.Entities;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
         public ApplicationUser()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Roles = new HashSet<IdentityUserRole<string>>();
-            this.Claims = new HashSet<IdentityUserClaim<string>>();
-            this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Listings = new HashSet<Listing>();
+            Id = Guid.NewGuid().ToString();
+            Roles = new HashSet<IdentityUserRole<string>>();
+            Claims = new HashSet<IdentityUserClaim<string>>();
+            Logins = new HashSet<IdentityUserLogin<string>>();
+            Listings = new HashSet<Listing>();
         }
 
         // Audit info

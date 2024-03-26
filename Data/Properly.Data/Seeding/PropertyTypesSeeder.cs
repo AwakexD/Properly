@@ -5,8 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-
-    using Properly.Data.Models;
+    using Properly.Data.Models.Entities;
 
     public class PropertyTypesSeeder : ISeeder
     {

@@ -10,6 +10,8 @@
     using Microsoft.EntityFrameworkCore;
     using Properly.Data.Common.Models;
     using Properly.Data.Models;
+    using Properly.Data.Models.Entities;
+    using Properly.Data.Models.User;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

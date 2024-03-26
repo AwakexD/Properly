@@ -16,7 +16,7 @@
     using Properly.Data;
     using Properly.Data.Common;
     using Properly.Data.Common.Repositories;
-    using Properly.Data.Models;
+    using Properly.Data.Models.User;
     using Properly.Data.Repositories;
     using Properly.Data.Seeding;
     using Properly.Services.Data;

@@ -1,4 +1,4 @@
-﻿namespace Properly.Data.Models
+﻿namespace Properly.Data.Models.Entities
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Properly.Data.Common.Models;
+    using Properly.Data.Models.User;
 
     public class Listing : BaseDeletableModel<Guid>
     {

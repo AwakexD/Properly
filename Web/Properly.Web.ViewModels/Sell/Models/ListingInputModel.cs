@@ -19,7 +19,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<ListingInputModel, Listing>()
+            configuration.CreateMap<ListingInputModel, Data.Models.Entities.Listing>()
                 .ForMember(x => x.Price, opt => opt.MapFrom(s => s.Price))
                 .ForMember(x => x.ListingTypeId, opt => opt.MapFrom(s => s.ListingTypeId));
         }

@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace Properly.Web.ViewModels.Common
+﻿namespace Properly.Web.ViewModels.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
-    using Properly.Data.Models;
     using Properly.Services.Mapping;
 
     public class BaseListingViewModel : IHaveCustomMappings
@@ -43,7 +41,7 @@ namespace Properly.Web.ViewModels.Common
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Listing, BaseListingViewModel>()
+            configuration.CreateMap<Data.Models.Entities.Listing, BaseListingViewModel>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(d => d.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(d => d.Size, opt => opt.MapFrom(src => src.Property.Size))

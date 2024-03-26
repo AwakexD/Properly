@@ -5,10 +5,10 @@
     using System.Threading.Tasks;
 
     using Properly.Common;
-    using Properly.Data.Models;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using Properly.Data.Models.User;
 
     internal class RolesSeeder : ISeeder
     {

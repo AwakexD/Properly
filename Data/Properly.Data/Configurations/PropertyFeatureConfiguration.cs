@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Properly.Data.Models;
+    using Properly.Data.Models.Entities;
 
     public class PropertyFeatureConfiguration : IEntityTypeConfiguration<PropertyFeature>
     {

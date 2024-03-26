@@ -10,7 +10,7 @@ namespace Properly.Web.Controllers
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Properly.Data.Models;
+    using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Buy;
     using Properly.Web.ViewModels.Sell;

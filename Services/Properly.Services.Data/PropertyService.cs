@@ -9,7 +9,7 @@ namespace Properly.Services.Data
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Properly.Data.Common.Repositories;
-    using Properly.Data.Models;
+    using Properly.Data.Models.Entities;
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Web.ViewModels.Common;
