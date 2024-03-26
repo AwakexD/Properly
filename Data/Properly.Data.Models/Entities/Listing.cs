@@ -14,6 +14,7 @@
         {
             this.Id = Guid.NewGuid();
             this.Photos = new HashSet<Photo>();
+            this.Users = new HashSet<FavoriteListing>();
         }
 
         [Range(0, int.MaxValue)]
@@ -44,5 +45,7 @@
         public virtual ListingStatus ListingStatus { get; set; }
 
         public virtual ICollection<Photo> Photos { get; set; }
+
+        public virtual ICollection<FavoriteListing> Users { get; set; }
     }
 }

@@ -4,9 +4,8 @@ namespace Properly.Data.Models.User
     using System;
     using System.Collections.Generic;
 
-    using Properly.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using Properly.Data.Common.Models;
     using Properly.Data.Models.Entities;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -18,6 +17,7 @@ namespace Properly.Data.Models.User
             Claims = new HashSet<IdentityUserClaim<string>>();
             Logins = new HashSet<IdentityUserLogin<string>>();
             Listings = new HashSet<Listing>();
+            FavoriteListings = new HashSet<FavoriteListing>();
         }
 
         // Audit info
@@ -37,5 +37,7 @@ namespace Properly.Data.Models.User
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<Listing> Listings { get; set; }
+
+        public virtual ICollection<FavoriteListing> FavoriteListings { get; set; }
     }
 }
