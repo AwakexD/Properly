@@ -16,7 +16,7 @@
             this.propertyService = propertyService;
         }
 
-        public async Task<IActionResult> Listing(Guid id)
+        public async Task<IActionResult> Id(Guid id)
         {
             BaseListingViewModel viewModel = await this.propertyService.GetListingById(id);
 

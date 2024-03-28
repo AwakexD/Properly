@@ -11,18 +11,20 @@
         <h5 class="card-title"><strong>@Model.Price.ToString("C0")</strong></h5>
         <p class="card-text">@Model.FullAddress</p>
         <p class="card-text">@Model.Details</p>
-        
+
+        <i class="bi bi-bookmark"></i>
+
         <ul class="list-group card-columns">
             @foreach (var feature in Model.PropertyFeatures)
             {
                 <li class="list-group-item">@feature</li>
             }
         </ul>
-        
+
         <p>@Model.Description</p>
 
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        
+
         @* ToDO : Extend view *@
     </div>
 </div>

@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Properly.Services.Data
+﻿namespace Properly.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -38,10 +37,15 @@ namespace Properly.Services.Data
             var property = this.mapper.Map<Property>(form.Property);
             property.Address = address;
 
+            foreach (var feature in form.Property.SelectedFeatures)
+            {
+                property.PropertyFeatures.Add(new PropertyFeature {PropertyId = property.Id, FeatureId = feature} );
+            }
+
             var listing = this.mapper.Map<Listing>(form.Listing);
+            listing.CreatorId = userId;
             listing.Property = property;
             listing.ListingStatusId = 1;
-            listing.CreatorId = userId;
 
             foreach (var photo in form.UploadedPhotos)
             {

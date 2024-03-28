@@ -11,7 +11,7 @@
     @foreach (var listing in Model.Listings)
     {
         <div class="col">
-            <a class="card-link" asp-controller="Listing" asp-action="Listing" asp-route-id="@listing.Id" style="text-decoration: none; color: inherit;">
+            <a class="card-link" asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <img src="@listing.PhotoUrl" class="card-img-top"/>
                     <div class="card-body">
