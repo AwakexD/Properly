@@ -4,41 +4,71 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome!</h1>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/Home/index.css" />
+}
 
-<section class="main-section">
-    <form class="d-flex justify-content-center">
-        <div class="form-group">
-            <div class="input-group">
-                <input placeholder="Enter an address, city or zipcode" type="text" class="form-control" style="width: 600px;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+<section class="search-section">
+    <div class="section-body">
+        <h1>Agents. Tours. Loans. Homes.</h1>
+        <div class="search-wrap">
+            <form class="form">
+                <input type="text" class="searchInput" placeholder="Enter city, address or a zipcode">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
         </div>
-    </form>
+    </div>
 </section>
 
 <section class="homes-foryou">
-    <h1 class="">Homes for you</h1>
-    <div class="row">
-        @foreach (var listing in Model.ListingModels)
-        {
-            <div class="col-md-4">
-                <div class="card mb-3" style="width: 24rem;">
-                    <img class="card-img-top" src="@listing.PhotoUrl" alt="Property image">
-                    <div class="card-body">
-                        <h2 class="card-text"><strong>@listing.Price.ToString("C0")</strong></h2>
-                        <p class="card-text">@listing.Address</p>
-                    </div>
-                </div>       
+    <h1>Homes for you </h1>
+    <div class="tcd">
+        <div class="listing-container">
+            <img src="~/Images/listing.png" alt="">
+            <div class="listing-body">
+                <h2><strong>2,000,000</strong></h2>
+                <p>5231 sqft. | 2 ba. | 3 be.</p>
+                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
             </div>
-        }
+        </div>
+        <div class="listing-container">
+            <img src="~/Images/listing.png" alt="">
+            <div class="listing-body">
+                <h2><strong>2,000,000</strong></h2>
+                <p>5231 sqft. | 2 ba. | 3 be.</p>
+                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
+            </div>
+        </div>
+        <div class="listing-container">
+            <img src="~/Images/listing.png" alt="">
+            <div class="listing-body">
+                <h2><strong>2,000,000</strong></h2>
+                <p>5231 sqft. | 2 ba. | 3 be.</p>
+                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="route-section">
+    <div class="tcd">
+        <div class="route-box">
+            <img src="~/Images/favicon.png" alt="" class="route-image">
+            <h2>Buy a home</h2>
+            <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
+            <button class="route-btn" type="submit">See options</button>
+        </div>
+        <div class="route-box">
+            <img src="~/Images/favicon.png" alt="" class="route-image">
+            <h2>Buy a home</h2>
+            <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
+            <button class="route-btn" type="submit">See options</button>
+        </div>
+        <div class="route-box">
+            <img src="~/Images/favicon.png" alt="" class="route-image">
+            <h2>Buy a home</h2>
+            <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
+            <button class="route-btn" type="submit">See options</button>
+        </div>
     </div>
 </section>

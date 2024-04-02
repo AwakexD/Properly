@@ -5,5 +5,7 @@
         public const string SystemName = "Properly";
 
         public const string AdministratorRoleName = "Administrator";
+
+        public const string AgencyRoleName = "Agency";
     }
 }

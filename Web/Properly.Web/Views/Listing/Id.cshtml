@@ -9,10 +9,11 @@
     <img class="card-img-top" src="@Model.PhotoUrl" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title"><strong>@Model.Price.ToString("C0")</strong></h5>
+        <i class="fas fa-bookmark fa-2x float-right"></i>
+
         <p class="card-text">@Model.FullAddress</p>
         <p class="card-text">@Model.Details</p>
 
-        <i class="bi bi-bookmark"></i>
 
         <ul class="list-group card-columns">
             @foreach (var feature in Model.PropertyFeatures)
