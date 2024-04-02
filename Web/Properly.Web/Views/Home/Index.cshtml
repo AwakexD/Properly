@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/Home/index.css" />
+    <link rel="stylesheet" href="~/css/Home/index.css"/>
 }
 
 <section class="search-section">
@@ -23,30 +23,17 @@
 <section class="homes-foryou">
     <h1>Homes for you </h1>
     <div class="tcd">
-        <div class="listing-container">
-            <img src="~/Images/listing.png" alt="">
-            <div class="listing-body">
-                <h2><strong>2,000,000</strong></h2>
-                <p>5231 sqft. | 2 ba. | 3 be.</p>
-                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
+        @foreach (var listing in Model.ListingModels)
+        {
+            <div class="listing-container">
+                <img src="@listing.PhotoUrl" alt="">
+                <div class="listing-body">
+                    <h2><strong>@listing.Price.ToString("C0")</strong></h2>
+                    <p></p>
+                    <p>@listing.Address</p>
+                </div>
             </div>
-        </div>
-        <div class="listing-container">
-            <img src="~/Images/listing.png" alt="">
-            <div class="listing-body">
-                <h2><strong>2,000,000</strong></h2>
-                <p>5231 sqft. | 2 ba. | 3 be.</p>
-                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
-            </div>
-        </div>
-        <div class="listing-container">
-            <img src="~/Images/listing.png" alt="">
-            <div class="listing-body">
-                <h2><strong>2,000,000</strong></h2>
-                <p>5231 sqft. | 2 ba. | 3 be.</p>
-                <p>813 Chalfonte Dr, Alexandria, VA 22305, USA</p>
-            </div>
-        </div>
+        }
     </div>
 </section>
 
