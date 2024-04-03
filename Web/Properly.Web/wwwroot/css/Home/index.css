@@ -49,6 +49,8 @@
     font-size: 1.25rem;
 }
 
+/* ToDO : Fix nav links underline*/ 
+
 .links li:nth-last-child() {
     margin-right: 0;
 }
