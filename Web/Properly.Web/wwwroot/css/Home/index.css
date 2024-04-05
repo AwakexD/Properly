@@ -1,9 +1,8 @@
 * {
     padding: 0px;
     margin: 0px;
-    font-family: "Raleway", sans-serif;
-    /* ToDO : Change font  */
-    font-weight: 500;
+    font-family: "Numans", sans-serif;
+    font-weight: 400;
     font-style: normal;
     box-sizing: border-box;
 }
@@ -49,7 +48,9 @@
     font-size: 1.25rem;
 }
 
-/* ToDO : Fix nav links underline*/ 
+.links a {
+    text-decoration: none;
+}
 
 .links li:nth-last-child() {
     margin-right: 0;

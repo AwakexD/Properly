@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/Home/index.css"/>
+    <link rel="stylesheet" href="~/css/Home/index.css" runat="server"/>
 }
 
 <section class="search-section">
@@ -43,19 +43,19 @@
             <img src="~/Images/favicon.png" alt="" class="route-image">
             <h2>Buy a home</h2>
             <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
-            <button class="route-btn" type="submit">See options</button>
+            <button class="route-btn" type="submit" onclick="location.href='@Url.Action("Buy", "Property")'">See options</button>
         </div>
         <div class="route-box">
             <img src="~/Images/favicon.png" alt="" class="route-image">
-            <h2>Buy a home</h2>
+            <h2>Rent a home</h2>
             <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
-            <button class="route-btn" type="submit">See options</button>
+            <button class="route-btn" type="submit" onclick="location.href='@Url.Action("Rent", "Property")'">See options</button>
         </div>
         <div class="route-box">
             <img src="~/Images/favicon.png" alt="" class="route-image">
-            <h2>Buy a home</h2>
+            <h2>Sell your property</h2>
             <p>Find your place with an immersive photo experience and the most listings, including things you won’t find anywhere else.</p>
-            <button class="route-btn" type="submit">See options</button>
+            <button class="route-btn" type="submit" onclick="location.href='@Url.Action("Sell", "Property")'">See options</button>
         </div>
     </div>
 </section>

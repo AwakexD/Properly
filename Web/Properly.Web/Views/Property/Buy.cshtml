@@ -4,25 +4,37 @@
     this.ViewData["Title"] = "Buy a property : " + Model.PageNumber; 
 }
 
-<h1>@this.ViewData["Title"]</h1>
-<hr/>
+@section Styles {
+    <link rel="stylesheet" href="~/css/Property/buy.css"/>
+    <link rel="stylesheet" href="~/css/Home/index.css"/>
+}
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    @foreach (var listing in Model.Listings)
-    {
-        <div class="col">
-            <a class="card-link" asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" style="text-decoration: none; color: inherit;">
-                <div class="card">
-                    <img src="@listing.PhotoUrl" class="card-img-top"/>
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>@listing.Price.ToString("C0")</strong></h5>
-                        <p class="card-text">@listing.Details</p>
-                        <p class="card-text">@listing.FullAddress</p>
-                    </div>
+<h1>@this.ViewData["Title"]</h1>
+
+<section class="listings-section">
+    <div class="container">
+        @foreach (var listing in Model.Listings)
+        {
+            <div class="listing">
+                <div class="listing-image">
+                    <img src="@listing.PhotoUrl" alt="">
                 </div>
-            </a>
-        </div>
-    }
-</div>
-<hr/>
+                <div class="listing-body">
+                    <div class="body-main">
+                        <h1 class="price-heading">@listing.Price.ToString("C0")</h1>
+                        <i class="fa-regular fa-bookmark"></i>
+                    </div>
+
+                    <div class="listing-info">
+                        <p class="prop-details">@listing.Details</p>
+                        <p class="address">@listing.FullAddress</p>
+                    </div>
+
+                    <p class="description">@listing.Description.Substring(0, 50)</p>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
 <partial name="_PagingPartial" model="@Model"/>

@@ -43,6 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\Home\" />
+    <Content Update="wwwroot\css\Home\index.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

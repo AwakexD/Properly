@@ -1,4 +1,8 @@
-﻿@section Styles {
+﻿@using Microsoft.AspNetCore.Identity
+@using Properly.Data.Models.User
+@inject SignInManager<ApplicationUser> SignInManager
+
+@section Styles {
     <link rel="stylesheet" href="~/css/Home/index.css"/>
 }
 
@@ -11,7 +15,11 @@
         <ul class="links">
             <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy</a></li>
             <!-- Sell only if the user is logged in : -->
-            <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell</a></li>
+            @if (this.SignInManager.IsSignedIn(this.User))
+            {
+                <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell</a></li>
+            }
+
             <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="About">About us</a></li>
         </ul>

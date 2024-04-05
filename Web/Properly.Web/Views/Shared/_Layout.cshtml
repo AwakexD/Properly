@@ -9,9 +9,9 @@
     @* ToDO : Disable bootstrap *@
     @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" /> *@
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Numans&display=swap" rel="stylesheet">
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
-    @RenderSection("Styles", required: false)
+    @await this.RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
