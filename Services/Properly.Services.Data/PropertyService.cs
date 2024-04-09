@@ -1,4 +1,6 @@
-﻿namespace Properly.Services.Data
+﻿using System.Data;
+
+namespace Properly.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -20,15 +22,18 @@
         private readonly IMapper mapper;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
+        private readonly IDeletableEntityRepository<FavoriteListing> favoriteListingRepository;
 
         public PropertyService(
             IMapper mapper,
             ICloudinaryService cloudinaryService,
-            IDeletableEntityRepository<Listing> listingRepository)
+            IDeletableEntityRepository<Listing> listingRepository,
+            IDeletableEntityRepository<FavoriteListing> favouriteListingRepository)
         {
             this.mapper = mapper;
             this.cloudinaryService = cloudinaryService;
             this.listingRepository = listingRepository;
+            this.favoriteListingRepository = favouriteListingRepository;
         }
 
         public async Task<string> CreateListingAsync(CreateListingViewModel form, string userId)
@@ -92,6 +97,25 @@
                 .FirstOrDefaultAsync();
 
             return listing;
+        }
+
+        public async Task AddToFavouritesAsync(Guid listingId, string userId)
+        {
+            var favourite = await this.favoriteListingRepository.All().FirstOrDefaultAsync(x =>
+                x.ListingId == listingId && x.UserId == userId);
+
+            if (favourite is null)
+            {
+                favourite = new FavoriteListing { ListingId = listingId, UserId = userId };
+
+                await this.favoriteListingRepository.AddAsync(favourite);
+            }
+            else
+            {
+                this.favoriteListingRepository.HardDelete(favourite);
+            }
+
+            await this.favoriteListingRepository.SaveChangesAsync();
         }
 
         public int GetCount(string listingType)

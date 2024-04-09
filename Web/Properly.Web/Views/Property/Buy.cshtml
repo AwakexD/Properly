@@ -6,7 +6,6 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Property/buy.css"/>
-    <link rel="stylesheet" href="~/css/Home/index.css"/>
 }
 
 <h1>@this.ViewData["Title"]</h1>
@@ -22,6 +21,7 @@
                 <div class="listing-body">
                     <div class="body-main">
                         <h1 class="price-heading">@listing.Price.ToString("C0")</h1>
+                        <p hidden id="listing-id">@listing.Id</p>
                         <i class="fa-regular fa-bookmark"></i>
                     </div>
 
@@ -30,11 +30,42 @@
                         <p class="address">@listing.FullAddress</p>
                     </div>
 
-                    <p class="description">@listing.Description.Substring(0, 50)</p>
+                    <p class="description">@listing.Description.Substring(0, listing.Description.Length / 2)</p>
                 </div>
             </div>
         }
     </div>
 </section>
+<form method="post" id="antiForgeryForm"></form>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            // Get listing id on click
+            $("i.fa-bookmark").click(function () {
+                var listingId = $(this).closest(".body-main").children("#listing-id").text();
+                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
+                // Send request to API controller
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/PropertyInteractions/Favourite',
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': antiForgeryToken
+                    },
+                    data: JSON.stringify({ listingId: listingId }), 
+                    success: function (response) {
+                        console.log('Listing added to favorites successfully');
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error('Error adding listing to favorites:', errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+}
 
 <partial name="_PagingPartial" model="@Model"/>
