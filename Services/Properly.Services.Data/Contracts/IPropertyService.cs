@@ -18,7 +18,7 @@
 
         Task<BaseListingViewModel> GetListingById(Guid id);
 
-        Task AddToFavouritesAsync(Guid listingId, string userId);
+        Task AddToFavouritesAsync(string listingId, string userId);
 
         int GetCount(string type);
 

@@ -10,7 +10,7 @@
     using Properly.Web.ViewModels.Listing;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PropertyInteractionsController : BaseController
     {
         private readonly IPropertyService propertyService;
@@ -20,12 +20,11 @@
             this.propertyService = propertyService;
         }
 
-        // ToDO : Fix api request error 404
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Favourite(FavouriteListingRequest input)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
             try
             {
@@ -37,10 +36,5 @@
                 return this.StatusCode(500, e.Message);
             }
         }
-
-        public IActionResult ApiTest()
-        {
-            return this.Accepted();
-        }
-    } 
+    }
 }

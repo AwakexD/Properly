@@ -4,6 +4,6 @@
 
     public class FavouriteListingRequest
     {
-        public Guid ListingId { get; set; }
+        public string ListingId { get; set; }
     }
 }

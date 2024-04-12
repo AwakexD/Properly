@@ -1,4 +1,6 @@
-﻿namespace Properly.Web
+﻿using Properly.Common;
+
+namespace Properly.Web
 {
     using System;
     using System.Reflection;
@@ -58,6 +60,12 @@
                 }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            // AntiForgery Header
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = GlobalConstants.AntiForgeryHeaderName;
+            });
 
             services.AddSingleton(configuration);
 

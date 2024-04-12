@@ -99,14 +99,14 @@ namespace Properly.Services.Data
             return listing;
         }
 
-        public async Task AddToFavouritesAsync(Guid listingId, string userId)
+        public async Task AddToFavouritesAsync(string listingId, string userId)
         {
             var favourite = await this.favoriteListingRepository.All().FirstOrDefaultAsync(x =>
-                x.ListingId == listingId && x.UserId == userId);
+                x.ListingId == new Guid(listingId) && x.UserId == userId);
 
             if (favourite is null)
             {
-                favourite = new FavoriteListing { ListingId = listingId, UserId = userId };
+                favourite = new FavoriteListing { ListingId = new Guid(listingId), UserId = userId };
 
                 await this.favoriteListingRepository.AddAsync(favourite);
             }

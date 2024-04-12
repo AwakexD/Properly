@@ -46,6 +46,9 @@
             $("i.fa-bookmark").click(function () {
                 var listingId = $(this).closest(".body-main").children("#listing-id").text();
                 var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+                console.log(listingId)
+                console.log(antiForgeryToken)
+                var data = { ListingId: listingId };
 
                 // Send request to API controller
                 $.ajax({
@@ -55,7 +58,7 @@
                     headers: {
                         'X-CSRF-TOKEN': antiForgeryToken
                     },
-                    data: JSON.stringify({ listingId: listingId }), 
+                    data: JSON.stringify(data), 
                     success: function (response) {
                         console.log('Listing added to favorites successfully');
                     },
