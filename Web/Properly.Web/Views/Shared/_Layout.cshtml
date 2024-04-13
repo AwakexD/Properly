@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
     <script src="https://kit.fontawesome.com/c147f39ea2.js" crossorigin="anonymous"></script>
-    @* ToDO : Disable bootstrap *@
     @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" /> *@
     <link href="https://fonts.googleapis.com/css2?family=Numans&display=swap" rel="stylesheet">
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/Home/_NavigationCss.css"/>
+    <link rel="stylesheet" href="~/css/Home/_PagingCss.css" />
     @await this.RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -35,7 +35,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script> *@
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>

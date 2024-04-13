@@ -4,6 +4,12 @@
     this.ViewData["Title"] = "Sell a property";
 }
 
+@section Styles {
+     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+}
+
+
 @if (this.User.Identity.IsAuthenticated)
 {
     <h1>@this.ViewData["Title"]</h1>

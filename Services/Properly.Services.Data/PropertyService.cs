@@ -118,6 +118,12 @@ namespace Properly.Services.Data
             await this.favoriteListingRepository.SaveChangesAsync();
         }
 
+        public async Task<bool> IsInFavourites(string listingId, string userId)
+        {
+            return await this.favoriteListingRepository.AllAsNoTracking()
+                .AnyAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
+        }
+
         public int GetCount(string listingType)
         {
              int count = this.listingRepository

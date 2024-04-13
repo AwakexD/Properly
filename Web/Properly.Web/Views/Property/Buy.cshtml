@@ -1,14 +1,13 @@
 ﻿@model Properly.Web.ViewModels.Buy.BuyViewModel
 
 @{
-    this.ViewData["Title"] = "Buy a property : " + Model.PageNumber; 
+    this.ViewData["Title"] = "Buy a property"; 
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Property/buy.css"/>
+    <link rel="stylesheet" href="~/css/Home/_PagingCss.css" />
 }
-
-<h1>@this.ViewData["Title"]</h1>
 
 <section class="listings-section">
     <div class="container">
@@ -38,9 +37,9 @@
 </section>
 <form method="post" id="antiForgeryForm"></form>
 
+<partial name="_PagingPartial" model="@Model"/>
+
 @section Scripts
 {
     <script type="module" src="~/js/listingsFavoriter.js"></script>
 }
-
-<partial name="_PagingPartial" model="@Model"/>
