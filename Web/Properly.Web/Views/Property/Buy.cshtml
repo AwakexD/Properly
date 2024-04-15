@@ -6,7 +6,6 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Property/buy.css"/>
-    <link rel="stylesheet" href="~/css/Home/_PagingCss.css" />
 }
 
 <section class="listings-section">
@@ -29,7 +28,7 @@
                         <p class="address">@listing.FullAddress</p>
                     </div>
 
-                    <p class="description">@listing.Description.Substring(0, listing.Description.Length / 2)</p>
+                    <p class="description">@((listing.Description.Length > 200) ? @listing.Description.Substring(0, 200).TrimEnd() + "..." : listing.Description.TrimEnd())</p>
                 </div>
             </div>
         }

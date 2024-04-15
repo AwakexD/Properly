@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Properly.Services.Data
+﻿namespace Properly.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -44,7 +42,7 @@ namespace Properly.Services.Data
 
             foreach (var feature in form.Property.SelectedFeatures)
             {
-                property.PropertyFeatures.Add(new PropertyFeature {PropertyId = property.Id, FeatureId = feature} );
+                property.PropertyFeatures.Add(new PropertyFeature { PropertyId = property.Id, FeatureId = feature } );
             }
 
             var listing = this.mapper.Map<Listing>(form.Listing);

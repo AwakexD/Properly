@@ -4,16 +4,24 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/Home/index.css" />
-}
-
 <ul class="links">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li>
+        @*         <li>
             <a asp-area="Identity" asp-page="/Account/Manage/Id" title="Manage">Hello @this.User.Identity.Name!</a>
-        </li>
+        </li> *@
+
+        @* ToDO : Fix dropdown style, add click event, create favorite listings view*@
+        <div class="dropdown" data-dropdown>
+            <button class="link nav-link" data-dropdown-button>
+                Hello @this.User.Identity.Name!
+            </button>
+            <div class="dropdown-menu">
+                <li>Favourites</li>
+                <li>Manage</li>
+            </div>
+        </div>
+
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <li>
