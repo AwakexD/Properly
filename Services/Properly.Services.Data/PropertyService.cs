@@ -116,6 +116,17 @@
             await this.favoriteListingRepository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<FavouritesDto>> GetUserFavourites(string userId)
+        {
+            var userFavourites = await this.favoriteListingRepository.AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Listing)
+                .To<FavouritesDto>()
+                .ToListAsync();
+
+            return userFavourites;
+        }
+
         public async Task<bool> IsInFavourites(string listingId, string userId)
         {
             return await this.favoriteListingRepository.AllAsNoTracking()

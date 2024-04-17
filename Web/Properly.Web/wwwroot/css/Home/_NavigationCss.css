@@ -61,6 +61,8 @@
     background-color: transparent;
     border: none;
     font-size: 1.25rem;
+    margin-right: 20px;
+    cursor: pointer;
 }
 
 /* Dropdown */
@@ -80,6 +82,7 @@
 
 .dropdown {
     position: relative;
+    z-index: 1000;
 }
 
 .dropdown-menu {

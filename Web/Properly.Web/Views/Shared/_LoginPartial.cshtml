@@ -11,14 +11,20 @@
             <a asp-area="Identity" asp-page="/Account/Manage/Id" title="Manage">Hello @this.User.Identity.Name!</a>
         </li> *@
 
-        @* ToDO : Fix dropdown style, add click event, create favorite listings view*@
+        @* ToDO : Fix dropdown style, add click event, create favorite listings view *@
         <div class="dropdown" data-dropdown>
             <button class="link nav-link" data-dropdown-button>
-                Hello @this.User.Identity.Name!
+                @this.User.Identity.Name
             </button>
             <div class="dropdown-menu">
-                <li>Favourites</li>
-                <li>Manage</li>
+                <ul>
+                    <li>
+                        <a asp-controller="Property" asp-action="Favourites">Favourites</a>
+                    </li>
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Manage" title="Manage">Manage</a>
+                    </li>
+                </ul>
             </div>
         </div>
 

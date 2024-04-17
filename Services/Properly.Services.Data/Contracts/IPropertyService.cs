@@ -20,6 +20,8 @@
 
         Task AddToFavouritesAsync(string listingId, string userId);
 
+        Task<IEnumerable<FavouritesDto>> GetUserFavourites(string userId);
+
         int GetCount(string type);
 
     }

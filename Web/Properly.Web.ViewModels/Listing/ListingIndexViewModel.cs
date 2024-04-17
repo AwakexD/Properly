@@ -7,8 +7,7 @@
 
     public class ListingIndexViewModel : IMapFrom<Data.Models.Entities.Listing>, IHaveCustomMappings
     {
-        public string PhotoUrl { get; set; } =
-            "https://content.app-sources.com/s/85506704990285511/uploads/Balfour/3875-Balfour-Ct-36-4527457.jpg?format=webp";
+        public string PhotoUrl { get; set; }
 
         public int Price { get; set; }
 

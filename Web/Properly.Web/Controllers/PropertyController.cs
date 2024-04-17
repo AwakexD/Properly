@@ -2,6 +2,7 @@
 using System.Drawing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Build.Framework;
+using Properly.Web.ViewModels.Listing;
 using Properly.Web.ViewModels.Rent;
 
 namespace Properly.Web.Controllers
@@ -111,6 +112,17 @@ namespace Properly.Web.Controllers
                 ListingCount = this.propertyService.GetCount(listingType),
             };
 
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Favourites()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var viewModel = new FavoritesViewModel()
+            {
+                FavoriteListings = await this.propertyService.GetUserFavourites(user.Id)
+            };
+            
             return this.View(viewModel);
         }
     }
