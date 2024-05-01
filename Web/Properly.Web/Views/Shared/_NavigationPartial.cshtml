@@ -2,24 +2,101 @@
 @using Properly.Data.Models.User
 @inject SignInManager<ApplicationUser> SignInManager
 
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <a href="/"><img src="~/Images/logo.png" alt=""></a>
+<!-- Header Lower -->
+<div class="header-lower">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="inner-container d-flex justify-content-between align-items-center">
+                <!-- Logo Box -->
+                <div class="logo-box">
+                    <div class="logo"><a asp-controller="Home" asp-action="Index"><img src="~/theme/images/logo/icons8-real-estate-80.png" alt="logo" width="64" height="64"></a></div>
+                </div>
+                <div class="nav-outer">
+                    <!-- Main Menu -->
+                    <nav class="main-menu show navbar-expand-md">
+                        <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+                            <ul class="navigation clearfix">
+                                <li class="dropdown2 home current">
+                                    <a href="#">Home</a>
+                                    <ul>
+                                        <li class="current"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                        <li><a asp-controller="Home" asp-action="About">About us</a></li>
+                                        <li><a>Contact Us</a></li>
+                                        <li><a>Privacy Policy</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown2">
+                                    <a href="#">Properties</a>
+                                    <ul>
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy a property</a></li>
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent a property</a></li>
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell a property</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown2">
+                                    <a href="#">Dashboard</a>
+                                    <ul>
+                                        <li><a>Dashboard</a></li>
+                                        <li><a>My Properties</a></li>
+                                        <li><a>My Invoices</a></li>
+                                        <li><a>My Favorites</a></li>
+                                        <li><a>Reviews</a></li>
+                                        <li><a>My Profile</a></li>
+                                        <li><a>Add Property</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <!-- Main Menu End-->
+                </div>
+                <div class="header-account">
+                    <div class="register">
+                        <ul class="d-flex">
+                            <li><a href="#modalLogin" data-bs-toggle="modal">Login</a></li>
+                            <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
+                            <li><a href="#modalRegister" data-bs-toggle="modal">Register</a></li>
+                        </ul>
+                    </div>
+                    <div class="flat-bt-top">
+                        <a class="tf-btn primary" asp-controller="Property" asp-action="Sell">Submit Property</a>
+                    </div>
+                </div>
+
+                <div class="mobile-nav-toggler mobile-button"><span></span></div>
+
+            </div>
         </div>
-
-        <ul class="links">
-            <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy</a></li>
-            <!-- Sell only if the user is logged in : -->
-            @if (this.SignInManager.IsSignedIn(this.User))
-            {
-                <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell</a></li>
-            }
-
-            <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="About">About us</a></li>
-        </ul>
-
-        <partial name="_LoginPartial"/>
     </div>
-</nav>
+</div>
+<!-- End Header Lower -->
+<!-- Mobile Menu  -->
+<div class="close-btn"><span class="icon flaticon-cancel-1"></span></div>
+<div class="mobile-menu">
+    <div class="menu-backdrop"></div>
+    <nav class="menu-box">
+        <div class="nav-logo"><a asp-controller="Home" asp-action="Index"><img src="~/theme/images/logo/icons8-real-estate-80.png" alt="nav-logo" width="64" height="64"></a></div>
+        <div class="bottom-canvas">
+            <div class="login-box flex align-items-center">
+                <a href="#modalLogin" data-bs-toggle="modal">Login</a>
+                <span>/</span>
+                <a href="#modalRegister" data-bs-toggle="modal">Register</a>
+            </div>
+            <div class="menu-outer"></div>
+            <div class="button-mobi-sell">
+                <a class="tf-btn primary" asp-controller="Property" asp-action="Sell">Submit Property</a>
+            </div>
+            <div class="mobi-icon-box">
+                <div class="box d-flex align-items-center">
+                    <span class="icon icon-phone2"></span>
+                    <div>1-333-222-6666</div>
+                </div>
+                <div class="box d-flex align-items-center">
+                    <span class="icon icon-mail"></span>
+                    <div>alexparvanov21@yahoo.com</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- End Mobile Menu -->
