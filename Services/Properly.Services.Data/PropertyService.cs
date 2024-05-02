@@ -68,6 +68,7 @@
                 .OrderByDescending(l => l.CreatedOn)
                 .Include(l => l.Property.Address)
                 .Include(l => l.Photos)
+                .Include(l => l.Property.PropertyType)
                 .Take(count)
                 .ToListAsync();
 

@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/c147f39ea2.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Numans&display=swap" rel="stylesheet">
     <!-- font -->
-    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="~/theme/fonts/fonts.css">
     <!-- Icons -->
     <link rel="stylesheet" href="~/theme/fonts/font-icons.css">
     <link rel="stylesheet" href="~/theme/css/bootstrap.min.css">
@@ -18,22 +18,21 @@
 
     @await this.RenderSectionAsync("Styles", required: false)
 </head>
-<body>
-    <header class="main-header fixed-header">
+<body class="body counter-scroll">
+    <partial name="_PreloadPartial"/>
+    <header class="main-header fixed-header">    
         <partial name="_NavigationPartial"/>
     </header>
     
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
+    <div class="container-fluid">
+        <partial name="_CookieConsentPartial"/>
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+
+    <footer class="footer">
+        <partial name="_FooterPartial"/>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
