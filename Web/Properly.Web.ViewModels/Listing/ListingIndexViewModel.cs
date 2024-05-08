@@ -21,6 +21,8 @@
 
         public string Type { get; set; }
 
+        public string ListingType { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Data.Models.Entities.Listing, ListingIndexViewModel>()
@@ -35,7 +37,9 @@
                 .ForMember(x => x.Size, opt =>
                     opt.MapFrom(x => x.Property.Size))
                 .ForMember(x => x.Type, opt =>
-                    opt.MapFrom(x => x.Property.PropertyType.Name));
+                    opt.MapFrom(x => x.Property.PropertyType.Name))
+                .ForMember(x => x.ListingType, opt =>
+                    opt.MapFrom(x => x.ListingType.Name));
         }
     }
 }

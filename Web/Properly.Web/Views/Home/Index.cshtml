@@ -290,9 +290,7 @@
                                                             <label for="cb22" class="text-cb-amenities">Construction Year</label>
                                                         </fieldset>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </form>
@@ -333,17 +331,11 @@
                                         <div class="top">
                                             <ul class="d-flex gap-8">
                                                 <li class="flag-tag success">Featured</li>
-                                                <li class="flag-tag style-1">For Sale</li>
+                                                <li class="flag-tag style-1">@listing.ListingType</li>
                                             </ul>
                                             <ul class="d-flex gap-4">
                                                 <li class="box-icon w-32">
-                                                    <span class="icon icon-arrLeftRight"></span>
-                                                </li>
-                                                <li class="box-icon w-32">
                                                     <span class="icon icon-heart"></span>
-                                                </li>
-                                                <li class="box-icon w-32">
-                                                    <span class="icon icon-eye"></span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -381,7 +373,10 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <h6>@listing.Price.ToString("C0")</h6>
-                                        @* <span class="text-variant-1">/SqFT</span> *@
+                                        @if (listing.ListingType == "For Rent")
+                                        {
+                                            <span class="text-variant-1">/mo.</span>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -389,7 +384,7 @@
                         }
                     </div>
                     <div class="text-center">
-                        <a href="#" class="tf-btn primary size-1">View All Properties</a>
+                        <a asp-controller="Property" asp-action="Buy" class="tf-btn primary size-1">View All Properties</a>
                     </div>
                 </div>
             </div>

@@ -1,34 +1,32 @@
 ﻿@model Properly.Web.ViewModels.Common.PagingViewModel
 
-<nav class="paging">
-    <ul class="paging-list">
+<ul class="justify-content-center wd-navigation">
 
-        <li class="@if (!Model.HasPreviousPage) { <text>noclick</text> }">
-            <a class="left-arrow" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.PreviousPageNumber"><svg viewBox="0 0 32 32" aria-hidden="true" class="Icon-c11n-8-100-7__sc-13llmml-0 gWIzBG IconChevronLeft-c11n-8-100-7__sc-ddr5cu-0 jEfJfc left-arrow arrow" focusable="false" role="img"><path stroke="none" d="M29.41 8.59a2 2 0 00-2.83 0L16 19.17 5.41 8.59a2 2 0 00-2.83 2.83l12 12a2 2 0 002.82 0l12-12a2 2 0 00.01-2.83z"></path></svg></a>
-        </li>
+    <li>
+        <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.PreviousPageNumber" style="@(Model.HasPreviousPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-l"></i></a>
+    </li>
 
-        @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
+    @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
+    {
+        if (i > 0)
         {
-            if (i > 0)
-            {
-                <li><a class="page" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
-            }
+            <li><a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
         }
-        <li>
-            <a class="current-page" href="">@Model.PageNumber</a>
-        </li>
+    }
+    <li>
+        <a class="nav-item active">@Model.PageNumber</a>
+    </li>
 
-        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 4; i++)
+    @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 4; i++)
+    {
+        if (i <= Model.PagesCount)
         {
-            if (i <= Model.PagesCount)
-            {
-                <li><a class="page" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
-            }
+            <li><a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
         }
+    }
 
-        <li class="@if (!Model.HasNextPage) { <text>noclick</text> }">
-            <a class="right-arrow arrow" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.NextPageNumber"><svg viewBox="0 0 32 32" aria-hidden="true" class="Icon-c11n-8-100-7__sc-13llmml-0 gWIzBG IconChevronRight-c11n-8-100-7__sc-19mpgrq-0 gFUduX right-arrow arrow" focusable="false" role="img"><path stroke="none" d="M29.41 8.59a2 2 0 00-2.83 0L16 19.17 5.41 8.59a2 2 0 00-2.83 2.83l12 12a2 2 0 002.82 0l12-12a2 2 0 00.01-2.83z"></path></svg></a>
-        </li>
+    <li>
+        <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.NextPageNumber" style="@(Model.HasNextPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-r"></i></a>
+    </li>
 
-    </ul>
-</nav>
+</ul>

@@ -1992,7 +1992,7 @@ label {
 ------------------------------------------ */
 .footer {
   padding-top: 60px;
-  background-image: url("../images/banner/banner-footer.png");
+  /*background-image: url("");*/
   background-color: #161e2d;
   background-size: cover;
   background-repeat: no-repeat;

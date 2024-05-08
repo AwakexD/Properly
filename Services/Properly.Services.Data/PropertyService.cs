@@ -69,6 +69,7 @@
                 .Include(l => l.Property.Address)
                 .Include(l => l.Photos)
                 .Include(l => l.Property.PropertyType)
+                .Include(l => l.ListingType)
                 .Take(count)
                 .ToListAsync();
 
