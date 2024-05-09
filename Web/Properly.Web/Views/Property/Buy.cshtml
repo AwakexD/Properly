@@ -302,9 +302,9 @@
                             {
                                 <div class="col-md-12">
                                     <div class="homeya-box list-style-1 list-style-2">
-                                        <a class="images-group">
+                                        <a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="images-group">
                                             <div class="images-style">
-                                                <img src="@listing.PhotoUrl" alt="img" width="330px">
+                                                <img src="@listing.Photos.FirstOrDefault()" alt="img" width="330px">
                                             </div>
                                             <div class="top">
                                                 <ul class="d-flex gap-4 flex-wrap">
@@ -322,7 +322,7 @@
                                         </a>
                                         <div class="content">
                                             <div class="archive-top">
-                                                <div class="h7 text-capitalize fw-7"><a class="link">@listing.FullAddress</a></div>
+                                                <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
                                                 <div class="desc"><i class="icon icon-mapPin"></i><p>@listing.FullAddress</p> </div>
                                                 <ul class="meta-list">
                                                     <li class="item">

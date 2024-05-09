@@ -1,19 +1,15 @@
-﻿using System;
-using System.Drawing;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Build.Framework;
-using Properly.Web.ViewModels.Listing;
-using Properly.Web.ViewModels.Rent;
-
-namespace Properly.Web.Controllers
+﻿namespace Properly.Web.Controllers
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Buy;
+    using Properly.Web.ViewModels.Listing;
+    using Properly.Web.ViewModels.Rent;
     using Properly.Web.ViewModels.Sell;
 
     public class PropertyController : BaseController
@@ -120,9 +116,9 @@ namespace Properly.Web.Controllers
             var user = await this.userManager.GetUserAsync(this.User);
             var viewModel = new FavoritesViewModel()
             {
-                FavoriteListings = await this.propertyService.GetUserFavourites(user.Id)
+                FavoriteListings = await this.propertyService.GetUserFavourites(user.Id),
             };
-            
+
             return this.View(viewModel);
         }
     }

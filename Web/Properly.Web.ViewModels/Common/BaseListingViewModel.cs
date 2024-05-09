@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Common
+﻿using Properly.Data.Models.Entities;
+
+namespace Properly.Web.ViewModels.Common
 {
     using System;
     using System.Collections.Generic;
@@ -31,11 +33,9 @@
 
         public string ZipCode { get; set; }
 
-        public string PhotoUrl { get; set; }
+        public IEnumerable<string> Photos { get; set; }
 
         public IEnumerable<string> PropertyFeatures { get; set; }
-
-        public string Details => $"{this.Bathrooms} ba | {this.Bedrooms} bds | {this.Size} sqft - {this.PropertyTypeName}";
 
         public string FullAddress => $"{this.StreetName}, {this.City}, {this.ZipCode}";
 
@@ -54,8 +54,7 @@
                 .ForMember(d => d.StreetName, opt => opt.MapFrom(src => src.Property.Address.StreetName))
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.Property.Address.City))
                 .ForMember(d => d.ZipCode, opt => opt.MapFrom(src => src.Property.Address.ZipCode))
-                .ForMember(d => d.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault().Url))
-                .ForMember(d => d.Details, opt => opt.Ignore())
+                .ForMember(d => d.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => p.Url)))
                 .ForMember(d => d.FullAddress, opt => opt.Ignore());
         }
     }

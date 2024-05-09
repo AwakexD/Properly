@@ -12,15 +12,14 @@
     {
         <div class="col">
             <div class="card">
-                <img src="@listing.PhotoUrl" class="card-img-top" />
+                <img src="@listing.Photos.FirstOrDefault()" class="card-img-top" />
                 <div class="card-body">
                     <h5 class="card-title"><strong>@listing.Price.ToString("C0")/mo</strong></h5>
-                    <p class="card-text">@listing.Details</p>
                     <p class="card-text">@listing.FullAddress</p>
                 </div>
             </div>
         </div>
     }
 </div>
-<hr />
+<hr/>
 <partial name="_PagingPartial" model="@Model"/>
