@@ -1,125 +1,178 @@
 ﻿@model Properly.Web.ViewModels.Sell.CreateListingViewModel;
 
 @{
-    this.ViewData["Title"] = "Sell a property";
+    this.ViewData["Title"] = "Submit a property";
 }
 
-@section Styles {
-     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-}
+<!-- Start Form -->
+<form method="post" enctype="multipart/form-data">
+    <div class="main-content">
+        <div class="main-content-inner">
 
+            <div class="widget-box-2">
+                <h6 class="title">Upload Media</h6>
+                <div class="box-uploadfile text-center">
+                    <label class="uploadfile">
+                        <span class="icon icon-img-2"></span>
+                        <div class="btn-upload">
+                            <a class="tf-btn primary">Choose Images</a>
+                            <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple>
+                        </div>
+                        <p class="display-files fw-5">Or drop images here to upload</p>
+                    </label>
+                </div>
+            </div>
 
-@if (this.User.Identity.IsAuthenticated)
-{
-    <h1>@this.ViewData["Title"]</h1>
+            <div class="widget-box-2">
+                <h6 class="title">Information</h6>
+                <div class="box-info-property">
+                    <fieldset class="box box-fieldset">
+                        <label asp-for="Property.Description">Description:</label>
+                        <textarea asp-for="Property.Description" name="Description" class="form-control style-1"></textarea>
+                        <span asp-validation-for="Property.Description" class="text-danger"></span>
+                    </fieldset>
+                    <div class="box grid-3 gap-30">
 
-    <form asp-controller="Property" asp-action="Sell" enctype="multipart/form-data" method="post" class="container mt-5">
-        <div asp-validation-summary="All" class="text-danger"></div>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.StreetName">Street Name:<span>*</span></label>
+                            <input type="text" asp-for="Address.StreetName" name="StreetName" class="form-contact style-1" placeholder="Enter street name">
+                            <span asp-validation-for="Address.StreetName" class="text-danger"></span>
+                        </fieldset>
 
-        <div class="form-group">
-            <label asp-for="Property.Size">Size:</label>
-            <input asp-for="Property.Size" type="number" class="form-control">
-            <span asp-validation-for="Property.Size" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Property.Bathrooms">Bathrooms:</label>
-            <input asp-for="Property.Bathrooms" type="number" class="form-control">
-            <span asp-validation-for="Property.Bathrooms" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Property.Bedrooms">Bedrooms:</label>
-            <input asp-for="Property.Bedrooms" type="number" class="form-control">
-            <span asp-validation-for="Property.Bedrooms" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Listing.Price">Price:</label>
-            <input asp-for="Listing.Price" type="number" class="form-control">
-            <span asp-validation-for="Listing.Price" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Property.Description">Description:</label>
-            <textarea asp-for="Property.Description" class="form-control" id="Description" rows="4"></textarea>
-            <span asp-validation-for="Property.Description" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Property.ConstructionDate">Construction Date:</label>
-            <input asp-for="Property.ConstructionDate" type="date" class="form-control">
-            <span asp-validation-for="Property.ConstructionDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.StreetName">Street Name:</label>
-            <input asp-for="Address.StreetName" type="text" class="form-control">
-            <span asp-validation-for="Address.StreetName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.City">City:</label>
-            <input asp-for="Address.City" type="text" class="form-control">
-            <span asp-validation-for="Address.City" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.ZipCode">Zip Code:</label>
-            <input asp-for="Address.ZipCode" type="text" class="form-control">
-            <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Country">Country:</label>
-            <input asp-for="Address.Country" type="text" class="form-control">
-            <span asp-validation-for="Address.Country" class="text-danger"></span>
-        </div>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.City">City:<span>*</span></label>
+                            <input type="text" asp-for="Address.City" name="City" class="form-contact style-1" placeholder="Enter a city">
+                            <span asp-validation-for="Address.City" class="text-danger"></span>
+                        </fieldset>
 
-        <div class="form-group">
-            <label asp-for="Property.PropertyTypeId">Property Type: </label>
-            <select class="form-control" id="PropertyTypeId" asp-for="Property.PropertyTypeId">
-                <option value="">Select Property Type</option>
-                @foreach (var type in Model.ListingOptions.PropertyTypes)
-                {
-                    <option value="@type.Id">@type.Name</option>
-                }
-            </select>
-            <span asp-validation-for="Property.PropertyTypeId" class="text-danger"></span>
-        </div>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.Country">Country:<span>*</span></label>
+                            <input type="text" asp-for="Address.Country" name="Country" class="form-contact style-1" placeholder="Enter a country">
+                            <span asp-validation-for="Address.Country" class="text-danger"></span>
+                        </fieldset>
 
-        <div class="form-group">
-            <label asp-for="Listing.ListingTypeId">Listing Type: </label>
-            <select class="form-control" id="ListingTypeId" asp-for="Listing.ListingTypeId">
-                <option value="">Select Listing Type</option>
-                @foreach (var type in Model.ListingOptions.ListingTypes)
-                {
-                    <option value="@type.Id">@type.Name</option>
-                }
-            </select>
-            <span asp-validation-for="Listing.ListingTypeId" class="text-danger"></span>
-        </div>
-        
-        <div class="form-group row">
-            <label>Select property features: </label>
-            @foreach (var feature in Model.ListingOptions.Features)
-            {
-                <div class="col-md-3">
-                    <div class="form-check">
-                        <input name="Property.SelectedFeatures" class="form-check-input" type="checkbox" id="feature-@feature.Id" value="@feature.Id">
-                        <label class="form-check-label" for="feature-@feature.Id">
-                            @feature.Name
-                        </label>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.ZipCode">Zip Code:<span>*</span></label>
+                            <input type="text" asp-for="Address.ZipCode" name="ZipCode" class="form-control style-1" placeholder="Enter property zip code">
+                            <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+                        </fieldset>
                     </div>
                 </div>
-            }
-        </div>
-        
-        <div class="form-group row mt-2">
-            <div class="col-12">
-                <label asp-for="@Model.UploadedPhotos">Upload Images:</label>
-                <input type="file" asp-for="@Model.UploadedPhotos" name="UploadedPhotos" id="uploadedPhotos" multiple />
             </div>
+
+            <div class="widget-box-2">
+                <h6 class="title">Price</h6>
+                <div class="box-price-property">
+                    <div class="box grid-2 gap-30">
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Listing.Price">Price:<span>*</span></label>
+                            <input type="text" asp-for="Listing.Price" name="Price" class="form-control style-1" placeholder="Example value: 12345.67">
+                            <span asp-validation-for="Listing.Price" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            @* ToDO : Seed Information From The DB *@
+            <div class="widget-box-2">
+                <h6 class="title">Addtional Information</h6>
+                <div class="box grid-3 gap-30">
+                    <fieldset class="box-fieldset">
+                        <label for="type">
+                            Property Type:<span>*</span>
+                        </label>
+                        <div class="nice-select" tabindex="0">
+                            <span class="current"></span>
+                            <ul class="list">
+                                <li data-value="1" class="option">Apartment</li>
+                                <li data-value="2" class="option">Villa</li>
+                                <li data-value="3" class="option">Studio</li>
+                                <li data-value="4" class="option">Studio</li>
+                                <li data-value="5" class="option">Office</li>
+                                <li data-value="6" class="option">Townhouse</li>
+                            </ul>
+                        </div>
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label for="status">
+                            Listing Type:<span>*</span>
+                        </label>
+                        <div class="nice-select" tabindex="0">
+                            <span class="current"></span>
+                            <ul class="list">
+                                <li data-value="1" class="option">For Rent</li>
+                                <li data-value="2" class="option">For Sale</li>
+                            </ul>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="box grid-3 gap-30">
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Size">Size (SqFt):<span>*</span></label>
+                        <input type="text" asp-for="Property.Size" name="Size" class="form-control style-1">
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.ConstructionDate">Year Built:<span>*</span></label>
+                        <input type="text" asp-for="Property.ConstructionDate" name="ConstructionDate" class="form-control style-1">
+                    </fieldset>
+                </div>
+                <div class="box grid-3 gap-30">
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Bedrooms">Bedrooms:<span>*</span></label>
+                        <input type="text" asp-for="Property.Bedrooms" name="Bedrooms" class="form-control style-1">
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Bathrooms">Bathrooms:<span>*</span></label>
+                        <input type="text" asp-for="Property.Bathrooms" name="Bathrooms" class="form-control style-1">
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="widget-box-2">
+                <h6 class="title">Amenities<span>*</span></h6>
+                <div class="box-amenities-property">
+                    <div class="box-amenities">
+                        <div class="title-amenities fw-7">Home safety:</div>
+                        <fieldset class="amenities-item">
+                            <input type="checkbox" class="tf-checkbox style-1 primary" id="cb1" checked="">
+                            <label for="cb1" class="text-cb-amenities">Smoke alarm</label>
+                        </fieldset>
+                    </div>
+                    <div class="box-amenities">
+                        <div class="title-amenities fw-7">Bedroom:</div>
+                        <fieldset class="amenities-item">
+                            <input type="checkbox" class="tf-checkbox style-1 primary" id="cb10" checked="">
+                            <label for="cb10" class="text-cb-amenities">TV with standard cable</label>
+                        </fieldset>
+                    </div>
+                    <div class="box-amenities">
+                        <div class="title-amenities fw-7">Kitchen:</div>
+                        <fieldset class="amenities-item">
+                            <input type="checkbox" class="tf-checkbox style-1 primary" id="cb14">
+                            <label for="cb14" class="text-cb-amenities">Coffee maker</label>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-box-2">
+                <h6 class="title">Agent Information</h6>
+                <div class="box-radio-check">
+                    <div class="fw-7">Choose type agent infomation?</div>
+                    <fieldset class="fieldset-radio">
+                        <input type="radio" class="tf-radio" name="radio3" id="radio5" checked="">
+                        <label for="radio5" class="text-radio">Your current user information</label>
+                    </fieldset>
+                    <fieldset class="fieldset-radio">
+                        <input type="radio" class="tf-radio" name="radio3" id="radio6">
+                        <label for="radio6" class="text-radio">Other contact</label>
+                    </fieldset>
+                </div>
+            </div>
+
+            <button class="tf-btn primary" type="submit" style="display: block; margin: 10px auto;">Submit</button>
         </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-}
-else
-{
-    <h1>You must be logged in</h1>
-}
-
+    </div>
+</form>
+<!-- End Form -->
