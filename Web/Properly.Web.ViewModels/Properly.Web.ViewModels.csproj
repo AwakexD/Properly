@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Data\Properly.Data.Models\Properly.Data.Models.csproj" />
     <ProjectReference Include="..\..\Properly.Common\Properly.Common.csproj" />
     <ProjectReference Include="..\..\Services\Properly.Services.Mapping\Properly.Services.Mapping.csproj" />
+    <ProjectReference Include="..\Properly.Web.Infrastructure\Properly.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

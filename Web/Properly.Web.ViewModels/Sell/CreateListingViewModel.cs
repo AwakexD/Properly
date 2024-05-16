@@ -1,8 +1,10 @@
 ﻿namespace Properly.Web.ViewModels.Sell
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
+    using Properly.Web.Infrastructure.Validation;
     using Properly.Web.ViewModels.Sell.Models;
 
     public class CreateListingViewModel
@@ -20,6 +22,8 @@
 
         public ListingOptions ListingOptions { get; set; }
 
+        [Required(ErrorMessage = "Please upload an image.")]
+        [AllowedExtensions(new[] { ".png", ".jpg", ".jpeg", ".webp", ".jfif" })]
         public IEnumerable<IFormFile> UploadedPhotos { get; set; }
     }
 }
