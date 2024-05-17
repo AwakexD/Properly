@@ -1,5 +1,6 @@
 ﻿namespace Properly.Web.Infrastructure.Validation
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Linq;
@@ -8,31 +9,54 @@
 
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
-        private readonly string[] extensions;
+        private readonly HashSet<string> extensions;
+
         public AllowedExtensionsAttribute(string[] extensions)
         {
-            this.extensions = extensions;
+            this.extensions = new HashSet<string>(extensions.Select(e => e.ToLower()));
         }
 
-        protected override ValidationResult IsValid(
-            object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-            if (file != null)
+            if (value is IEnumerable<IFormFile> files)
             {
-                var extension = Path.GetExtension(file.FileName);
-                if (!extensions.Contains(extension.ToLower()))
+                foreach (var file in files)
+                {
+                    if (!IsValidFile(file))
+                    {
+                        return new ValidationResult(GetErrorMessage());
+                    }
+                }
+            }
+            else if (value is IFormFile file)
+            {
+                if (!IsValidFile(file))
                 {
                     return new ValidationResult(GetErrorMessage());
                 }
+            }
+            else
+            {
+                return new ValidationResult("Invalid file format.");
             }
 
             return ValidationResult.Success;
         }
 
-        public string GetErrorMessage()
+        private bool IsValidFile(IFormFile file)
         {
-            return $"This photo extension is not allowed!";
+            if (file == null)
+            {
+                return true;
+            }
+
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            return this.extensions.Contains(extension);
+        }
+
+        private string GetErrorMessage()
+        {
+            return "This photo extension is not allowed!";
         }
     }
 }

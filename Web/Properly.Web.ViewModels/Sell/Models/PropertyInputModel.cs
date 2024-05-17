@@ -5,8 +5,10 @@
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
     using Properly.Data.Models.Entities;
     using Properly.Services.Mapping;
+    using Properly.Web.Infrastructure.ModelBinders;
 
     using static Properly.Common.EntityConstants.PropertyConstants;
 
@@ -34,6 +36,7 @@
         [Display(Name = "Construction Date")]
         [Required(ErrorMessage = "{0} is required.")]
         [DataType(DataType.Date)]
+        [ModelBinder(BinderType = typeof(YearToDateTimeModelBinder))]
         public DateTime ConstructionDate { get; set; }
 
         [Display(Name = "Property type")]

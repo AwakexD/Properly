@@ -1,6 +1,4 @@
-﻿using Properly.Common;
-
-namespace Properly.Web
+﻿namespace Properly.Web
 {
     using System;
     using System.Reflection;
@@ -15,6 +13,7 @@ namespace Properly.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Properly.Common;
     using Properly.Data;
     using Properly.Data.Common;
     using Properly.Data.Common.Repositories;
@@ -25,6 +24,7 @@ namespace Properly.Web
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Services.Messaging;
+    using Properly.Web.Infrastructure.ModelBinders;
     using Properly.Web.ViewModels;
 
     public class Program
@@ -65,6 +65,11 @@ namespace Properly.Web
             services.AddAntiforgery(options =>
             {
                 options.HeaderName = GlobalConstants.AntiForgeryHeaderName;
+            });
+
+            services.AddControllers(options =>
+            {
+                options.ModelBinderProviders.Insert(0, new YearToDateTimeModelBinderProvider());
             });
 
             services.AddSingleton(configuration);
