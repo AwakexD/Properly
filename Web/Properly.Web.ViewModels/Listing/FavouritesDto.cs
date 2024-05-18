@@ -7,7 +7,6 @@
 
     public class FavouritesDto : IHaveCustomMappings
     {
-        // ToDO : Extend model
         public string PhotoUrl { get; set; }
 
         public int Price { get; set; }
