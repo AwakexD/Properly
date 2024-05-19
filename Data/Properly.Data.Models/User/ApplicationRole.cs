@@ -3,9 +3,8 @@ namespace Properly.Data.Models.User
 {
     using System;
 
-    using Properly.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using Properly.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

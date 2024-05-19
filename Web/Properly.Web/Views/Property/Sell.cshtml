@@ -2,7 +2,6 @@
 
 @{
     this.ViewData["Title"] = "Submit a property";
-    int count = 0;
 
     var groupedFeatures = Model.ListingOptions.Features.Select((f, i) => new { Feature = f, Index = i })
         .GroupBy(x => x.Index / 5)
