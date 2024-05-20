@@ -16,10 +16,10 @@
                     <nav class="main-menu show navbar-expand-md">
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
-                                <li class="dropdown2 home current">
+                                <li class="dropdown2">
                                     <a href="#">Home</a>
                                     <ul>
-                                        <li class="current"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                                         <li><a asp-controller="Home" asp-action="About">About us</a></li>
                                         <li><a>Contact Us</a></li>
                                         <li><a>Privacy Policy</a></li>
@@ -33,18 +33,18 @@
                                         <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell a property</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown2">
-                                    <a href="#">Dashboard</a>
-                                    <ul>
-                                        <li><a>Dashboard</a></li>
-                                        <li><a>My Properties</a></li>
-                                        <li><a>My Invoices</a></li>
-                                        <li><a>My Favorites</a></li>
-                                        <li><a>Reviews</a></li>
-                                        <li><a>My Profile</a></li>
-                                        <li><a>Add Property</a></li>
-                                    </ul>
-                                </li>
+                                @if (this.SignInManager.IsSignedIn(this.User))
+                                {
+                                    <li class="dropdown2">
+                                        <a href="#">Dashboard</a>
+                                        <ul>
+                                            <li><a>Dashboard</a></li>
+                                            <li><a>Add Property</a></li>
+                                            <li><a>My Properties</a></li>
+                                            <li><a>My Favorites</a></li>
+                                        </ul>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </nav>
@@ -52,12 +52,7 @@
                 </div>
                 <div class="header-account">
                     <div class="register">
-                        <partial name="_LoginPartial" />
-                        @*  <ul class="d-flex">
-                            <li><a href="#modalLogin" data-bs-toggle="modal">Login</a></li>
-                            <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
-                            <li><a href="#modalRegister" data-bs-toggle="modal">Register</a></li>
-                        </ul> *@
+                        <partial name="_LoginPartial"/>
                     </div>
                     <div class="flat-bt-top">
                         <a class="tf-btn primary" asp-controller="Property" asp-action="Sell">Submit Property</a>

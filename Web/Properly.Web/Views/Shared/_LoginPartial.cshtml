@@ -7,12 +7,10 @@
 <ul class="d-flex navigation clearfix">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li>
+        <li class="dropdown">
             <a>@this.User.Identity.Name</a>
         </li>
         <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
-
-
 
 
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

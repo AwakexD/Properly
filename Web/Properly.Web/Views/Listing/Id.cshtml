@@ -8,12 +8,12 @@
     <div class="item1 box-img">
         <img src="@photosList[0]" alt="img-gallery">
         <div class="box-btn">
-            <a href="#" data-fancybox="gallery" class="tf-btn primary">View All Photos</a>
+            <a href="@photosList[0]" data-fancybox="gallery" class="tf-btn primary">View All Photos</a>
         </div>
     </div>
     @for (int i = 1; i < photosList.Count(); i++)
     {
-        <a href="#" class="@("item" + (i + 1)) box-img" data-fancybox="gallery">
+        <a href="@photosList[i]" class="@("item" + (i + 1)) box-img" data-fancybox="gallery" style="@(i > 4 ? "display:none;" : "")">
             <img src="@photosList[i]" alt="img-gallery">
         </a>
     }
@@ -84,7 +84,7 @@
                             <a href="#" class="box-icon w-52"><i class="icon icon-garage"></i></a>
                             <div class="content">
                                 <span class="label">Garage:</span>
-                                <span>Yes</span>
+                                <span>@((Model.PropertyFeatures.Any(x => x == "Garage")) ? "Yes" : "No")</span>
                             </div>
                         </li>
                         <li class="item">
@@ -98,7 +98,7 @@
                             <a href="#" class="box-icon w-52"><i class="icon icon-hammer"></i></a>
                             <div class="content">
                                 <span class="label">Year Built:</span>
-                                <span>@Model.ConstructionDate</span>
+                                <span>@Model.ConstructionDate.Year</span>
                             </div>
                         </li>
                     </ul>
@@ -120,61 +120,38 @@
                         </div>
                         <div class="col-md-6">
                             <div class="inner-box">
-                                <span class="label">Bedrooms:</span>
-                                <div class="content fw-7">@Model.Bedrooms</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
                                 <span class="label">Property Size:</span>
-                                <div class="content fw-7">1200 SqFt</div>
+                                <div class="content fw-7">@Model.Size SqFt</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="inner-box">
-                                <span class="label">Bathsrooms:</span>
-                                <div class="content fw-7">1</div>
+                                <span class="label">Bathrooms:</span>
+                                <div class="content fw-7">@Model.Bathrooms</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="inner-box">
                                 <span class="label">Year built:</span>
-                                <div class="content fw-7">2023 - 12 - 11</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Bathsrooms:</span>
-                                <div class="content fw-7">3</div>
+                                <div class="content fw-7">@Model.ConstructionDate.Year</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="inner-box">
                                 <span class="label">Property Type:</span>
-                                <div class="content fw-7">House, Apartment</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Garage:</span>
-                                <div class="content fw-7">1</div>
+                                <div class="content fw-7">@Model.PropertyTypeName</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="inner-box">
                                 <span class="label">Property Status:</span>
-                                <div class="content fw-7">For Rent</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Garage Size:</span>
-                                <div class="content fw-7">1200 SqFt</div>
+                                <div class="content fw-7">For Sale | For Rent</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="single-property-element single-property-feature"> @* ToDO : Display All Features *@
+                <div class="single-property-element single-property-feature">
+                    @* ToDO : Display All Features *@
                     <div class="h7 title fw-7">Amenities and features</div>
                     <div class="wrap-feature">
                         <div class="box-feature">
@@ -309,7 +286,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </section>
+
