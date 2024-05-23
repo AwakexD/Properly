@@ -71,7 +71,7 @@
         }
 
         // ToDO : Add Search
-        public async Task<IActionResult> Buy(int id = 1)
+        public async Task<IActionResult> Buy(BuyViewModel queryModel, int id = 1)
         {
             const string listingType = "For Sale";
 
@@ -86,6 +86,7 @@
                 ItemsPerPage = 6,
                 Listings = await this.propertyService.GetAll(id, listingType),
                 ListingCount = this.propertyService.GetCount(listingType),
+                PropertyTypes = await this.optionsService.GetPropertyTypes(),
             };
 
             return this.View(viewModel);
@@ -93,7 +94,7 @@
 
         public async Task<IActionResult> Rent(int id = 1)
         {
-            const string listingType = "Rent";
+            const string listingType = "For Rent";
 
             if (id <= 0)
             {
