@@ -17,7 +17,7 @@
                         <li data-value="3" class="option selected">12 Per Page</li>
                     </ul>
                 </div>
-                <select asp-for="@Model.ListingSorting" class="nice-select list-sort" tabindex="0">
+                <select asp-for="@Model.ListingSorting" id="sortingSelect" class="nice-select list-sort" tabindex="0">
                     <ul class="list">
                         <option value="0" class="option">Newest</option>
                         <option value="1" class="option">Oldest</option>
@@ -163,22 +163,5 @@
 @* ToDO : Fix Sorting Request *@
 @section Scripts 
 {
-    @* <script type="text/javascript" src="~/js/listingSorting.js"></script> *@
-    <script>
-        import { get } from './webApiRequester.js';
-
-        $(document).ready(function () {
-            $('.list-sort').change(async function () {
-                var selectedOption = $(this).val();
-                var url = `/YourController/Buy?id=1&queryModel.ListingSorting=${selectedOption}`;
-
-                try {
-                    const data = await get(url);
-
-                } catch (error) {
-                    console.error('Error:', error.message);
-                }
-            });
-        });
-    </script>
+    <script type="module" src="~/js/listingSorting.js" asp-append-version="true"></script>
 }

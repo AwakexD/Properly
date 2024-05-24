@@ -33,6 +33,8 @@ namespace Properly.Web.ViewModels.Common
 
         public string ZipCode { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public IEnumerable<string> Photos { get; set; }
 
         public IEnumerable<string> PropertyFeatures { get; set; }
@@ -54,6 +56,7 @@ namespace Properly.Web.ViewModels.Common
                 .ForMember(d => d.StreetName, opt => opt.MapFrom(src => src.Property.Address.StreetName))
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.Property.Address.City))
                 .ForMember(d => d.ZipCode, opt => opt.MapFrom(src => src.Property.Address.ZipCode))
+                .ForMember(d => d.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn))
                 .ForMember(d => d.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => p.Url)))
                 .ForMember(d => d.FullAddress, opt => opt.Ignore());
         }

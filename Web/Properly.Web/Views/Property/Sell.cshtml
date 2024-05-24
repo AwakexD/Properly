@@ -94,7 +94,7 @@
                         <label asp-for="Listing.ListingTypeId" class="label-field">Listing Type:<span>*</span></label>
                         <select asp-for="Listing.ListingTypeId" name="Listing.ListingTypeId" class="nice-select select-field">
                             <option value="">Select Listing Type</option>
-                            @foreach (var listingType in Model.ListingOptions.ListingTypes)
+                            @foreach (var listingType in Model.ListingOptions.ListingTypes) 
                             {
                                 <option value="@listingType.Id">@listingType.Name</option>
                             }

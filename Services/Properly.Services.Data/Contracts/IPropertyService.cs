@@ -6,6 +6,7 @@
 
     using Properly.Web.ViewModels.Common;
     using Properly.Web.ViewModels.Listing;
+    using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Web.ViewModels.Sell;
 
     public interface IPropertyService
@@ -14,7 +15,7 @@
 
         Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
 
-        Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, int itemsPerPage = 6);
+        Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6);
 
         Task<BaseListingViewModel> GetListingById(Guid id);
 

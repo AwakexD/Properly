@@ -5,6 +5,6 @@
         Newest = 0,
         Oldest = 1,
         AscendingPrice = 2,
-        PriceDescending = 3,
+        DescendingPrice = 3,
     }
 }

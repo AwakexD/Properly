@@ -8,6 +8,7 @@
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Properly.Data.Common.Repositories;
+    using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Data.Models.Entities;
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
@@ -78,13 +79,23 @@
             return listingViewModels;
         }
 
-        public async Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, int itemsPerPage = 6)
+        public async Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6)
         {
-            var listings = await this.listingRepository.AllAsNoTracking()
+            IEnumerable<BaseListingViewModel> listings;
+
+            listings = await  this.listingRepository.AllAsNoTracking()
                 .Where(l => l.ListingType.Name == type)
-                .OrderByDescending(l => l.CreatedOn)
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
                 .To<BaseListingViewModel>().ToListAsync();
+
+            listings = sorting switch
+            {
+                ListingSorting.Newest => listings.OrderByDescending(l => l.CreatedOn),
+                ListingSorting.Oldest => listings.OrderBy(l => l.CreatedOn),
+                ListingSorting.AscendingPrice => listings.OrderBy(l => l.Price),
+                ListingSorting.DescendingPrice => listings.OrderByDescending(l => l.Price),
+                _ => listings.OrderByDescending(l => l.CreatedOn),
+            };
 
             return listings;
         }
