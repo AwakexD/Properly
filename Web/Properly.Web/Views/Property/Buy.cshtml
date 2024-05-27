@@ -9,20 +9,20 @@
         <div class="box-title-listing">
             <h5>Property listing</h5>
             <div class="box-filter-tab">
-                <div class="nice-select list-page" tabindex="0">
-                    <span class="current">12 Per Page</span>
+                <select asp-for="@Model.ListingsPerPage" id="listingsPerPage" class="nice-select list-page" tabindex="0">
                     <ul class="list">
-                        <li data-value="1" class="option">10 Per Page</li>
-                        <li data-value="2" class="option">11 Per Page</li>
-                        <li data-value="3" class="option selected">12 Per Page</li>
+                        <option value="6">6 Per Page</option>
+                        <option value="8">8 Per Page</option>
+                        <option value="10">10 Per Page</option>
+                        <option value="10">12 Per Page</option>
                     </ul>
-                </div>
+                </select>
                 <select asp-for="@Model.ListingSorting" id="sortingSelect" class="nice-select list-sort" tabindex="0">
                     <ul class="list">
-                        <option value="0" class="option">Newest</option>
-                        <option value="1" class="option">Oldest</option>
-                        <option value="2" class="option">Ascending Price</option>
-                        <option value="3" class="option">Descending Price</option>
+                        <option value="0">Newest</option>
+                        <option value="1">Oldest</option>
+                        <option value="2">Ascending Price</option>
+                        <option value="3">Descending Price</option>
                     </ul>
                 </select>
             </div>
@@ -160,8 +160,9 @@
     </div>
 </section>
 
-@* ToDO : Fix Sorting Request *@
 @section Scripts 
 {
-    <script type="module" src="~/js/listingSorting.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/listingsSorting.js" asp-append-version="true"></script>
+    @* ToDO : Fix Listings Per Page Menu *@
+    <script type="module" src="~/js/listingsPerPage.js" asp-append-version="true"></script>
 }

@@ -14,6 +14,8 @@
             this.PropertyTypes = new HashSet<PropertyTypeFormModel>();
         }
 
+        public int ListingsPerPage { get; set; }
+
         public ListingSorting ListingSorting { get; set; }
 
         public IEnumerable<BaseListingViewModel> Listings { get; set; }

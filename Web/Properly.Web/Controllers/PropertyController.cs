@@ -84,7 +84,7 @@
             {
                 PageNumber = id,
                 ItemsPerPage = 6,
-                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting),
+                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, (queryModel.ListingsPerPage == 0) ? 6 : queryModel.ListingsPerPage),
                 ListingCount = this.propertyService.GetCount(listingType),
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
             };
