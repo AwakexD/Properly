@@ -1,9 +1,16 @@
-﻿namespace Properly.Web.ViewModels.Common
+﻿
+namespace Properly.Web.ViewModels.Common
 {
     using System;
+    using System.Collections.Generic;
 
     public class PagingViewModel
     {
+        public PagingViewModel()
+        {
+            this.QueryParameters = new Dictionary<string, string>();
+        }
+
         public int PageNumber { get; set; }
 
         public bool HasPreviousPage => this.PageNumber > 1;
@@ -18,6 +25,8 @@
 
         public int ListingCount { get; set; }
 
-        public int ItemsPerPage { get; set; }
+        public int ItemsPerPage { get; set; } = 6;
+
+        public Dictionary<string, string> QueryParameters { get; set; }
     }
 }

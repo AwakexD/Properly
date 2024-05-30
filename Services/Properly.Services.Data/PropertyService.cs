@@ -81,21 +81,23 @@
 
         public async Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6)
         {
-            IEnumerable<BaseListingViewModel> listings;
+            IQueryable<Listing> query = this.listingRepository.AllAsNoTracking()
+                .Where(l => l.ListingType.Name == type);
 
-            listings = await  this.listingRepository.AllAsNoTracking()
-                .Where(l => l.ListingType.Name == type)
-                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
-                .To<BaseListingViewModel>().ToListAsync();
-
-            listings = sorting switch
+            query = sorting switch
             {
-                ListingSorting.Newest => listings.OrderByDescending(l => l.CreatedOn),
-                ListingSorting.Oldest => listings.OrderBy(l => l.CreatedOn),
-                ListingSorting.AscendingPrice => listings.OrderBy(l => l.Price),
-                ListingSorting.DescendingPrice => listings.OrderByDescending(l => l.Price),
-                _ => listings.OrderByDescending(l => l.CreatedOn),
+                ListingSorting.Newest => query.OrderByDescending(l => l.CreatedOn),
+                ListingSorting.Oldest => query.OrderBy(l => l.CreatedOn),
+                ListingSorting.AscendingPrice => query.OrderBy(l => l.Price),
+                ListingSorting.DescendingPrice => query.OrderByDescending(l => l.Price),
+                _ => query.OrderByDescending(l => l.CreatedOn),
             };
+
+            var listings = await query
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .To<BaseListingViewModel>()
+                .ToListAsync();
 
             return listings;
         }

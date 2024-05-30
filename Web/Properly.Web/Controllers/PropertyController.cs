@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.Controllers
+﻿using System.Collections.Generic;
+
+namespace Properly.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -80,13 +82,20 @@
                 return this.NotFound();
             }
 
+            // ToDO : Fix base page url (sorting and listingPerPage)
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
-                ItemsPerPage = 6,
-                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, (queryModel.ListingsPerPage == 0) ? 6 : queryModel.ListingsPerPage),
+                ItemsPerPage = queryModel.ListingsPerPage,
+                ListingSorting = queryModel.ListingSorting,
+                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
                 ListingCount = this.propertyService.GetCount(listingType),
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                QueryParameters = new Dictionary<string, string>()
+                {
+                    { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
+                    { "ListingsPerPage", queryModel.ListingsPerPage.ToString() }
+                }
             };
 
             return this.View(viewModel);

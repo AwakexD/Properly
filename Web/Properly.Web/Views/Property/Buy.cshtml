@@ -9,12 +9,12 @@
         <div class="box-title-listing">
             <h5>Property listing</h5>
             <div class="box-filter-tab">
-                <select asp-for="@Model.ListingsPerPage" id="listingsPerPage" class="nice-select list-page" tabindex="0">
+                <select asp-for="@Model.ItemsPerPage" id="itemsPerPageSelect" class="nice-select list-page" tabindex="0">
                     <ul class="list">
-                        <option value="6">6 Per Page</option>
-                        <option value="8">8 Per Page</option>
-                        <option value="10">10 Per Page</option>
-                        <option value="10">12 Per Page</option>
+                    <option value="6">6 Per Page</option>
+                    <option value="8">8 Per Page</option>
+                    <option value="10">10 Per Page</option>
+                    <option value="10">12 Per Page</option>
                     </ul>
                 </select>
                 <select asp-for="@Model.ListingSorting" id="sortingSelect" class="nice-select list-sort" tabindex="0">
@@ -134,16 +134,9 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="d-flex justify-content-between align-items-center archive-bottom">
-                                                <div class="d-flex gap-8 align-items-center">
-                                                    @* User Profile Picture *@
-                                                    @* <div class="avatar avt-40 round">
-                                                        <img src="" alt="avt">
-                                                    </div> *@
-                                                    <span>Jacob Jones</span>
-                                                </div>
+                                            <div class="d-flex justify-content-center align-items-center archive-bottom">
                                                 <div class="d-flex align-items-center">
-                                                    <div class="h7 fw-7">@listing.Price.ToString("C0")</div>
+                                                    <div class="h4 fw-7">@listing.Price.ToString("C0")</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -152,17 +145,15 @@
                                 </div>
                             }
                         </div>
-                        <partial name="_PagingPartial"/>
                     </div>
                 </div>
             </div>
+            <partial name="_PagingPartial"/>
         </div>
     </div>
 </section>
 
 @section Scripts 
-{
-    <script type="module" src="~/js/listingsSorting.js" asp-append-version="true"></script>
-    @* ToDO : Fix Listings Per Page Menu *@
-    <script type="module" src="~/js/listingsPerPage.js" asp-append-version="true"></script>
+{>
+   <script src="~/js/listingSortingHandler.js" asp-append-version="true"></script>
 }

@@ -1,16 +1,27 @@
 ﻿@model Properly.Web.ViewModels.Common.PagingViewModel
 
+
 <ul class="justify-content-center wd-navigation">
 
     <li>
-        <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.PreviousPageNumber" style="@(Model.HasPreviousPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-l"></i></a>
+        <a class="nav-item" asp-controller="Property" asp-action="Buy" 
+           asp-route-id="@Model.PreviousPageNumber" 
+           asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+           asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
+           style="@(Model.HasPreviousPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-l"></i>
+        </a>
     </li>
 
     @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
     {
         if (i > 0)
         {
-            <li><a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
+            <li>
+                <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i"
+                   asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+                   asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]">@i
+                </a>
+            </li>
         }
     }
     <li>
@@ -21,12 +32,21 @@
     {
         if (i <= Model.PagesCount)
         {
-            <li><a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i">@i</a></li>
+            <li>
+                <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@i"
+                   asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+                   asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]">@i
+                </a>
+            </li>
         }
     }
 
     <li>
-        <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.NextPageNumber" style="@(Model.HasNextPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-r"></i></a>
+        <a class="nav-item" asp-controller="Property" asp-action="Buy" asp-route-id="@Model.NextPageNumber"
+           asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+           asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]" 
+           style="@(Model.HasNextPage ? "" : "pointer-events: none; opacity: 0.5;")"><i class="icon icon-arr-r"></i>
+        </a>
     </li>
 
 </ul>
