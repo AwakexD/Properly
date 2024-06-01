@@ -82,7 +82,6 @@ namespace Properly.Web.Controllers
                 return this.NotFound();
             }
 
-            // ToDO : Fix base page url (sorting and listingPerPage)
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,

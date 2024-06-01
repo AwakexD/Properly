@@ -14,7 +14,7 @@
             this.PropertyTypes = new HashSet<PropertyTypeFormModel>();
         }
 
-        public int ListingsPerPage { get; set; }
+        public int ListingsPerPage { get; set; } = 6;
 
         public ListingSorting ListingSorting { get; set; }
 
