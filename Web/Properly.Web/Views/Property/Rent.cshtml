@@ -1,25 +1,160 @@
-﻿@model Properly.Web.ViewModels.Rent.RentViewModel
+﻿@model Properly.Web.ViewModels.Buy.BuyViewModel
 
 @{
-    this.ViewData["Title"] = "Rent a property : " + Model.PageNumber;
+    this.ViewData["Title"] = "Properties For Rent";
 }
 
-<h1>@this.ViewData["Title"]</h1>
-<hr />
-
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    @foreach (var listing in Model.Listings)
-    {
-        <div class="col">
-            <div class="card">
-                <img src="@listing.Photos.FirstOrDefault()" class="card-img-top" />
-                <div class="card-body">
-                    <h5 class="card-title"><strong>@listing.Price.ToString("C0")/mo</strong></h5>
-                    <p class="card-text">@listing.FullAddress</p>
-                </div>
+<section class="flat-section-v6 flat-recommended flat-sidebar">
+    <div class="container">
+        <div class="box-title-listing">
+            <h3>@this.ViewData["Title"]</h3>
+            <div class="box-filter-tab">
+                <select asp-for="@Model.ItemsPerPage" id="itemsPerPageSelect" class="nice-select list-page" tabindex="0">
+                    <ul class="list">
+                    <option value="6">6 Per Page</option>
+                    <option value="8">8 Per Page</option>
+                    <option value="10">10 Per Page</option>
+                    <option value="10">12 Per Page</option>
+                    </ul>
+                </select>
+                <select asp-for="@Model.ListingSorting" id="sortingSelect" class="nice-select list-sort" tabindex="0">
+                    <ul class="list">
+                    <option value="0">Newest</option>
+                    <option value="1">Oldest</option>
+                    <option value="2">Ascending Price</option>
+                    <option value="3">Descending Price</option>
+                    </ul>
+                </select>
             </div>
         </div>
-    }
-</div>
-<hr/>
-<partial name="_PagingPartial" model="@Model"/>
+        <div class="row">
+            <div class="col-xl-4 col-lg-5">
+                <div class="widget-sidebar fixed-sidebar">
+                    <div class="flat-tab flat-tab-form widget-filter-search widget-box bg-surface">
+                        <div class="h7 title d-flex justify-content-center fw-7">Search</div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" role="tabpanel">
+                                <div class="form-sl">
+                                    <form method="post">
+                                        <div class="wd-filter-select">
+                                            <div class="inner-group inner-filter">
+                                                <div class="form-style">
+                                                    <label class="title-select">Keyword</label>
+                                                    <input type="text" class="form-control" placeholder="Enter an Address, City, Country or ZipCode.">
+                                                </div>
+                                                <div class="form-style">
+                                                    <label class="title-select">Type</label>
+                                                    <div class="group-select">
+                                                        <select class="nice-select" tabindex="0">
+                                                            <option value="">Select Property Type</option>
+                                                            @foreach (var propertyType in Model.PropertyTypes)
+                                                            {
+                                                                <option value="@propertyType.Id">@propertyType.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-style">
+                                                    <label class="title-select">Bathrooms</label>
+                                                    <input type="text" class="form-control" placeholder="Enter a number" />
+                                                </div>
+                                                <div class="form-style">
+                                                    <label class="title-select">Bedrooms</label>
+                                                    <input type="text" class="form-control" placeholder="Enter a number" />
+                                                </div>
+                                                <div class="form-style">
+                                                    <div class="form-style">
+                                                        <label class="title-select">Price</label>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input type="text" id="minPrice" class="form-control" placeholder="Minimum" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" id="maxPrice" class="form-control" placeholder="Maximum" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-style">
+                                                    <button type="submit" class="tf-btn primary" href="#">Find Properties</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-8 col-lg-7">
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="listLayout" role="tabpanel">
+                        <div class="row">
+                            @foreach (var listing in Model.Listings)
+                            {
+                                <div class="col-md-12">
+                                    <div class="homeya-box list-style-1 list-style-2">
+                                        <a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="images-group">
+                                            <div class="images-style">
+                                                <img src="@listing.Photos.FirstOrDefault()" alt="img" width="330px">
+                                            </div>
+                                            <div class="top">
+                                                <ul class="d-flex gap-4 flex-wrap">
+                                                    <li class="flag-tag style-1">For Rent</li>
+                                                </ul>
+                                                <ul class="d-flex gap-4">
+                                                    <li class="box-icon w-32">
+                                                        <span class="icon icon-heart"></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="bottom">
+                                                <span class="flag-tag style-2">@listing.PropertyTypeName</span>
+                                            </div>
+                                        </a>
+                                        <div class="content">
+                                            <div class="archive-top">
+                                                <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
+                                                <div class="desc"><i class="icon icon-mapPin"></i><p>@listing.FullAddress</p> </div>
+                                                <ul class="meta-list">
+                                                    <li class="item">
+                                                        <i class="icon icon-bed"></i>
+                                                        <span>@listing.Bedrooms</span>
+                                                    </li>
+                                                    <li class="item">
+                                                        <i class="icon icon-bathtub"></i>
+                                                        <span>@listing.Bathrooms</span>
+                                                    </li>
+                                                    <li class="item">
+                                                        <i class="icon icon-ruler"></i>
+                                                        <span>@listing.Size SqFT</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center archive-bottom">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="h4 fw-7">@listing.Price.ToString("C0")/mo.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <partial name="_PagingPartial" />
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    >
+    <script src="~/js/listingSortingHandler.js" asp-append-version="true"></script>
+}

@@ -109,12 +109,19 @@ namespace Properly.Web.Controllers
                 return this.NotFound();
             }
 
-            RentViewModel viewModel = new RentViewModel()
+            BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
-                ItemsPerPage = 6,
-                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting),
+                ItemsPerPage = queryModel.ListingsPerPage,
+                ListingSorting = queryModel.ListingSorting,
+                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
                 ListingCount = this.propertyService.GetCount(listingType),
+                PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                QueryParameters = new Dictionary<string, string>()
+                {
+                    { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
+                    { "ListingsPerPage", queryModel.ListingsPerPage.ToString() }
+                }
             };
 
             return this.View(viewModel);

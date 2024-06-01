@@ -22,7 +22,7 @@
         private static async Task ListingTypesSeedAsync(ApplicationDbContext dbContext)
         {
             var listingTypes = new HashSet<ListingType>();
-            var types = new string[] { "For Sale", "Rent" };
+            var types = new string[] { "For Sale", "For Rent" };
             // For now only these two types are supported, more will be added in the future
 
             foreach (var type in types)
