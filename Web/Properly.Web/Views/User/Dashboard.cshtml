@@ -1,0 +1,84 @@
+﻿@model Properly.Web.ViewModels.Dashboard.DashboardViewModel
+@{
+    this.ViewData["Title"] = "User Dashboard";
+}
+@* ToDO : Dashboard html, view and controller *@
+
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="button-show-hide show-mb">
+            <span class="body-1">Show Dashboard</span>
+        </div>
+        <div class="widget-box-2 wd-listing">
+            <h6 class="title">My Listings</h6>
+            <div class="wrap-table">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class="align-middle">Listing</th>
+                                <th class="align-middle">Status</th>
+                                <th class="align-middle text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var listing in Model.Listings)
+                            {
+                                <tr class="file-delete">
+                                    <td>
+                                        <div class="listing-box">
+                                            <div class="images">
+                                                <img src="@listing.Photos.FirstOrDefault()" alt="images" class="img-fluid">
+                                            </div>
+                                            <div class="content">
+                                                <div class="title"><a href="#" class="link">@listing.FullAddress</a></div>
+                                               @*  <div class="text-date">12 Lowell Road, Port Washington</div> *@
+                                                <div class="text-1 fw-7">@listing.Price.ToString("C0")</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span>@listing.ListingStatus</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <div class="btn-group-vertical">
+                                            <button type="button" class="btn btn-sm btn-primary mb-1"><i class="icon icon-edit"></i> Edit</button>
+                                            <button type="button" class="btn btn-sm btn-success mb-1"><i class="icon icon-sold"></i> Sold</button>
+                                            <button type="button" class="btn btn-sm btn-danger mb-1"><i class="icon icon-trash"></i> Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                @*!! Add Pagination !! *@
+                @* <ul class="wd-navigation">
+                    <li><a href="#" class="nav-item active">1</a></li>
+                    <li><a href="#" class="nav-item">2</a></li>
+                    <li><a href="#" class="nav-item">3</a></li>
+                    <li><a href="#" class="nav-item"><i class="icon icon-arr-r"></i></a></li>
+                </ul> *@
+            </div>
+        </div>
+    </div> 
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/theme/scss/_dashboard.css" />
+}
+
+@section Scripts
+{
+    <script>
+        // Remove preload
+        document.addEventListener('DOMContentLoaded', function () {
+            window.addEventListener('load', function () {
+                document.querySelector('.preload').classList.add('d-none');
+                document.getElementById('wrapper').classList.remove('d-none');
+            });
+        });
+    </script>
+}

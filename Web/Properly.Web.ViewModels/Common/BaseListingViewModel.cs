@@ -27,6 +27,8 @@ namespace Properly.Web.ViewModels.Common
 
         public string PropertyTypeName { get; set; }
 
+        public string ListingStatus { get; set; }
+
         public string StreetName { get; set; }
 
         public string City { get; set; }
@@ -53,6 +55,7 @@ namespace Properly.Web.ViewModels.Common
                 .ForMember(d => d.PropertyFeatures, opt => opt.MapFrom(src => src.Property.PropertyFeatures.Select(x => x.Feature.Name)))
                 .ForMember(d => d.Bedrooms, opt => opt.MapFrom(src => src.Property.Bedrooms))
                 .ForMember(d => d.PropertyTypeName, opt => opt.MapFrom(src => src.Property.PropertyType.Name))
+                .ForMember(d => d.ListingStatus, opt => opt.MapFrom(src => src.ListingStatus.Name))
                 .ForMember(d => d.StreetName, opt => opt.MapFrom(src => src.Property.Address.StreetName))
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.Property.Address.City))
                 .ForMember(d => d.ZipCode, opt => opt.MapFrom(src => src.Property.Address.ZipCode))

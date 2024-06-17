@@ -142,6 +142,14 @@
             return userFavourites;
         }
 
+        public async Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId)
+        {
+            return await this.listingRepository.AllAsNoTrackingWithDeleted()
+                .Where(l => l.CreatorId == userId)
+                .To<BaseListingViewModel>()
+                .ToListAsync();
+        }
+
         public async Task<bool> IsInFavourites(string listingId, string userId)
         {
             return await this.favoriteListingRepository.AllAsNoTracking()

@@ -23,6 +23,8 @@
 
         Task<IEnumerable<FavouritesDto>> GetUserFavourites(string userId);
 
+        Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId);
+
         int GetCount(string type);
 
     }
