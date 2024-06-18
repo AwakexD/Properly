@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Listing
+﻿using System;
+
+namespace Properly.Web.ViewModels.Listing
 {
     using System.Linq;
 
@@ -7,6 +9,8 @@
 
     public class ListingIndexViewModel : IMapFrom<Data.Models.Entities.Listing>, IHaveCustomMappings
     {
+        public Guid Id { get; set; } 
+
         public string PhotoUrl { get; set; }
 
         public int Price { get; set; }
@@ -26,6 +30,8 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Data.Models.Entities.Listing, ListingIndexViewModel>()
+                .ForMember(x => x.Id, opt => 
+                    opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Address, opt =>
                     opt.MapFrom(x => x.Property.Address.StreetName + " " + x.Property.Address.ZipCode))
                 .ForMember(x => x.PhotoUrl, opt =>

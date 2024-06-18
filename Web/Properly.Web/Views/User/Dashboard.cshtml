@@ -1,8 +1,7 @@
 ﻿@model Properly.Web.ViewModels.Dashboard.DashboardViewModel
 @{
-    this.ViewData["Title"] = "User Dashboard";
+    this.ViewData["Title"] = "Dashboard";
 }
-@* ToDO : Dashboard html, view and controller *@
 
 <div class="main-content">
     <div class="main-content-inner">
@@ -31,9 +30,9 @@
                                                 <img src="@listing.Photos.FirstOrDefault()" alt="images" class="img-fluid">
                                             </div>
                                             <div class="content">
-                                                <div class="title"><a href="#" class="link">@listing.FullAddress</a></div>
-                                               @*  <div class="text-date">12 Lowell Road, Port Washington</div> *@
-                                                <div class="text-1 fw-7">@listing.Price.ToString("C0")</div>
+                                                <div class="title"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
+                                                <div class="text-1 fw-7">@listing.Price.ToString("C0")
+                                                    @if(listing.ListingType == "For Rent"){<span class="text-variant-1">/mo.</span>}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -52,14 +51,6 @@
                         </tbody>
                     </table>
                 </div>
-                
-                @*!! Add Pagination !! *@
-                @* <ul class="wd-navigation">
-                    <li><a href="#" class="nav-item active">1</a></li>
-                    <li><a href="#" class="nav-item">2</a></li>
-                    <li><a href="#" class="nav-item">3</a></li>
-                    <li><a href="#" class="nav-item"><i class="icon icon-arr-r"></i></a></li>
-                </ul> *@
             </div>
         </div>
     </div> 

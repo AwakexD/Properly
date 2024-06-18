@@ -3,7 +3,7 @@ using Properly.Web.ViewModels.Common;
 
 namespace Properly.Web.ViewModels.Dashboard
 {
-    public class DashboardViewModel
+    public class DashboardViewModel : PagingViewModel
     {
         public DashboardViewModel()
         {

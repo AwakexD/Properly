@@ -324,7 +324,7 @@
                             <div class="col-xl-4 col-lg-6 col-md-6">
                             <div class="homeya-box">
                                 <div class="archive-top">
-                                    <a href="#" class="images-group">
+                                        <a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="images-group">
                                         <div class="images-style">
                                             <img src="@listing.PhotoUrl" alt="img">
                                         </div>
@@ -344,7 +344,7 @@
                                         </div>
                                     </a>
                                     <div class="content">
-                                        <div class="h7 text-capitalize fw-7"><a href="#" class="link">@listing.Address</a></div>
+                                            <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.Address</a></div>
                                         <div class="desc"><i class="fs-16 icon icon-mapPin"></i>
                                             <p>@listing.Address</p> </div>
                                         <ul class="meta-list">
@@ -363,14 +363,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="archive-bottom d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-8 align-items-center">
-                                        @* User Profile Picture *@
-                                        @* <div class="avatar avt-40 round">
-                                            <img src="images/avatar/avt-6.jpg" alt="avt">
-                                        </div> *@
-                                        <span>Arlene McCoy</span>
-                                    </div>
+                                <div class="archive-bottom d-flex justify-content-center align-items-center">
                                     <div class="d-flex align-items-center">
                                         <h6>@listing.Price.ToString("C0")</h6>
                                         @if (listing.ListingType == "For Rent")

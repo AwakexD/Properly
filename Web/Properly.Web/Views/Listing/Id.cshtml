@@ -30,8 +30,11 @@
                             <h4 class="title link">@Model.FullAddress</h4>
                         </div>
                         <div class="box-price d-flex align-items-center">
-                            <h4>@Model.Price.ToString("C0")</h4>
-                            @* <span class="body-1 text-variant-1">/mo</span> *@
+                            <h5>@Model.Price.ToString("C0")</h5>
+                            @if (Model.ListingType == "For Rent")
+                            {
+                                <h6 class="text-variant-1">/mo.</h6>
+                            }
                         </div>
                     </div>
                     <div class="content-bottom">
