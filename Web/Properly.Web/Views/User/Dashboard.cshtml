@@ -3,7 +3,7 @@
     this.ViewData["Title"] = "Dashboard";
 }
 
-<div class="main-content">
+<div class="main-content p-0">
     <div class="main-content-inner">
         <div class="button-show-hide show-mb">
             <span class="body-1">Show Dashboard</span>
@@ -41,9 +41,9 @@
                                     </td>
                                     <td class="align-middle text-center">
                                         <div class="btn-group-vertical">
-                                            <button type="button" class="btn btn-sm btn-primary mb-1"><i class="icon icon-edit"></i> Edit</button>
-                                            <button type="button" class="btn btn-sm btn-success mb-1"><i class="icon icon-sold"></i> Sold</button>
-                                            <button type="button" class="btn btn-sm btn-danger mb-1"><i class="icon icon-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-sm btn-primary mb-1" id="editBtn"><i class="icon icon-edit"></i> Edit</button>
+                                            <button type="button" class="btn btn-sm btn-success mb-1" id="soldBtn"><i class="icon icon-sold"></i> Sold</button>
+                                            <button type="button" class="btn btn-sm btn-danger mb-1" id="deleteBtn"><i class="icon icon-trash"></i> Delete</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -54,6 +54,7 @@
             </div>
         </div>
     </div> 
+    <form method="post" class="hidden"></form>
 </div>
 
 @section Styles
@@ -63,6 +64,7 @@
 
 @section Scripts
 {
+    <script type="module" src="~/js/listingActionsHnadler.js" asp-append-version="true"></script>
     <script>
         // Remove preload
         document.addEventListener('DOMContentLoaded', function () {

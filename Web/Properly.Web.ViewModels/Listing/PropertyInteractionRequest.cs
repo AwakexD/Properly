@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class FavouriteListingRequest
+    public class PropertyInteractionRequest
     {
         public string ListingId { get; set; }
     }

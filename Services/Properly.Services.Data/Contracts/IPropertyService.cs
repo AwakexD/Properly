@@ -25,6 +25,8 @@
 
         Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId);
 
+        Task DeactivateListing(string userId, string listingId);
+
         int GetCount(string type);
 
     }

@@ -144,10 +144,20 @@
 
         public async Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId)
         {
-            return await this.listingRepository.AllAsNoTrackingWithDeleted()
+            return await this.listingRepository.AllAsNoTracking()
                 .Where(l => l.CreatorId == userId)
                 .To<BaseListingViewModel>()
                 .ToListAsync();
+        }
+
+        public async Task DeactivateListing(string userId, string listingId)
+        {
+            var listingToBeDeactivated = await this.listingRepository.All()
+                .FirstAsync(l => l.CreatorId == userId && l.Id.ToString() == listingId);
+
+            this.listingRepository.Delete(listingToBeDeactivated);
+
+            await this.listingRepository.SaveChangesAsync();
         }
 
         public async Task<bool> IsInFavourites(string listingId, string userId)
