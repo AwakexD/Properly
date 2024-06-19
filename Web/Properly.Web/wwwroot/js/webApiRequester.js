@@ -1,6 +1,5 @@
 ﻿const domain = 'https://localhost:44319';
 
-
 async function requester(method, endPoints, data, token) {
     const options = {
         method,
