@@ -1,4 +1,6 @@
-﻿namespace Properly.Services.Data.Contracts
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
+namespace Properly.Services.Data.Contracts
 {
     using System;
     using System.Collections.Generic;
@@ -26,6 +28,8 @@
         Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId);
 
         Task DeactivateListing(string userId, string listingId);
+
+        Task ChangeListingStatus(string userId, string listingId, ListingStatus status);
 
         int GetCount(string type);
 

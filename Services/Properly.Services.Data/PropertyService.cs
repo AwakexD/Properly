@@ -160,6 +160,20 @@
             await this.listingRepository.SaveChangesAsync();
         }
 
+        public async Task ChangeListingStatus(string userId, string listingId, Web.ViewModels.Listing.Enums.ListingStatus status)
+        {
+            var listingStatusToBeChanged = await this.listingRepository.All()
+                .FirstAsync(l => l.CreatorId == userId && l.Id.ToString() == listingId);
+
+            if (listingStatusToBeChanged != null)
+            {
+                listingStatusToBeChanged.ListingStatusId = (int)status;
+                this.listingRepository.Update(listingStatusToBeChanged);
+            }
+
+            await this.listingRepository.SaveChangesAsync();
+        }
+
         public async Task<bool> IsInFavourites(string listingId, string userId)
         {
             return await this.favoriteListingRepository.AllAsNoTracking()

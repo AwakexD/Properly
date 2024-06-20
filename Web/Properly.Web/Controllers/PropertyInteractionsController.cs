@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Properly.Data.Models.User;
+using Properly.Web.ViewModels.Listing.Enums;
 
 namespace Properly.Web.Controllers
 {
@@ -52,9 +53,21 @@ namespace Properly.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Sold()
+        public async Task<IActionResult> Sold([FromBody]PropertyInteractionRequest input)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+                await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, ListingStatus.Sold);
+
+                return this.RedirectToAction("Dashboard", "User");
+
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                return this.StatusCode(501, e.Message);
+            }
         }
 
         [HttpPost]
