@@ -10,6 +10,7 @@ namespace Properly.Web.Controllers
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Properly.Common;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Listing;
 
@@ -29,24 +30,14 @@ namespace Properly.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Favourite(PropertyInteractionRequest input)
+        public async Task<IActionResult> Favourite([FromBody]PropertyInteractionRequest input)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-
-            try
-            {
-                await this.propertyService.AddToFavouritesAsync(input.ListingId, userId);
-                return this.NoContent();
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(500, e.Message);
-            }
+            throw new NotImplementedException();
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit([FromBody]PropertyInteractionRequest input)
         {
             throw new NotImplementedException();
         }
@@ -60,32 +51,36 @@ namespace Properly.Web.Controllers
                 var user = await this.userManager.GetUserAsync(this.User);
                 await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, ListingStatus.Sold);
 
+                TempData["Notification"] = ExceptionsAndNotificationsMessages.ListingWasUpdatedSuccessfully;
+                TempData["NotificationType"] = "success";
+
                 return this.RedirectToAction("Dashboard", "User");
 
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
-                return this.StatusCode(501, e.Message);
+                TempData["Notification"] = ExceptionsAndNotificationsMessages.AnErrorOccurred;
+                TempData["NotificationType"] = "error";
+
+                return this.StatusCode(501, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Delete(PropertyInteractionRequest input)
+        public async Task<IActionResult> Delete([FromBody]PropertyInteractionRequest input)
         {
             try
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-
                 await this.propertyService.DeactivateListing(user.Id, input.ListingId);
 
                 return this.RedirectToAction("Dashboard", "User");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.Error.WriteLine(e);
+                return this.StatusCode(501, e.Message);
             }
 
 

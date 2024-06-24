@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Properly.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,33 @@ namespace Properly.Web.Controllers
             };
 
             return this.View(viewModel);
+        }
+
+        // ToDo : Complete the edit form
+        public async Task<IActionResult> Sell(string? id)
+        {
+            var viewModel = new CreateListingViewModel
+            {
+                ListingOptions = new ListingOptions
+                {
+                    PropertyTypes = await optionsService.GetPropertyTypes(),
+                    ListingTypes = await optionsService.GetListingTypes(),
+                    Features = await optionsService.GetFeatures(),
+                }
+            };
+
+            if (id is not null)
+            {
+                var listing = await propertyService.GetListingById(new Guid(id));
+                if (listing == null)
+                {
+                    return NotFound();
+                }
+
+                // Populate listing fields as necessary
+            }
+
+            return View(viewModel);
         }
 
         [HttpPost]
