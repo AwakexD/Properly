@@ -21,11 +21,15 @@ namespace Properly.Services.Data.Contracts
 
         Task<BaseListingViewModel> GetListingById(Guid id);
 
+        Task<CreateListingViewModel> GetListingEditDataAsync(Guid listingId, string userId);
+
         Task AddToFavouritesAsync(string listingId, string userId);
 
         Task<IEnumerable<FavouritesDto>> GetUserFavourites(string userId);
 
         Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId);
+
+        Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId, string userId);
 
         Task DeactivateListing(string userId, string listingId);
 

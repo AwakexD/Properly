@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Properly.Common
+﻿namespace Properly.Common
 {
     public static class ExceptionsAndNotificationsMessages
     {
@@ -29,6 +23,7 @@ namespace Properly.Common
         public const string ListingDeactivated = "The listing was hidden and deactivated! You can reactivate it or delete it.";
         public const string ListingReactivated = "The listing was reactivated and is now public.";
         public const string ListingPermanentlyDeleted = "The listing was permanently deleted.";
+        public const string ErrorEditingListing = "Failed to edit this listing. Please try again later or contact support.";
 
         // Image Errors
         public const string ImageDoesNotExistError = "The image does not exist.";
@@ -47,7 +42,6 @@ namespace Properly.Common
         public const string CannotDeactivateAuction = "You cannot deactivate an auction that has already started or has bids!";
         public const string AuctionUpdateUnsuccessful = "An error occurred while updating the auction, please try again.";
         public const string ErrorCreatingTheAuction = "Failed to create the auction. Please try again later or contact support.";
-        public const string ErrorEditingTheAuction = "Failed to edit the auction. Please try again later or contact support.";
         public const string AuctionHasAlreadyStarted = "You do not have the permissions to change the auction after it has started or ended.";
         public const string CannotEditActiveAuctionWithBids = "You do not have the permissions to edit auctions that have bids!";
 

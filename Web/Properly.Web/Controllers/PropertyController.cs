@@ -1,5 +1,4 @@
-﻿
-namespace Properly.Web.Controllers
+﻿namespace Properly.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -8,12 +7,14 @@ namespace Properly.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Properly.Common;
     using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Buy;
     using Properly.Web.ViewModels.Listing;
     using Properly.Web.ViewModels.Rent;
     using Properly.Web.ViewModels.Sell;
+    using Properly.Web.ViewModels.Sell.Models;
 
     public class PropertyController : BaseController
     {
@@ -31,44 +32,48 @@ namespace Properly.Web.Controllers
             this.userManager = userManager;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Sell()
-        {
-            var viewModel = new CreateListingViewModel()
-            {
-                ListingOptions = new ListingOptions()
-                {
-                    PropertyTypes = await this.optionsService.GetPropertyTypes(),
-                    ListingTypes = await this.optionsService.GetListingTypes(),
-                    Features = await this.optionsService.GetFeatures(),
-                },
-            };
-
-            return this.View(viewModel);
-        }
-
         // ToDo : Complete the edit form
         public async Task<IActionResult> Sell(string? id)
         {
-            var viewModel = new CreateListingViewModel
-            {
-                ListingOptions = new ListingOptions
-                {
-                    PropertyTypes = await optionsService.GetPropertyTypes(),
-                    ListingTypes = await optionsService.GetListingTypes(),
-                    Features = await optionsService.GetFeatures(),
-                }
-            };
+            CreateListingViewModel viewModel;
+            var user = await this.userManager.GetUserAsync(this.User);
 
             if (id is not null)
             {
-                var listing = await propertyService.GetListingById(new Guid(id));
-                if (listing == null)
+                try
                 {
-                    return NotFound();
-                }
+                    var editModel = await propertyService.GetListingEditDataAsync(new Guid(id), user.Id);
+                    if (editModel is null)
+                    {
+                        return NotFound();
+                    }
 
-                // Populate listing fields as necessary
+                    editModel.ListingOptions = new ListingOptions()
+                    {
+                        PropertyTypes = await optionsService.GetPropertyTypes(),
+                        ListingTypes = await optionsService.GetListingTypes(),
+                        Features = await optionsService.GetFeatures(),
+                    };
+
+                    viewModel = editModel;
+                    viewModel.Listing.Id = id;
+                }
+                catch (Exception e)
+                {
+                    return this.StatusCode(403, ExceptionsAndNotificationsMessages.ErrorEditingListing);
+                }
+            }
+            else
+            {
+                viewModel = new CreateListingViewModel
+                {
+                    ListingOptions = new ListingOptions
+                    {
+                        PropertyTypes = await optionsService.GetPropertyTypes(),
+                        ListingTypes = await optionsService.GetListingTypes(),
+                        Features = await optionsService.GetFeatures(),
+                    }
+                };
             }
 
             return View(viewModel);
@@ -78,6 +83,9 @@ namespace Properly.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Sell(CreateListingViewModel viewModel)
         {
+            // Error here in the view model binding(Listing, Property, Address are null)
+            // ListingId in the viewModel is null
+            // Fix Construction Date Format
             if (!this.ModelState.IsValid)
             {
                 viewModel = new CreateListingViewModel()
@@ -93,11 +101,25 @@ namespace Properly.Web.Controllers
                 return this.View(viewModel);
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
+            try
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.propertyService.CreateListingAsync(viewModel, user.Id);
-
-            return this.Redirect("/");
+                if (viewModel.ListingOptions is null)
+                {
+                    await this.propertyService.CreateListingAsync(viewModel, user.Id);
+                }
+                else
+                {
+                    // ToDo : Create update service method
+                    await this.propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id, user.Id);
+                }
+                return this.Redirect("/");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
+            }
         }
 
         // ToDO : Add Search

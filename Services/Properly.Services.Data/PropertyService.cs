@@ -8,6 +8,7 @@
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Properly.Data.Common.Repositories;
+    using Properly.Web.ViewModels.Sell.Models;
     using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Data.Models.Entities;
     using Properly.Services.Data.Contracts;
@@ -112,6 +113,42 @@
             return listing;
         }
 
+        public async Task<CreateListingViewModel> GetListingEditDataAsync(Guid listingId, string userId)
+        {
+            var listing = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId && x.CreatorId == userId)
+                .To<ListingInputModel>()
+                .FirstOrDefaultAsync();
+
+            var property = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId && x.CreatorId == userId)
+                .Select(x => x.Property)
+                .To<PropertyInputModel>()
+                .FirstOrDefaultAsync();
+
+            var address = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId && x.CreatorId == userId)
+                .Select(x => x.Property.Address)
+                .To<AddressInputModel>()
+                .FirstOrDefaultAsync();
+
+            var selectedFeatureIds = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId && x.CreatorId == userId)
+                .SelectMany(x => x.Property.PropertyFeatures.Select(pf => pf.FeatureId))
+                .ToListAsync(); 
+
+            property.SelectedFeatures = selectedFeatureIds;
+
+            var model = new CreateListingViewModel()
+            {
+                Listing = listing,
+                Property = property,
+                Address = address,
+            };
+
+            return model;
+        }
+
         public async Task AddToFavouritesAsync(string listingId, string userId)
         {
             var favourite = await this.favoriteListingRepository.All().FirstOrDefaultAsync(x =>
@@ -148,6 +185,50 @@
                 .Where(l => l.CreatorId == userId)
                 .To<BaseListingViewModel>()
                 .ToListAsync();
+        }
+
+        public async Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId ,string userId)
+        {
+            var listing = await this.listingRepository.All()
+                .Include(l => l.Property)
+                .ThenInclude(p => p.PropertyFeatures)
+                .Include(l => l.Property.Address)
+                .Include(l => l.Photos)
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
+
+            if (listing == null || listing.CreatorId != userId)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to edit this listing.");
+            }
+
+            var address = this.mapper.Map<Address>(form.Address);
+            var property = this.mapper.Map<Property>(form.Property);
+            property.Address = address;
+
+            listing.Property = property;
+
+            // Update property features
+            listing.Property.PropertyFeatures.Clear();
+            foreach (var feature in form.Property.SelectedFeatures)
+            {
+                listing.Property.PropertyFeatures.Add(new PropertyFeature { PropertyId = listing.Property.Id, FeatureId = feature });
+            }
+
+            // Update listing details
+            listing.Price = form.Listing.Price;
+            listing.ListingTypeId = form.Listing.ListingTypeId;
+
+            // Update photos
+            foreach (var photo in form.UploadedPhotos)
+            {
+                string url = await this.cloudinaryService.UploadImageAsync(photo);
+                listing.Photos.Add(new Photo() { Url = url });
+            }
+
+            this.listingRepository.Update(listing);
+            await this.listingRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task DeactivateListing(string userId, string listingId)

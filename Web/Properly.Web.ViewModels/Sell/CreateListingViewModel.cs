@@ -11,6 +11,10 @@
     {
         public CreateListingViewModel()
         {
+            this.Listing = new ListingInputModel();
+            this.Property = new PropertyInputModel();
+            this.Address = new AddressInputModel();
+            this.ListingOptions = new ListingOptions();
             this.UploadedPhotos = new HashSet<IFormFile>();
         }
 

@@ -54,6 +54,14 @@
                 .ForMember(x => x.Description, opt => opt.MapFrom(s => s.Description))
                 .ForMember(x => x.ConstructionDate, opt => opt.MapFrom(s => s.ConstructionDate))
                 .ForMember(x => x.PropertyTypeId, opt => opt.MapFrom(s => s.PropertyTypeId));
+
+            configuration.CreateMap<Property, PropertyInputModel>()
+                .ForMember(x => x.Size, opt => opt.MapFrom(s => s.Size))
+                .ForMember(x => x.Bathrooms, opt => opt.MapFrom(s => s.Bathrooms))
+                .ForMember(x => x.Bedrooms, opt => opt.MapFrom(s => s.Bedrooms))
+                .ForMember(x => x.Description, opt => opt.MapFrom(s => s.Description))
+                .ForMember(x => x.ConstructionDate, opt => opt.MapFrom(s => s.ConstructionDate))
+                .ForMember(x => x.PropertyTypeId, opt => opt.MapFrom(s => s.PropertyTypeId));
         }
     }
 }

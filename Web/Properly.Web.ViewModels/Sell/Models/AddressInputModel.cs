@@ -38,6 +38,12 @@
                 .ForMember(x => x.City, opt => opt.MapFrom(s => s.City))
                 .ForMember(x => x.ZipCode, opt => opt.MapFrom(s => s.ZipCode))
                 .ForMember(x => x.Country, opt => opt.MapFrom(s => s.Country));
+
+            configuration.CreateMap<Address, AddressInputModel>()
+                .ForMember(x => x.StreetName, opt => opt.MapFrom(s => s.StreetName))
+                .ForMember(x => x.City, opt => opt.MapFrom(s => s.City))
+                .ForMember(x => x.ZipCode, opt => opt.MapFrom(s => s.ZipCode))
+                .ForMember(x => x.Country, opt => opt.MapFrom(s => s.Country));
         }
     }
 }
