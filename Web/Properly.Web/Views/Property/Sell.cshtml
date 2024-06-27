@@ -136,7 +136,16 @@
                             @foreach (var feature in group)
                             {
                                 <fieldset class="amenities-item">
-                                    <input type="checkbox" class="tf-checkbox style-1 primary" id="feature-@feature.Id" name="Property.SelectedFeatures" value="@feature.Id">
+                                    <input 
+                                        type="checkbox" 
+                                        class="tf-checkbox style-1 primary" 
+                                        id="feature-@feature.Id" 
+                                        name="Property.SelectedFeatures" 
+                                        value="@feature.Id"
+                                        @if (Model.Property.SelectedFeatures is not null)
+                                        {
+                                            @(Model.Property.SelectedFeatures.Contains(feature.Id) ? "checked" : "")
+                                        } />
                                     <label for="feature-@feature.Id" class="text-cb-amenities">@feature.Name</label>
                                 </fieldset>
                             }

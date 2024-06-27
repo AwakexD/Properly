@@ -12,10 +12,12 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
@@ -27,6 +29,7 @@
 	
 	<ItemGroup>
 	  <None Include="compilerconfig.json" />
+	  <None Include="Views\Shared\_NotificationPartial.cshtml" />
 	</ItemGroup>
 
   <ItemGroup>
@@ -65,5 +68,9 @@
     <Content Update="wwwroot\css\Home\index.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
 </Project>
