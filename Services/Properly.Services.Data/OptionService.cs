@@ -14,6 +14,7 @@ namespace Properly.Services.Data
     using Properly.Data.Models.Entities;
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
+    using Properly.Web.ViewModels.Sell;
     using Properly.Web.ViewModels.Sell.Options;
 
     public class OptionService : IOptionsService
@@ -69,6 +70,16 @@ namespace Properly.Services.Data
                 await this.featuresRepository.AllAsNoTracking().To<FeatureFormModel>().ToListAsync();
 
             return featuresFormModels;
+        }
+
+        public async Task<ListingOptions> GetListingOptionsAsync()
+        {
+            return new ListingOptions
+            {
+                PropertyTypes = await this.GetPropertyTypes(),
+                ListingTypes = await this.GetListingTypes(),
+                Features = await this.GetFeatures(),
+            };
         }
     }
 }

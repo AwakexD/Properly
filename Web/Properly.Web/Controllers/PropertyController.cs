@@ -1,7 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-
-namespace Properly.Web.Controllers
+﻿namespace Properly.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -44,7 +41,6 @@ namespace Properly.Web.Controllers
             {
                 if (Guid.TryParse(id, out var listingId))
                 {
-                    // Fetch the edit model if `id` is provided
                     viewModel = await propertyService.GetListingEditDataAsync(listingId, user.Id);
 
                     if (viewModel == null)
@@ -58,21 +54,13 @@ namespace Properly.Web.Controllers
                 }
                 else
                 {
-                    // Initialize a new listing model
                     viewModel = new CreateListingViewModel();
                 }
 
-                // Populate listing options (property types, listing types, features)
-                viewModel.ListingOptions = new ListingOptions
-                {
-                    PropertyTypes = await optionsService.GetPropertyTypes(),
-                    ListingTypes = await optionsService.GetListingTypes(),
-                    Features = await optionsService.GetFeatures(),
-                };
+                viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
             }
             catch (Exception)
             {
-                // Handle general errors more gracefully
                 return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
 
@@ -83,42 +71,34 @@ namespace Properly.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Sell(CreateListingViewModel viewModel)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                viewModel = new CreateListingViewModel()
-                {
-                    ListingOptions = new ListingOptions()
-                    {
-                        PropertyTypes = await this.optionsService.GetPropertyTypes(),
-                        ListingTypes = await this.optionsService.GetListingTypes(),
-                        Features = await this.optionsService.GetFeatures(),
-                    },
-                };
-
-                return this.View(viewModel);
+                viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
+                return View(viewModel);
             }
 
             try
             {
-                var user = await this.userManager.GetUserAsync(this.User);
+                var user = await userManager.GetUserAsync(User);
 
-                viewModel.Listing.Id = new Guid(TempData["ListingId"].ToString()); 
-                viewModel.Property.Id = new Guid(TempData["PropertyId"].ToString());
-                viewModel.Address.Id = Convert.ToInt32(TempData["PropertyId"] as string);
-
-                if (viewModel.ListingOptions is null)
+                if (TempData.ContainsKey("ListingId"))
                 {
-                    await this.propertyService.CreateListingAsync(viewModel, user.Id);
+                    viewModel.Listing.Id = new Guid(TempData["ListingId"].ToString());
+                    viewModel.Property.Id = new Guid(TempData["PropertyId"].ToString());
+                    viewModel.Address.Id = Convert.ToInt32(TempData["PropertyId"] as string);
+
+                    await propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id.ToString(), user.Id);
                 }
                 else
                 {
-                    await this.propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id.ToString(), user.Id);
+                    await propertyService.CreateListingAsync(viewModel, user.Id);
                 }
-                return this.Redirect("/");
+
+                return RedirectToAction("Id", "Listing", new {id = viewModel.Listing.Id});
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
         }
 
