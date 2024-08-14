@@ -16,6 +16,7 @@
     using Properly.Web.ViewModels.Common;
     using Properly.Web.ViewModels.Listing;
     using Properly.Web.ViewModels.Sell;
+    using AutoMapper.Features;
 
     public class PropertyService : IPropertyService
     {
@@ -23,17 +24,23 @@
         private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
         private readonly IDeletableEntityRepository<FavoriteListing> favoriteListingRepository;
+        private readonly IDeletableEntityRepository<PropertyFeature> propertyFeatureRepository;
+        private readonly IDeletableEntityRepository<Photo> photoRepository;
 
         public PropertyService(
             IMapper mapper,
             ICloudinaryService cloudinaryService,
             IDeletableEntityRepository<Listing> listingRepository,
-            IDeletableEntityRepository<FavoriteListing> favouriteListingRepository)
+            IDeletableEntityRepository<FavoriteListing> favouriteListingRepository,
+            IDeletableEntityRepository<PropertyFeature> propertyFeatureRepository,
+            IDeletableEntityRepository<Photo> photoRepository)
         {
             this.mapper = mapper;
             this.cloudinaryService = cloudinaryService;
             this.listingRepository = listingRepository;
             this.favoriteListingRepository = favouriteListingRepository;
+            this.propertyFeatureRepository = propertyFeatureRepository;
+            this.photoRepository = photoRepository;
         }
 
         public async Task<string> CreateListingAsync(CreateListingViewModel form, string userId)
@@ -189,43 +196,51 @@
 
         public async Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId ,string userId)
         {
+            var listingGuid = new Guid(listingId);
+
             var listing = await this.listingRepository.All()
                 .Include(l => l.Property)
                 .ThenInclude(p => p.PropertyFeatures)
                 .Include(l => l.Property.Address)
                 .Include(l => l.Photos)
-                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
+                .FirstOrDefaultAsync(l => l.Id == listingGuid && l.CreatorId == userId);
 
-            if (listing == null || listing.CreatorId != userId)
+            if (listing == null)
             {
                 throw new UnauthorizedAccessException("You are not authorized to edit this listing.");
             }
 
-            var address = this.mapper.Map<Address>(form.Address);
-            var property = this.mapper.Map<Property>(form.Property);
-            property.Address = address;
+            listing.Property.Size = form.Property.Size;
+            listing.Property.Bathrooms = form.Property.Bathrooms;
+            listing.Property.Bedrooms = form.Property.Bedrooms;
+            listing.Property.Description = form.Property.Description;
+            listing.Property.PropertyTypeId = form.Property.PropertyTypeId;
 
-            listing.Property = property;
+            listing.Property.Address.StreetName = form.Address.StreetName;
+            listing.Property.Address.City = form.Address.City;
+            listing.Property.Address.ZipCode = form.Address.ZipCode;
+            listing.Property.Address.Country = form.Address.Country;
 
-            // Update property features
-            listing.Property.PropertyFeatures.Clear();
             foreach (var feature in form.Property.SelectedFeatures)
             {
-                listing.Property.PropertyFeatures.Add(new PropertyFeature { PropertyId = listing.Property.Id, FeatureId = feature });
+                if (listing.Property.PropertyFeatures.All(x => x.FeatureId != feature))
+                {
+                    await this.propertyFeatureRepository.AddAsync(new PropertyFeature()
+                        { PropertyId = listing.Property.Id, FeatureId = feature });
+                }
             }
 
-            // Update listing details
             listing.Price = form.Listing.Price;
             listing.ListingTypeId = form.Listing.ListingTypeId;
 
-            // Update photos
             foreach (var photo in form.UploadedPhotos)
             {
                 string url = await this.cloudinaryService.UploadImageAsync(photo);
-                listing.Photos.Add(new Photo() { Url = url });
+                await this.photoRepository.AddAsync(new Photo() { Url = url, ListingId = listing.Id});
             }
 
             this.listingRepository.Update(listing);
+
             await this.listingRepository.SaveChangesAsync();
 
             return true;

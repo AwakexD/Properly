@@ -1,7 +1,8 @@
-﻿namespace Properly.Data.Models.Entities
+﻿
+namespace Properly.Data.Models.Entities
 {
     using System;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using Properly.Data.Common.Models;
 
     public class Photo : BaseDeletableModel<Guid>
@@ -12,5 +13,8 @@
         }
 
         public string Url { get; set; }
+
+        [ForeignKey(nameof(Listing))]
+        public Guid ListingId { get; set; }
     }
 }

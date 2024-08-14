@@ -14,6 +14,8 @@
 
     public class PropertyInputModel : IHaveCustomMappings
     {
+        public Guid Id { get; set; }
+
         [Display(Name = "Size")]
         [Required(ErrorMessage = "{0} is required.")]
         [Range(SizeMinLength, SizeMaxLength, ErrorMessage = "Property size must be between {1} and {2} sqft.")]
@@ -53,9 +55,11 @@
                 .ForMember(x => x.Bedrooms, opt => opt.MapFrom(s => s.Bedrooms))
                 .ForMember(x => x.Description, opt => opt.MapFrom(s => s.Description))
                 .ForMember(x => x.ConstructionDate, opt => opt.MapFrom(s => s.ConstructionDate))
-                .ForMember(x => x.PropertyTypeId, opt => opt.MapFrom(s => s.PropertyTypeId));
+                .ForMember(x => x.PropertyTypeId, opt => opt.MapFrom(s => s.PropertyTypeId))
+                .ForMember(x => x.Id, opt => opt.Ignore());
 
             configuration.CreateMap<Property, PropertyInputModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(x => x.Size, opt => opt.MapFrom(s => s.Size))
                 .ForMember(x => x.Bathrooms, opt => opt.MapFrom(s => s.Bathrooms))
                 .ForMember(x => x.Bedrooms, opt => opt.MapFrom(s => s.Bedrooms))

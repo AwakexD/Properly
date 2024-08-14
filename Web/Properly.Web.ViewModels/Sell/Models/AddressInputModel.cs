@@ -10,6 +10,8 @@
 
     public class AddressInputModel : IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         [Display(Name = "Street Name")]
         [Required(ErrorMessage = "{0} is required.")]
         [StringLength(StreetNameMaxLength, MinimumLength = StreetNameMinLength, ErrorMessage = "{0} must be between {2} and {1} characters.")]
@@ -37,9 +39,11 @@
                 .ForMember(x => x.StreetName, opt => opt.MapFrom(s => s.StreetName))
                 .ForMember(x => x.City, opt => opt.MapFrom(s => s.City))
                 .ForMember(x => x.ZipCode, opt => opt.MapFrom(s => s.ZipCode))
-                .ForMember(x => x.Country, opt => opt.MapFrom(s => s.Country));
+                .ForMember(x => x.Country, opt => opt.MapFrom(s => s.Country))
+                .ForMember(x => x.Id, opt => opt.Ignore());
 
             configuration.CreateMap<Address, AddressInputModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(x => x.StreetName, opt => opt.MapFrom(s => s.StreetName))
                 .ForMember(x => x.City, opt => opt.MapFrom(s => s.City))
                 .ForMember(x => x.ZipCode, opt => opt.MapFrom(s => s.ZipCode))

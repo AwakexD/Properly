@@ -1,13 +1,15 @@
 ﻿namespace Properly.Web.ViewModels.Sell.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
     using Properly.Services.Mapping;
+    using Properly.Data.Models.Entities;
 
     public class ListingInputModel : IHaveCustomMappings
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Display(Name = "Price")]
         [Required(ErrorMessage = "{0} is required.")]
@@ -20,13 +22,13 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<ListingInputModel, Data.Models.Entities.Listing>()
+            configuration.CreateMap<ListingInputModel, Listing>()
                 .ForMember(x => x.Price, opt => opt.MapFrom(s => s.Price))
                 .ForMember(x => x.ListingTypeId, opt => opt.MapFrom(s => s.ListingTypeId))
                 .ForMember(x => x.Id, opt => opt.Ignore());
 
-            configuration.CreateMap<Data.Models.Entities.Listing, Web.ViewModels.Sell.Models.ListingInputModel>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+            configuration.CreateMap<Listing, ListingInputModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.ListingTypeId, opt => opt.MapFrom(src => src.ListingTypeId));
         }

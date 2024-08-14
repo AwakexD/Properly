@@ -1,4 +1,7 @@
-﻿namespace Properly.Web.Controllers
+﻿using System.Diagnostics.Eventing.Reader;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
+namespace Properly.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -32,48 +35,45 @@
             this.userManager = userManager;
         }
 
-        // ToDo : Complete the edit form
         public async Task<IActionResult> Sell(string? id)
         {
+            var user = await userManager.GetUserAsync(User);
             CreateListingViewModel viewModel;
-            var user = await this.userManager.GetUserAsync(this.User);
 
-            if (id is not null)
+            try
             {
-                try
+                if (Guid.TryParse(id, out var listingId))
                 {
-                    var editModel = await propertyService.GetListingEditDataAsync(new Guid(id), user.Id);
-                    if (editModel is null)
+                    // Fetch the edit model if `id` is provided
+                    viewModel = await propertyService.GetListingEditDataAsync(listingId, user.Id);
+
+                    if (viewModel == null)
                     {
                         return NotFound();
                     }
 
-                    editModel.ListingOptions = new ListingOptions()
-                    {
-                        PropertyTypes = await optionsService.GetPropertyTypes(),
-                        ListingTypes = await optionsService.GetListingTypes(),
-                        Features = await optionsService.GetFeatures(),
-                    };
+                    TempData["ListingId"] = id;
+                    TempData["PropertyId"] = viewModel.Property.Id.ToString();
+                    TempData["AddressId"] = viewModel.Address.Id.ToString();
+                }
+                else
+                {
+                    // Initialize a new listing model
+                    viewModel = new CreateListingViewModel();
+                }
 
-                    viewModel = editModel;
-                    viewModel.Listing.Id = id;
-                }
-                catch (Exception e)
+                // Populate listing options (property types, listing types, features)
+                viewModel.ListingOptions = new ListingOptions
                 {
-                    return this.StatusCode(403, ExceptionsAndNotificationsMessages.ErrorEditingListing);
-                }
-            }
-            else
-            {
-                viewModel = new CreateListingViewModel
-                {
-                    ListingOptions = new ListingOptions
-                    {
-                        PropertyTypes = await optionsService.GetPropertyTypes(),
-                        ListingTypes = await optionsService.GetListingTypes(),
-                        Features = await optionsService.GetFeatures(),
-                    }
+                    PropertyTypes = await optionsService.GetPropertyTypes(),
+                    ListingTypes = await optionsService.GetListingTypes(),
+                    Features = await optionsService.GetFeatures(),
                 };
+            }
+            catch (Exception)
+            {
+                // Handle general errors more gracefully
+                return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
 
             return View(viewModel);
@@ -83,9 +83,6 @@
         [Authorize]
         public async Task<IActionResult> Sell(CreateListingViewModel viewModel)
         {
-            // Error here in the view model binding(Listing, Property, Address are null)
-            // ListingId in the viewModel is null
-            // Fix Construction Date Format
             if (!this.ModelState.IsValid)
             {
                 viewModel = new CreateListingViewModel()
@@ -105,20 +102,23 @@
             {
                 var user = await this.userManager.GetUserAsync(this.User);
 
+                viewModel.Listing.Id = new Guid(TempData["ListingId"].ToString()); 
+                viewModel.Property.Id = new Guid(TempData["PropertyId"].ToString());
+                viewModel.Address.Id = Convert.ToInt32(TempData["PropertyId"] as string);
+
                 if (viewModel.ListingOptions is null)
                 {
                     await this.propertyService.CreateListingAsync(viewModel, user.Id);
                 }
                 else
                 {
-                    // ToDo : Create update service method
-                    await this.propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id, user.Id);
+                    await this.propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id.ToString(), user.Id);
                 }
                 return this.Redirect("/");
             }
             catch (Exception e)
             {
-                return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
+                return StatusCode(500, e.Message);
             }
         }
 

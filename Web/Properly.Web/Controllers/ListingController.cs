@@ -22,10 +22,5 @@
 
             return this.View(viewModel);
         }
-
-        public IActionResult Favourites()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

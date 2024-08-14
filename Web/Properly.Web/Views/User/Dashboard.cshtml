@@ -41,7 +41,7 @@
                                     </td>
                                     <td class="align-middle text-center">
                                         <div class="btn-group-vertical">
-                                            <button type="button" class="btn btn-sm btn-primary mb-1" id="editBtn"><i class="icon icon-edit"></i> Edit</button>
+                                            <a class="btn btn-sm btn-primary mb-1" asp-action="Sell" asp-controller="Property" asp-route-id="@listing.Id"><i class="icon icon-edit"></i> Edit</a>
                                             <button type="button" class="btn btn-sm btn-success mb-1" id="soldBtn"><i class="icon icon-sold"></i> Sold</button>
                                             <button type="button" class="btn btn-sm btn-danger mb-1" id="deleteBtn"><i class="icon icon-trash"></i> Delete</button>
                                         </div>
