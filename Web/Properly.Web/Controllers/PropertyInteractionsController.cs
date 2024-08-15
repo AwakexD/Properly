@@ -33,12 +33,6 @@
             throw new NotImplementedException();
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Edit([FromBody]PropertyInteractionRequest input)
-        {
-            throw new NotImplementedException();
-        }
 
         [HttpPost]
         [Authorize]

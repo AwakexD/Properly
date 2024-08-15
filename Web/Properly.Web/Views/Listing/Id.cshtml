@@ -1,4 +1,5 @@
-﻿@model Properly.Web.ViewModels.Common.BaseListingViewModel
+﻿@using System.Globalization
+@model Properly.Web.ViewModels.Common.BaseListingViewModel
 @{
     this.ViewData["Title"] = "Listing view";
     var photosList = Model.Photos.ToList();

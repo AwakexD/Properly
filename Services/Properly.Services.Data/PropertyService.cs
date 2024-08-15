@@ -214,6 +214,7 @@
             listing.Property.Bathrooms = form.Property.Bathrooms;
             listing.Property.Bedrooms = form.Property.Bedrooms;
             listing.Property.Description = form.Property.Description;
+            listing.Property.ConstructionDate = form.Property.ConstructionDate;
             listing.Property.PropertyTypeId = form.Property.PropertyTypeId;
 
             listing.Property.Address.StreetName = form.Address.StreetName;

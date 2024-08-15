@@ -28,7 +28,11 @@
                 return Task.CompletedTask;
             }
 
-            if (int.TryParse(value, out int year) && year >= 1 && year <= 9999)
+            if (DateTime.TryParse(value, out DateTime parsedDate))
+            {
+                bindingContext.Result = ModelBindingResult.Success(parsedDate);
+            }
+            else if (int.TryParse(value, out int year) && year >= 1 && year <= 9999)
             {
                 var date = new DateTime(year, 1, 1);
                 bindingContext.Result = ModelBindingResult.Success(date);
