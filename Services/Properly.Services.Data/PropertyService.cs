@@ -124,6 +124,7 @@
         {
             var listing = await this.listingRepository.AllAsNoTracking()
                 .Where(x => x.Id == listingId && x.CreatorId == userId)
+                .Include(x => x.Photos)
                 .To<ListingInputModel>()
                 .FirstOrDefaultAsync();
 
@@ -144,6 +145,11 @@
                 .SelectMany(x => x.Property.PropertyFeatures.Select(pf => pf.FeatureId))
                 .ToListAsync(); 
 
+            var listingUploadedPhotos = await this.photoRepository.AllAsNoTracking()
+                .Where(x => x.ListingId == listingId)
+                .Select(x => x.Url)
+                .ToListAsync();
+
             property.SelectedFeatures = selectedFeatureIds;
 
             var model = new CreateListingViewModel()
@@ -151,6 +157,7 @@
                 Listing = listing,
                 Property = property,
                 Address = address,
+                UploadedPhotoUrls = listingUploadedPhotos
             };
 
             return model;

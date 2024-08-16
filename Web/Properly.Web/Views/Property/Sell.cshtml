@@ -14,12 +14,34 @@
         <div class="main-content-inner">
             <div class="widget-box-2">
                 <h6 class="title">Upload Media</h6>
+                @if (Model.UploadedPhotoUrls.Any())
+                {
+                    <div class="d-flex flex-wrap justify-content-center align-items-center">
+                        @foreach (var photoUrl in Model.UploadedPhotoUrls)
+                        {
+                            <div class="card m-2" style="width: 18rem;">
+                                <img src="@photoUrl" class="card-img-top" alt="...">
+                                <a href="#" class="delete-button position-absolute top-0 end-0 m-2 text-danger" title="Delete Image">
+                                    <i class="fa-solid fa-trash" style="color: #ed2027; font-size: 1.2rem;"></i>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
                 <div class="box-uploadfile text-center">
                     <label class="uploadfile">
                         <span class="icon icon-img-2"></span>
                         <div class="btn-upload">
                             <a class="tf-btn primary">Choose Images</a>
-                            <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple>
+                            @* Require images only when creating a new listing *@
+                            @if (Model.UploadedPhotoUrls.Any())
+                            {
+                                <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple>
+                            }
+                            else
+                            {
+                                <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple required>
+                            }
                         </div>
                         <span asp-validation-for="UploadedPhotos" class="text-danger"></span>
                         <p class="display-files fw-5">Or drop images here to upload</p>
