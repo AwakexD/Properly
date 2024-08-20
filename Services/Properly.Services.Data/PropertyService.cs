@@ -1,4 +1,7 @@
-﻿namespace Properly.Services.Data
+﻿using System.IO;
+using Properly.Common;
+
+namespace Properly.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +26,7 @@
         private readonly IMapper mapper;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
-        private readonly IDeletableEntityRepository<FavoriteListing> favoriteListingRepository;
+        private readonly IDeletableEntityRepository<FavoriteListing> favouriteListingRepository;
         private readonly IDeletableEntityRepository<PropertyFeature> propertyFeatureRepository;
         private readonly IDeletableEntityRepository<Photo> photoRepository;
 
@@ -38,7 +41,7 @@
             this.mapper = mapper;
             this.cloudinaryService = cloudinaryService;
             this.listingRepository = listingRepository;
-            this.favoriteListingRepository = favouriteListingRepository;
+            this.favouriteListingRepository = favouriteListingRepository;
             this.propertyFeatureRepository = propertyFeatureRepository;
             this.photoRepository = photoRepository;
         }
@@ -163,40 +166,11 @@
             return model;
         }
 
-        public async Task AddToFavouritesAsync(string listingId, string userId)
-        {
-            var favourite = await this.favoriteListingRepository.All().FirstOrDefaultAsync(x =>
-                x.ListingId == new Guid(listingId) && x.UserId == userId);
-
-            if (favourite is null)
-            {
-                favourite = new FavoriteListing { ListingId = new Guid(listingId), UserId = userId };
-
-                await this.favoriteListingRepository.AddAsync(favourite);
-            }
-            else
-            {
-                this.favoriteListingRepository.HardDelete(favourite);
-            }
-
-            await this.favoriteListingRepository.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<FavouritesDto>> GetUserFavourites(string userId)
-        {
-            var userFavourites = await this.favoriteListingRepository.AllAsNoTracking()
-                .Where(x => x.UserId == userId)
-                .Select(x => x.Listing)
-                .To<FavouritesDto>()
-                .ToListAsync();
-
-            return userFavourites;
-        }
-
         public async Task<IEnumerable<BaseListingViewModel>> GetUserListings(string userId)
         {
             return await this.listingRepository.AllAsNoTracking()
                 .Where(l => l.CreatorId == userId)
+                .OrderByDescending(l => l.CreatedOn)
                 .To<BaseListingViewModel>()
                 .ToListAsync();
         }
@@ -264,6 +238,29 @@
             await this.listingRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteListingImage(string userId, string listingId, string imageUrl)
+        {
+            var imageToDelete = await this.photoRepository.All()
+                .FirstOrDefaultAsync(p => p.ListingId == new Guid(listingId) && p.Url == imageUrl);
+
+            if (imageToDelete == null)
+            {
+                throw new InvalidOperationException(ExceptionsAndNotificationsMessages.ImageDoesNotExistError);
+            }
+
+            string imagePublicId = Path.GetFileNameWithoutExtension(imageUrl.Split('/').Last());
+
+            var deleteResult = await this.cloudinaryService.DeleteImageAsync(imagePublicId);
+
+            if (!deleteResult)
+            {
+                throw new InvalidOperationException(ExceptionsAndNotificationsMessages.ImageDeleteUnsuccessful);
+            }
+
+            this.photoRepository.HardDelete(imageToDelete);
+            await this.photoRepository.SaveChangesAsync();
+        }
+
         public async Task ChangeListingStatus(string userId, string listingId, Web.ViewModels.Listing.Enums.ListingStatus status)
         {
             var listingStatusToBeChanged = await this.listingRepository.All()
@@ -276,12 +273,6 @@
             }
 
             await this.listingRepository.SaveChangesAsync();
-        }
-
-        public async Task<bool> IsInFavourites(string listingId, string userId)
-        {
-            return await this.favoriteListingRepository.AllAsNoTracking()
-                .AnyAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
         }
 
         public int GetCount(string listingType)

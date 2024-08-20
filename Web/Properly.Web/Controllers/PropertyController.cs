@@ -55,6 +55,8 @@
                 else
                 {
                     viewModel = new CreateListingViewModel();
+
+                    TempData.Clear();
                 }
 
                 viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
@@ -88,13 +90,17 @@
                     viewModel.Address.Id = Convert.ToInt32(TempData["PropertyId"] as string);
 
                     await propertyService.UpdateListingAsync(viewModel, viewModel.Listing.Id.ToString(), user.Id);
+
+                    TempData.Clear();
                 }
                 else
                 {
                     await propertyService.CreateListingAsync(viewModel, user.Id);
+
+                    TempData.Clear();
                 }
 
-                return RedirectToAction("Id", "Listing", new {id = viewModel.Listing.Id});
+                return RedirectToAction("Dashboard", "User");
             }
             catch (Exception ex)
             {
@@ -152,17 +158,6 @@
                     { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
                     { "ListingsPerPage", queryModel.ListingsPerPage.ToString() }
                 }
-            };
-
-            return this.View(viewModel);
-        }
-
-        public async Task<IActionResult> Favourites()
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var viewModel = new FavoritesViewModel()
-            {
-                FavoriteListings = await this.propertyService.GetUserFavourites(user.Id),
             };
 
             return this.View(viewModel);

@@ -1,6 +1,4 @@
-﻿using Properly.Data.Models.Entities;
-
-namespace Properly.Web.ViewModels.Common
+﻿namespace Properly.Web.ViewModels.Common
 {
     using System;
     using System.Collections.Generic;
