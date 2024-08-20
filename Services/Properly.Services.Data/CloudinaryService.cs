@@ -35,13 +35,20 @@
             };
 
             var uploadResponse = await this.cloudinary.UploadAsync(uploadParams);
-
             return uploadResponse.SecureUrl.ToString();
         }
 
-        public string GetImageUrl(string imagePublicId)
+        public async Task<bool> DeleteImageAsync(string imagePublicId)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(imagePublicId))
+            {
+                throw new ArgumentException("Image public ID cannot be null or empty.", nameof(imagePublicId));
+            }
+
+            var deleteParams = new DeletionParams(imagePublicId) { ResourceType = ResourceType.Image };
+            var deleteResponse = await this.cloudinary.DestroyAsync(deleteParams);
+
+            return deleteResponse.Result == "ok";
         }
 
         private static async Task<byte[]> GetBytes(IFormFile formFile)

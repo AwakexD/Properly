@@ -11,6 +11,9 @@
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Web.ViewModels.Listing;
+    using Microsoft.AspNetCore.Http;
+    using Properly.Data.Models.Entities;
+    using System.Security.Claims;
 
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -27,10 +30,28 @@
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Favourite([FromBody]PropertyInteractionRequest input)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteImage([FromBody]DeleteImageRequest input)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return Unauthorized("User is not authenticated.");
+                }
+
+                await this.propertyService.DeleteListingImage(user.Id, input.ListingId, input.ImageUrl);
+
+                return Ok(new { Message = "Image deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
 
@@ -41,7 +62,7 @@
             try
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, ListingStatus.Sold);
+                await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, ViewModels.Listing.Enums.ListingStatus.Sold);
 
                 return this.RedirectToAction("Dashboard", "User");
 

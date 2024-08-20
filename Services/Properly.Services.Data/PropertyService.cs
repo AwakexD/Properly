@@ -248,7 +248,9 @@ namespace Properly.Services.Data
                 throw new InvalidOperationException(ExceptionsAndNotificationsMessages.ImageDoesNotExistError);
             }
 
-            string imagePublicId = Path.GetFileNameWithoutExtension(imageUrl.Split('/').Last());
+            string imagePublicId = imageUrl.Split(new[] { "upload/" }, StringSplitOptions.None)[1]
+                .Split(new[] { '/' }, 2)[1]
+                .Replace(".webp", "");
 
             var deleteResult = await this.cloudinaryService.DeleteImageAsync(imagePublicId);
 

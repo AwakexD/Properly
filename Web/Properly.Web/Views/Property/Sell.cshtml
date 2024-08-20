@@ -14,6 +14,7 @@
         <div class="main-content-inner">
             <div class="widget-box-2">
                 <h6 class="title">Upload Media</h6>
+                <input class="listingId" type="hidden" value="@Model.Listing.Id"/>
                 @if (Model.UploadedPhotoUrls.Any())
                 {
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
@@ -183,6 +184,7 @@
 
 @section Scripts {
     @* Display all picture names on upload *@
+    <script type="module" src="~/js/listingImagesHandler.js" asp-append-version="true"></script>
     <script>
         document.querySelector('.ip-file').addEventListener('change', function (event) {
             const fileList = event.target.files;
