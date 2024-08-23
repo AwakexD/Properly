@@ -252,7 +252,7 @@ namespace Properly.Services.Data
                 .Split(new[] { '/' }, 2)[1]
                 .Replace(".webp", "");
 
-            var deleteResult = await this.cloudinaryService.DeleteImageAsync(imagePublicId);
+            var deleteResult = await this.cloudinaryService.DeleteImageAsync([imagePublicId]);
 
             if (!deleteResult)
             {

@@ -1,4 +1,8 @@
-﻿namespace Properly.Services.Data
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+
+namespace Properly.Services.Data
 {
     using System;
     using System.IO;
@@ -8,6 +12,7 @@
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
     using Properly.Services.Data.Contracts;
+    using static System.Runtime.InteropServices.JavaScript.JSType;
 
     public class CloudinaryService : ICloudinaryService
     {
@@ -38,17 +43,28 @@
             return uploadResponse.SecureUrl.ToString();
         }
 
-        public async Task<bool> DeleteImageAsync(string imagePublicId)
+        public async Task<bool> DeleteImageAsync(List<string> imagePublicIds)
         {
-            if (string.IsNullOrEmpty(imagePublicId))
+            if (!imagePublicIds.Any())
             {
-                throw new ArgumentException("Image public ID cannot be null or empty.", nameof(imagePublicId));
+                throw new ArgumentException("Image public IDs cannot be null or empty.", nameof(imagePublicIds));
             }
 
-            var deleteParams = new DeletionParams(imagePublicId) { ResourceType = ResourceType.Image };
-            var deleteResponse = await this.cloudinary.DestroyAsync(deleteParams);
+            var deleteParams = new DelResParams
+            {
+                PublicIds = imagePublicIds,
+                Type = "upload",
+                ResourceType = ResourceType.Image,
+            };
 
-            return deleteResponse.Result == "ok";
+            var response = await this.cloudinary.DeleteResourcesAsync(deleteParams);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static async Task<byte[]> GetBytes(IFormFile formFile)

@@ -1,9 +1,10 @@
 ﻿import { post } from "./webApiRequester.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Document loaded.")
     const deleteButtons = document.querySelectorAll('.delete-button i.fa-trash');
     const listingId = document.querySelector('.listingId').value;
-    const antiForgeryTokenElement = document.querySelector("form > input[name=__RequestVerificationToken]").value;
+    const antiForgeryToken = document.querySelector("form > input[name=__RequestVerificationToken]").value;
 
 
     if (!antiForgeryToken) {
