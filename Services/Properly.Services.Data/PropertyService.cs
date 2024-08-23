@@ -238,7 +238,7 @@ namespace Properly.Services.Data
             await this.listingRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteListingImage(string userId, string listingId, string imageUrl)
+        public async Task<bool> DeleteListingImage(string userId, string listingId, string imageUrl)
         {
             var imageToDelete = await this.photoRepository.All()
                 .FirstOrDefaultAsync(p => p.ListingId == new Guid(listingId) && p.Url == imageUrl);
@@ -261,6 +261,8 @@ namespace Properly.Services.Data
 
             this.photoRepository.HardDelete(imageToDelete);
             await this.photoRepository.SaveChangesAsync();
+
+            return deleteResult;
         }
 
         public async Task ChangeListingStatus(string userId, string listingId, Web.ViewModels.Listing.Enums.ListingStatus status)

@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await post('/api/PropertyInteractions/DeleteImage', data, antiForgeryToken);
 
-                cardElement.style.display = 'none';
+                if (response.success) {
+                    cardElement.style.display = 'none';
+                }
             } catch (error) {
                 console.error("Error sending POST request.", error);
             }

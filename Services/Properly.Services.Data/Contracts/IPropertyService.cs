@@ -29,7 +29,7 @@ namespace Properly.Services.Data.Contracts
 
         Task DeactivateListing(string userId, string listingId);
 
-        Task DeleteListingImage(string userId, string listingId, string imageUrl);
+        Task<bool> DeleteListingImage(string userId, string listingId, string imageUrl);
 
         Task ChangeListingStatus(string userId, string listingId, ListingStatus status);
 

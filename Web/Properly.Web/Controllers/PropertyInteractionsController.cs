@@ -46,7 +46,7 @@
 
                 await this.propertyService.DeleteListingImage(user.Id, input.ListingId, input.ImageUrl);
 
-                return Ok(new { Message = "Image deleted successfully." });
+                return Ok(new { Message = "Image deleted successfully.", Success = true });
             }
             catch (Exception ex)
             {
@@ -80,13 +80,13 @@
             try
             {
                 var user = await this.userManager.GetUserAsync(this.User);
+                // Make the service method to return bool 
                 await this.propertyService.DeactivateListing(user.Id, input.ListingId);
 
-                return this.RedirectToAction("Dashboard", "User");
+                return this.Ok(new {Message = "Listing deleted successfully", Success = true });
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
                 return this.StatusCode(501, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
 

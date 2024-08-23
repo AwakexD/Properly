@@ -42,8 +42,8 @@
                                     <td class="align-middle text-center">
                                         <div class="btn-group-vertical">
                                             <a class="btn btn-sm btn-primary mb-1" asp-action="Sell" asp-controller="Property" asp-route-id="@listing.Id"><i class="icon icon-edit"></i> Edit</a>
-                                            <button type="button" class="btn btn-sm btn-success mb-1" id="soldBtn"><i class="icon icon-sold"></i> Sold</button>
-                                            <button type="button" class="btn btn-sm btn-danger mb-1" id="deleteBtn"><i class="icon icon-trash"></i> Delete</button>
+                                            <button type="button" class="btn btn-sm btn-success mb-1 soldBtn"><i class="icon icon-sold"></i> Sold</button>
+                                            <button type="button" class="btn btn-sm btn-danger mb-1 deleteBtn"><i class="icon icon-trash"></i> Delete</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -64,7 +64,7 @@
 
 @section Scripts
 {
-    <script type="module" src="~/js/listingActionsHandler.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/dashboardActionsHandler.js" asp-append-version="true"></script>
     <script>
         // Remove preload
         document.addEventListener('DOMContentLoaded', function () {
