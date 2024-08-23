@@ -20,19 +20,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleButtonClick = async (event) => {
         event.preventDefault();
 
+        const cardElement = event.target.closest('.card');
         const imageUrl = event.target.closest('.card').querySelector('.card-img-top').src;
 
-        const data = {
-            ListingId: listingId,
-            ImageUrl: imageUrl,
-        };
+        const swalAlert = await Swal.fire({
+            title: 'Are you sure you want to delete this photo?',
+            text: 'If you confirm, the photo will be permanently deleted.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel'
+        });
 
-        try {
-            const response = await post('/api/PropertyInteractions/DeleteImage', data, antiForgeryToken);
-            // Todo : Remove the image card from the DOM
-        } catch (error) {
-            console.error("Error sending POST request.", error);
+        if (swalAlert.isConfirmed) {
+            const data = {
+                ListingId: listingId,
+                ImageUrl: imageUrl,
+            };
+    
+            try {
+                const response = await post('/api/PropertyInteractions/DeleteImage', data, antiForgeryToken);
+
+                cardElement.style.display = 'none';
+            } catch (error) {
+                console.error("Error sending POST request.", error);
+            }
         }
+
     }
 
     deleteButtons.forEach(button => {
