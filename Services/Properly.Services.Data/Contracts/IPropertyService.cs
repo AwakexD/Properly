@@ -27,7 +27,7 @@ namespace Properly.Services.Data.Contracts
 
         Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId, string userId);
 
-        Task DeactivateListing(string userId, string listingId);
+        Task<bool> DeactivateListing(string userId, string listingId);
 
         Task<bool> DeleteListingImage(string userId, string listingId, string imageUrl);
 

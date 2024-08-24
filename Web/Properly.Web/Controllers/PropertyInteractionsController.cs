@@ -9,11 +9,8 @@
     using Properly.Common;
     using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
-    using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Web.ViewModels.Listing;
     using Microsoft.AspNetCore.Http;
-    using Properly.Data.Models.Entities;
-    using System.Security.Claims;
 
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -44,9 +41,9 @@
                     return Unauthorized("User is not authenticated.");
                 }
 
-                await this.propertyService.DeleteListingImage(user.Id, input.ListingId, input.ImageUrl);
+                var success = await this.propertyService.DeleteListingImage(user.Id, input.ListingId, input.ImageUrl);
 
-                return Ok(new { Message = "Image deleted successfully.", Success = true });
+                return Ok(new { Message = "Image deleted successfully.", Success = success });
             }
             catch (Exception ex)
             {
@@ -80,10 +77,15 @@
             try
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                // Make the service method to return bool 
-                await this.propertyService.DeactivateListing(user.Id, input.ListingId);
 
-                return this.Ok(new {Message = "Listing deleted successfully", Success = true });
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return Unauthorized("User is not authenticated.");
+                }
+
+                var success = await this.propertyService.DeactivateListing(user.Id, input.ListingId);
+
+                return this.Ok(new {Message = "Listing deleted successfully.", Success = success });
             }
             catch (Exception e)
             {

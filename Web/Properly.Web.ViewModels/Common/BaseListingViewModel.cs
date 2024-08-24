@@ -50,7 +50,7 @@
                 .ForMember(d => d.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(d => d.Size, opt => opt.MapFrom(src => src.Property.Size))
                 .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Property.Description))
-                .ForMember(d => d.ConstructionDate, opt => opt.MapFrom(src => src.Property.ConstructionDate.ToUniversalTime()))
+                .ForMember(d => d.ConstructionDate, opt => opt.MapFrom(src => src.Property.ConstructionDate))
                 .ForMember(d => d.Bathrooms, opt => opt.MapFrom(src => src.Property.Bathrooms))
                 .ForMember(d => d.PropertyFeatures, opt => opt.MapFrom(src => src.Property.PropertyFeatures.Select(x => x.Feature.Name)))
                 .ForMember(d => d.Bedrooms, opt => opt.MapFrom(src => src.Property.Bedrooms))

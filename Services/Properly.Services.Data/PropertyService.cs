@@ -228,14 +228,22 @@ namespace Properly.Services.Data
             return true;
         }
 
-        public async Task DeactivateListing(string userId, string listingId)
+        public async Task<bool> DeactivateListing(string userId, string listingId)
         {
             var listingToBeDeactivated = await this.listingRepository.All()
                 .FirstAsync(l => l.CreatorId == userId && l.Id.ToString() == listingId);
 
+            if (listingToBeDeactivated == null)
+            {
+                return false;
+            }
+
             this.listingRepository.Delete(listingToBeDeactivated);
 
-            await this.listingRepository.SaveChangesAsync();
+            // SaveChanges() return affected rows
+            var saveResult = await this.listingRepository.SaveChangesAsync();
+
+            return saveResult > 0;
         }
 
         public async Task<bool> DeleteListingImage(string userId, string listingId, string imageUrl)
