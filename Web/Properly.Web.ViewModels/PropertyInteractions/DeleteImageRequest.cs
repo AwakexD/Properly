@@ -1,4 +1,4 @@
-﻿namespace Properly.Web.ViewModels.Listing
+﻿namespace Properly.Web.ViewModels.PropertyInteractions
 {
     public class DeleteImageRequest
     {

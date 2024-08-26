@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
-namespace Properly.Services.Data.Contracts
+﻿namespace Properly.Services.Data.Contracts
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +29,7 @@ namespace Properly.Services.Data.Contracts
 
         Task<bool> DeleteListingImage(string userId, string listingId, string imageUrl);
 
-        Task ChangeListingStatus(string userId, string listingId, ListingStatus status);
+        Task<bool> ChangeListingStatus(string userId, string listingId, ListingStatus status);
 
         int GetCount(string type);
 

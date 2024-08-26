@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.Controllers
+﻿using Properly.Web.ViewModels.Listing.Enums;
+
+namespace Properly.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -9,8 +11,8 @@
     using Properly.Common;
     using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
-    using Properly.Web.ViewModels.Listing;
     using Microsoft.AspNetCore.Http;
+    using Properly.Web.ViewModels.PropertyInteractions;
 
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -54,14 +56,22 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Sold([FromBody]PropertyInteractionRequest input)
+        public async Task<IActionResult> UpdateStatus([FromBody]UpdateStatusRequest input)
         {
             try
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, ViewModels.Listing.Enums.ListingStatus.Sold);
 
-                return this.RedirectToAction("Dashboard", "User");
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return Unauthorized("User is not authenticated.");
+                }
+
+                Enum.TryParse(input.ListingStatus, out ListingStatus status);
+
+                var success = await this.propertyService.ChangeListingStatus(user.Id, input.ListingId, status);
+
+                return Ok(new { Message = "Listing status successfully updated.", Success = success });
 
             }
             catch (Exception e)

@@ -1,4 +1,5 @@
-﻿@model Properly.Web.ViewModels.Dashboard.DashboardViewModel
+﻿@using Properly.Web.ViewModels.Listing.Enums
+@model Properly.Web.ViewModels.Dashboard.DashboardViewModel
 @{
     this.ViewData["Title"] = "Dashboard";
 }
@@ -42,7 +43,32 @@
                                     <td class="align-middle text-center">
                                         <div class="btn-group-vertical">
                                             <a class="btn btn-sm btn-primary mb-1" asp-action="Sell" asp-controller="Property" asp-route-id="@listing.Id"><i class="icon icon-edit"></i> Edit</a>
-                                            <button type="button" class="btn btn-sm btn-success mb-1 soldBtn"><i class="icon icon-sold"></i> Sold</button>
+
+                                            @if (listing.ListingStatus == ListingStatus.Active.ToString())
+                                            {
+                                                <button type="button" class="btn btn-sm btn-success mb-1 soldBtn">
+                                                    <i class="fa-regular fa-handshake"></i>
+                                                    <span class="button-text"> Sold</span>
+                                                </button>
+                                            }
+                                            else if (listing.ListingStatus == ListingStatus.Sold.ToString())
+                                            {
+                                                <button type="button" class="btn btn-sm btn-success mb-1 soldBtn">
+                                                    <i class="fa-solid fa-angle-up"></i>
+                                                    <span class="button-text"> Activate</span>
+                                                </button>
+                                            }
+                                            else if (listing.ListingStatus == ListingStatus.Pending.ToString() ||
+                                                listing.ListingStatus == ListingStatus.Rented.ToString() ||
+                                                listing.ListingStatus == ListingStatus.ComingSoon.ToString() ||
+                                                listing.ListingStatus == ListingStatus.OffMarket.ToString())
+                                            {
+                                                <button type="button" class="btn btn-sm btn-secondary mb-1" disabled>
+                                                    <i class="icon icon-status"></i>
+                                                    <span class="button-text"> @listing.ListingStatus</span>
+                                                </button>
+                                            }
+
                                             <button type="button" class="btn btn-sm btn-danger mb-1 deleteBtn"><i class="icon icon-trash"></i> Delete</button>
                                         </div>
                                     </td>

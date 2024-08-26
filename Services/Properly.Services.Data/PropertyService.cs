@@ -273,7 +273,7 @@ namespace Properly.Services.Data
             return deleteResult;
         }
 
-        public async Task ChangeListingStatus(string userId, string listingId, Web.ViewModels.Listing.Enums.ListingStatus status)
+        public async Task<bool> ChangeListingStatus(string userId, string listingId, Web.ViewModels.Listing.Enums.ListingStatus status)
         {
             var listingStatusToBeChanged = await this.listingRepository.All()
                 .FirstAsync(l => l.CreatorId == userId && l.Id.ToString() == listingId);
@@ -284,7 +284,9 @@ namespace Properly.Services.Data
                 this.listingRepository.Update(listingStatusToBeChanged);
             }
 
-            await this.listingRepository.SaveChangesAsync();
+            var saveResult =  await this.listingRepository.SaveChangesAsync();
+
+            return saveResult > 0;
         }
 
         public int GetCount(string listingType)

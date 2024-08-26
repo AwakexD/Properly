@@ -1,6 +1,4 @@
-﻿using Properly.Data.Models;
-
-namespace Properly.Services.Data
+﻿namespace Properly.Services.Data
 {
     using System;
     using System.Collections;
