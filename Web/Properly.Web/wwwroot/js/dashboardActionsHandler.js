@@ -54,6 +54,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             listingRow.remove();
                         }
                     } catch (error) {
+                        Swal.fire({
+                            position: "top-end",
+                            width: '22em',
+                            title: 'Error!',
+                            icon: 'error',
+                            text: `${response.message}`,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            backdrop: false,
+                        });
                         console.error("Error sending POST request.", error);
                     }
                 }
@@ -102,16 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.success) {
                         statusSpan.innerText = newStatus;
 
-                        const icon = event.target.querySelector('i');
-                        const buttonTextNode = event.target.querySelector('span.button-text');
+                        const button = event.target.closest('button');
+                        const icon = button.querySelector('i');
+                        const buttonTextNode = button.querySelector('span.button-text')
 
-                        // Fix button text change
-                        if (newStatus === "Active") {
+                        console.log(buttonTextNode)
+
+                        if (newStatus === "Sold") {
                             icon.className = "fa-solid fa-angle-up";
-                            buttonTextNode.textContent = " Activate"; 
-                        } else if (newStatus === "Sold") {
+                            buttonTextNode.innerText = " Activate"; 
+                        } else if (newStatus === "Active") {
                             icon.className = "fa-regular fa-handshake";
-                            buttonTextNode.textContent = " Sold";
+                            buttonTextNode.innerText = " Sold";
                         } else {
                             event.target.disabled = true;
                         }
@@ -128,11 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } catch (error) {
                     Swal.fire({
+                        position: "top-end",
+                        width: '22em',
                         title: 'Error!',
-                        text: `Failed to update listing status.`,
                         icon: 'error',
-                        confirmButtonText: 'OK'
+                        text: `${response.message}`,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        backdrop: false,
                     });
+                    console.error("Error sending POST request.", error);
                 }
             }
         });
