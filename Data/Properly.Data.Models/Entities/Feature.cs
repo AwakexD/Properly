@@ -15,6 +15,9 @@
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        public string IconClass { get; set; }
+
         public virtual ICollection<PropertyFeature> PropertyFeatures { get; set; }
 
     }

@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model Properly.Web.ViewModels.Common.BaseListingViewModel
+﻿@model Properly.Web.ViewModels.Common.BaseListingViewModel
 @{
     this.ViewData["Title"] = "Listing view";
     var photosList = Model.Photos.ToList();
@@ -88,7 +87,7 @@
                             <a href="#" class="box-icon w-52"><i class="icon icon-garage"></i></a>
                             <div class="content">
                                 <span class="label">Garage:</span>
-                                <span>@((Model.PropertyFeatures.Any(x => x == "Garage")) ? "Yes" : "No")</span>
+                                <span>@((Model.PropertyFeatures.Any(x => x.Name == "Garage")) ? "Yes" : "No")</span>
                             </div>
                         </li>
                         <li class="item">
@@ -161,74 +160,18 @@
                         <div class="box-feature">
                             <div class="fw-7">Home safety:</div>
                             <ul>
-                                <li class="feature-item">
-                                    <span class="icon icon-smoke-alarm"></span>
-                                    Smoke alarm
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-carbon"></span>
-                                    Carbon monoxide alarm
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-kit"></span>
-                                    First aid kit
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-lockbox"></span>
-                                    Self check-in with lockbox
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-security"></span>
-                                    Security cameras
-                                </li>
+                                @foreach (var feature in @Model.PropertyFeatures)
+                                {
+                                    <li class="feature-item">
+                                        <i class="@feature.IconClass"></i>
+                                        @feature.Name
+                                    </li>
+                                }
                             </ul>
                         </div>
                         <div class="box-feature">
-                            <div class="fw-7">Bedroom:</div>
-                            <ul>
-                                <li class="feature-item">
-                                    <span class="icon icon-hanger"></span>
-                                    Hangers
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-bed-line"></span>
-                                    Bed linens
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-pillows"></span>
-                                    Extra pillows &amp; blankets
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-iron"></span>
-                                    Iron
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-tv"></span>
-                                    TV with standard cable
-                                </li>
-                            </ul>
                         </div>
                         <div class="box-feature">
-                            <div class="fw-7">Kitchen:</div>
-                            <ul>
-                                <li class="feature-item">
-                                    <span class="icon icon-refrigerator"></span>
-                                    Refrigerator
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-microwave"></span>
-                                    Microwave
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-microwave"></span>
-                                    Dishwasher
-                                </li>
-                                <li class="feature-item">
-                                    <span class="icon icon-coffee"></span>
-                                    Coffee maker
-                                </li>
-
-                            </ul>
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@
 
         public IEnumerable<string> Photos { get; set; }
 
-        public IEnumerable<string> PropertyFeatures { get; set; }
+        public IEnumerable<FeatureViewModel> PropertyFeatures { get; set; }
 
         public string FullAddress => $"{this.StreetName}, {this.City}, {this.ZipCode}";
 
@@ -52,7 +52,7 @@
                 .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Property.Description))
                 .ForMember(d => d.ConstructionDate, opt => opt.MapFrom(src => src.Property.ConstructionDate))
                 .ForMember(d => d.Bathrooms, opt => opt.MapFrom(src => src.Property.Bathrooms))
-                .ForMember(d => d.PropertyFeatures, opt => opt.MapFrom(src => src.Property.PropertyFeatures.Select(x => x.Feature.Name)))
+                .ForMember(d => d.PropertyFeatures, opt => opt.MapFrom(src => src.Property.PropertyFeatures.Select(x => x.Feature)))
                 .ForMember(d => d.Bedrooms, opt => opt.MapFrom(src => src.Property.Bedrooms))
                 .ForMember(d => d.PropertyTypeName, opt => opt.MapFrom(src => src.Property.PropertyType.Name))
                 .ForMember(d => d.ListingStatus, opt => opt.MapFrom(src => src.ListingStatus.Name))
