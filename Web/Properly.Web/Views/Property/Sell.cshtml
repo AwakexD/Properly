@@ -3,9 +3,13 @@
 @{
     this.ViewData["Title"] = "Submit a property";
 
-    var groupedFeatures = Model.ListingOptions.Features.Select((f, i) => new { Feature = f, Index = i })
-        .GroupBy(x => x.Index / 5)
-        .Select(g => g.Select(x => x.Feature));
+    var featureCount = Model.ListingOptions.Features.Count();
+    var featuresPerColumn = (int)Math.Ceiling((double)featureCount / 4);
+
+    var columns = Model.ListingOptions.Features
+        .Select((pf, index) => new { Id=pf.Id, Name = pf.Name, IconClass = pf.IconClass, Index = index })
+        .GroupBy(x => x.Index / featuresPerColumn)
+        .ToList();
 }
 
 <!-- Start Form -->
@@ -152,22 +156,23 @@
             <div class="widget-box-2">
                 <h6 class="title">Amenities<span>*</span></h6>
                 <div class="box-amenities-property">
-                    @foreach (var group in groupedFeatures)
+                    @foreach (var col in columns)
                     {
                         <div class="box-amenities">
-                            @foreach (var feature in group)
+                            @foreach (var feature in col)
                             {
                                 <fieldset class="amenities-item">
-                                    <input 
-                                        type="checkbox" 
-                                        class="tf-checkbox style-1 primary" 
-                                        id="feature-@feature.Id" 
-                                        name="Property.SelectedFeatures" 
+                                    <input
+                                        type="checkbox"
+                                        class="tf-checkbox style-1 primary"
+                                        id="feature-@feature.Id"
+                                        name="Property.SelectedFeatures"
                                         value="@feature.Id"
                                         @if (Model.Property.SelectedFeatures is not null)
                                         {
                                             @(Model.Property.SelectedFeatures.Contains(feature.Id) ? "checked" : "")
-                                        } />
+                                        }/>
+                                    <i class="@feature.IconClass"></i>
                                     <label for="feature-@feature.Id" class="text-cb-amenities">@feature.Name</label>
                                 </fieldset>
                             }

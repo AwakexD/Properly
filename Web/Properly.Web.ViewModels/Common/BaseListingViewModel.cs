@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Common
+﻿using Properly.Web.ViewModels.Sell.Options;
+
+namespace Properly.Web.ViewModels.Common
 {
     using System;
     using System.Collections.Generic;
@@ -39,7 +41,7 @@
 
         public IEnumerable<string> Photos { get; set; }
 
-        public IEnumerable<FeatureViewModel> PropertyFeatures { get; set; }
+        public IEnumerable<FeatureFormModel> PropertyFeatures { get; set; }
 
         public string FullAddress => $"{this.StreetName}, {this.City}, {this.ZipCode}";
 

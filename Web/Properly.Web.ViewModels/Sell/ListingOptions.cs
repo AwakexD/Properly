@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    using Properly.Web.ViewModels.Common;
     using Properly.Web.ViewModels.Sell.Options;
 
     public class ListingOptions

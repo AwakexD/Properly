@@ -2,6 +2,14 @@
 @{
     this.ViewData["Title"] = "Listing view";
     var photosList = Model.Photos.ToList();
+
+    var featureCount = Model.PropertyFeatures.Count();
+    var featuresPerColumn = (int)Math.Ceiling((double)featureCount / 3);
+
+    var columns = Model.PropertyFeatures
+        .Select((pf, index) => new { Name = pf.Name, IconClass = pf.IconClass, Index = index })
+        .GroupBy(x => x.Index / featuresPerColumn)
+        .ToList();
 }
 
 <section class="flat-gallery-single">
@@ -82,7 +90,6 @@
                                 <span>@Model.Bathrooms Rooms</span>
                             </div>
                         </li>
-                        @* Check if it has a garage *@
                         <li class="item">
                             <a href="#" class="box-icon w-52"><i class="icon icon-garage"></i></a>
                             <div class="content">
@@ -157,22 +164,20 @@
                     @* ToDO : Display All Features *@
                     <div class="h7 title fw-7">Amenities and features</div>
                     <div class="wrap-feature">
-                        <div class="box-feature">
-                            <div class="fw-7">Home safety:</div>
-                            <ul>
-                                @foreach (var feature in @Model.PropertyFeatures)
-                                {
-                                    <li class="feature-item">
-                                        <i class="@feature.IconClass"></i>
-                                        @feature.Name
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                        <div class="box-feature">
-                        </div>
-                        <div class="box-feature">
-                        </div>
+                        @foreach (var column in columns)
+                        {
+                            <div class="box-feature">
+                                <ul>
+                                    @foreach (var item in column)
+                                    {
+                                        <li class="feature-item">
+                                            <i class="@item.IconClass"></i> 
+                                            @item.Name
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
