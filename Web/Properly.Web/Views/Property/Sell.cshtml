@@ -16,12 +16,12 @@
 <form method="post" enctype="multipart/form-data" class="m-5 p-5 mt-3">
     <div class="main-content">
         <div class="main-content-inner">
-            <div class="widget-box-2">
+            <input class="listingId" type="hidden" value="@Model.Listing.Id"/>
+            <div class="widget-box-2" id="images-widget">
                 <h6 class="title">Upload Media</h6>
-                <input class="listingId" type="hidden" value="@Model.Listing.Id"/>
                 @if (Model.UploadedPhotoUrls.Any())
                 {
-                    <div class="d-flex flex-wrap justify-content-center align-items-center">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center" id="display-uploaded-images">
                         @foreach (var photoUrl in Model.UploadedPhotoUrls)
                         {
                             <div class="card m-2" style="width: 18rem;">
@@ -188,14 +188,5 @@
 <!-- End Form -->
 
 @section Scripts {
-    @* Display all picture names on upload *@
     <script type="module" src="~/js/listingImagesHandler.js" asp-append-version="true"></script>
-    <script>
-        document.querySelector('.ip-file').addEventListener('change', function (event) {
-            const fileList = event.target.files;
-            const fileNames = Array.from(fileList).map(file => file.name);
-            const fileNamesText = fileNames.join(', ');
-            document.querySelector('.display-files').textContent = fileNamesText;
-        });
-    </script>
 }
