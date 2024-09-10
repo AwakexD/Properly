@@ -11,23 +11,59 @@ $(document).ready(function () {
     thousand: ",",
     prefix: "$",
   });
+
+  function updateValues() {
+    rangeSlider.noUiSlider.on("update", function (values, handle) {
+      document.getElementById("slider-range-value1").innerHTML = values[0];
+      document.getElementById("slider-range-value2").innerHTML = values[1];
+      document.getElementById("minPrice").value = values[0];
+      document.getElementById("maxPrice").value = values[1];
+    });
+  }
+  
   noUiSlider.create(rangeSlider, {
-    start: [100, 650000],
-    step: 1,
+    start: [5000, 50000000],
+    step: 5000,
     range: {
-      min: [100],
-      max: [650000],
+      min: [5000],
+      max: [50000000],
     },
     format: moneyFormat,
     connect: true,
   });
+
+  document.getElementById("searchType").addEventListener('input', () => {
+    rangeSlider.noUiSlider.destroy();
+    
+    if (document.getElementById("searchType").value === "For Rent") {
+      noUiSlider.create(rangeSlider, {
+        start: [300, 30000],
+        step: 50,
+        range: {
+          min: [300],
+          max: [30000],
+        },
+        format: moneyFormat,
+        connect: true,
+      }); 
+    } else if(document.getElementById("searchType").value === "For Sale") {
+      noUiSlider.create(rangeSlider, {
+        start: [5000, 50000000],
+        step: 5000,
+        range: {
+          min: [5000],
+          max: [50000000],
+        },
+        format: moneyFormat,
+        connect: true,
+      });
+    }
+
+    updateValues();
+  })
+  
   // Set visual min and max values and also update value hidden form inputs
-  rangeSlider.noUiSlider.on("update", function (values, handle) {
-    document.getElementById("slider-range-value1").innerHTML = values[0];
-    document.getElementById("slider-range-value2").innerHTML = values[1];
-    document.getElementsByName("min-value").value = moneyFormat.from(values[0]);
-    document.getElementsByName("max-value").value = moneyFormat.from(values[1]);
-  });
+  updateValues();
 });
 
 $(document).ready(function () {
@@ -41,11 +77,11 @@ $(document).ready(function () {
     postfix: " SqFt",
   });
   noUiSlider.create(rangeSlider, {
-    start: [500, 1500],
-    step: 1,
+    start: [20, 8000],
+    step: 20,
     range: {
       min: [20],
-      max: [2000],
+      max: [8000],
     },
     format: moneyFormat,
     connect: true,
@@ -54,12 +90,8 @@ $(document).ready(function () {
   rangeSlider.noUiSlider.on("update", function (values, handle) {
     document.getElementById("slider-range-value01").innerHTML = values[0];
     document.getElementById("slider-range-value02").innerHTML = values[1];
-    document.getElementsByName("min-value2").value = moneyFormat.from(
-      values[0]
-    );
-    document.getElementsByName("max-value2").value = moneyFormat.from(
-      values[1]
-    );
+    document.getElementsByName("minSize").value = values[0];
+    document.getElementsByName("maxSize").value = values[1];
   });
 });
 
