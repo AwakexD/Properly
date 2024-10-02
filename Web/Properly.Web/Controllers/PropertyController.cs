@@ -108,7 +108,6 @@
             }
         }
 
-        // ToDO : Add Search
         public async Task<IActionResult> Buy([FromQuery] BuyViewModel queryModel, int id = 1)
         {
             const string listingType = "For Sale";
@@ -118,19 +117,31 @@
                 return this.NotFound();
             }
 
+            var queryParams = new Dictionary<string, string>
+            {
+                { "Keyword", queryModel.Keyword ?? "" },
+                { "Location", queryModel.Location ?? "" },
+                { "PropertyType", queryModel.PropertyType?.ToString() ?? "" },
+                { "MinPrice", queryModel.MinPrice?.ToString() ?? "" },
+                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? "" },
+                { "MinSize", queryModel.MinSize?.ToString() ?? "" },
+                { "MaxSize", queryModel.MaxSize?.ToString() ?? "" },
+                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? "" },
+                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? "" },
+                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : "" },
+                { "ListingsPerPage", queryModel.ListingsPerPage.ToString() },
+                { "ListingSorting", ((int)queryModel.ListingSorting).ToString() }
+            };
+
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
                 ItemsPerPage = queryModel.ListingsPerPage,
                 ListingSorting = queryModel.ListingSorting,
-                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
+                Listings = await this.propertyService.GetAllAsync(queryModel, id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
                 ListingCount = this.propertyService.GetCount(listingType),
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
-                QueryParameters = new Dictionary<string, string>()
-                {
-                    { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
-                    { "ListingsPerPage", queryModel.ListingsPerPage.ToString() }
-                }
+                QueryParameters = queryParams
             };
 
             return this.View(viewModel);

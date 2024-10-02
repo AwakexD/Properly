@@ -27,6 +27,6 @@
 
         public int? Rooms { get; set; }
 
-        public List<string> Features { get; set; }
+        public List<int> Features { get; set; }
     }
 }

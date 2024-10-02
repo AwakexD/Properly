@@ -6,7 +6,7 @@
     using Properly.Web.ViewModels.Listing.Enums;
     using Properly.Web.ViewModels.Sell.Options;
 
-    public class BuyViewModel : PagingViewModel
+    public class BuyViewModel : PropertyQueryModel
     {
         public BuyViewModel()
         {

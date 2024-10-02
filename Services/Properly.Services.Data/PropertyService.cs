@@ -1,5 +1,6 @@
-﻿using System.IO;
-using Properly.Common;
+﻿using Properly.Common;
+using Properly.Web.ViewModels.Buy;
+using Properly.Web.ViewModels.Home;
 
 namespace Properly.Services.Data
 {
@@ -19,7 +20,6 @@ namespace Properly.Services.Data
     using Properly.Web.ViewModels.Common;
     using Properly.Web.ViewModels.Listing;
     using Properly.Web.ViewModels.Sell;
-    using AutoMapper.Features;
 
     public class PropertyService : IPropertyService
     {
@@ -104,6 +104,93 @@ namespace Properly.Services.Data
                 _ => query.OrderByDescending(l => l.CreatedOn),
             };
 
+            var listings = await query
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .To<BaseListingViewModel>()
+                .ToListAsync();
+
+            return listings;
+        }
+
+        public async Task<IEnumerable<BaseListingViewModel>> GetAllAsync(BuyViewModel queryModel, int page, string type, ListingSorting sorting, int itemsPerPage = 6)
+        {
+            var query = this.listingRepository.AllAsNoTracking()
+                .Include(l => l.Property)
+                .ThenInclude(p => p.PropertyType)
+                .Where(l => l.ListingType.Name == type);
+
+
+            if (!string.IsNullOrWhiteSpace(queryModel.Keyword))
+            {
+                query = query.Where(l => l.Property.Description.Contains(queryModel.Keyword));
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryModel.Location))
+            {
+                string location = queryModel.Location.Trim().ToLower();
+
+                query = query.Where(l =>
+                    l.Property.Address.City.ToLower().Contains(location) ||
+                    l.Property.Address.StreetName.ToLower().Contains(location) ||
+                    l.Property.Address.Country.ToLower().Contains(location) ||
+                    l.Property.Address.ZipCode.ToLower().Contains(location)); ;
+            }
+
+            if (queryModel.PropertyType.HasValue)
+            {
+                query = query.Where(l => l.Property.PropertyType.Id == queryModel.PropertyType.Value);
+            }
+
+            // ToDo : Fix price and size filters
+            if (queryModel.MinPrice.HasValue)
+            {
+                query = query.Where(l => l.Price >= queryModel.MinPrice.Value);
+            }
+
+            if (queryModel.MaxPrice.HasValue)
+            {
+                query = query.Where(l => l.Price <= queryModel.MaxPrice.Value);
+            }
+
+            if (queryModel.MinSize.HasValue)
+            {
+                query = query.Where(l => l.Property.Size >= queryModel.MinSize.Value);
+            }
+
+            if (queryModel.MaxSize.HasValue)
+            {
+                query = query.Where(l => l.Property.Size <= queryModel.MaxSize.Value);
+            }
+
+            if (queryModel.Bedrooms.HasValue)
+            {
+                query = query.Where(l => l.Property.Bedrooms == queryModel.Bedrooms.Value);
+            }
+
+            if (queryModel.Bathrooms.HasValue)
+            {
+                query = query.Where(l => l.Property.Bathrooms == queryModel.Bathrooms.Value);
+            }
+
+            if (queryModel.Features != null && queryModel.Features.Any())
+            {
+                query = query.Where(l =>
+                    l.Property.PropertyFeatures.Any(f => queryModel.Features.Contains(f.Feature.Id))
+                );
+            }
+
+            // ToDO : Fix sorting parameters issue
+            query = sorting switch
+            {
+                ListingSorting.Newest => query.OrderByDescending(l => l.CreatedOn),
+                ListingSorting.Oldest => query.OrderBy(l => l.CreatedOn),
+                ListingSorting.AscendingPrice => query.OrderBy(l => l.Price),
+                ListingSorting.DescendingPrice => query.OrderByDescending(l => l.Price),
+                _ => query.OrderByDescending(l => l.CreatedOn),
+            };
+
+            // ToDO : Issue with pagination extra empty page
             var listings = await query
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)

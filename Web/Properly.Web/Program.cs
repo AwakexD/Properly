@@ -95,8 +95,6 @@ namespace Properly.Web
             // Register AutoMapper
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             services.AddSingleton(typeof(IMapper), AutoMapperConfig.MapperInstance);
-
-            // TODO : WebApplicationBuilderExtensions
         }
 
         private static void Configure(WebApplication app)

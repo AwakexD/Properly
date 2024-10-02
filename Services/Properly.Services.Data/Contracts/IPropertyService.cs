@@ -1,4 +1,6 @@
-﻿namespace Properly.Services.Data.Contracts
+﻿using Properly.Web.ViewModels.Buy;
+
+namespace Properly.Services.Data.Contracts
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +18,8 @@
         Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
 
         Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6);
+
+        Task<IEnumerable<BaseListingViewModel>> GetAllAsync(BuyViewModel queryModel, int page, string type, ListingSorting sorting,int itemsPerPage = 6);
 
         Task<BaseListingViewModel> GetListingById(Guid id);
 
