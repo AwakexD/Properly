@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.Controllers
+﻿using System.Linq;
+
+namespace Properly.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +10,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Properly.Common;
+    using Properly.Data.Models.Entities;
     using Properly.Data.Models.User;
     using Properly.Services.Data.Contracts;
     using Properly.Web.ViewModels.Buy;
@@ -133,16 +136,19 @@
                 { "ListingSorting", ((int)queryModel.ListingSorting).ToString() }
             };
 
+            var (listings, totalCount) = await this.propertyService.GetAllAsync(queryModel, id, listingType);
+
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
                 ItemsPerPage = queryModel.ListingsPerPage,
                 ListingSorting = queryModel.ListingSorting,
-                Listings = await this.propertyService.GetAllAsync(queryModel, id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
-                ListingCount = this.propertyService.GetCount(listingType),
+                Listings = listings,
+                ListingCount = totalCount,
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
                 QueryParameters = queryParams
             };
+
 
             return this.View(viewModel);
         }

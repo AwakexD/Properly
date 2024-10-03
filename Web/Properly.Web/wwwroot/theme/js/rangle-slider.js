@@ -16,8 +16,8 @@ $(document).ready(function () {
     rangeSlider.noUiSlider.on("update", function (values, handle) {
       document.getElementById("slider-range-value1").innerHTML = values[0];
       document.getElementById("slider-range-value2").innerHTML = values[1];
-      document.getElementById("minPrice").value = values[0];
-      document.getElementById("maxPrice").value = values[1];
+      document.getElementById("minPrice").value = values[0].replace(/[$,]/g, '');;
+      document.getElementById("maxPrice").value = values[1].replace(/[$,]/g, '');;
     });
   }
   
@@ -90,8 +90,8 @@ $(document).ready(function () {
   rangeSlider.noUiSlider.on("update", function (values, handle) {
     document.getElementById("slider-range-value01").innerHTML = values[0];
     document.getElementById("slider-range-value02").innerHTML = values[1];
-    document.getElementsByName("minSize").value = values[0];
-    document.getElementsByName("maxSize").value = values[1];
+    document.getElementById("minSize").value = values[0].replace(/\s*SqFt/g, '').replace(/,/g, '');
+    document.getElementById("maxSize").value = values[1].replace(/\s*SqFt/g, '').replace(/,/g, '');
   });
 });
 

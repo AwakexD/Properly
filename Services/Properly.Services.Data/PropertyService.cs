@@ -113,11 +113,9 @@ namespace Properly.Services.Data
             return listings;
         }
 
-        public async Task<IEnumerable<BaseListingViewModel>> GetAllAsync(BuyViewModel queryModel, int page, string type, ListingSorting sorting, int itemsPerPage = 6)
+        public async Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllAsync(BuyViewModel queryModel, int page, string type)
         {
             var query = this.listingRepository.AllAsNoTracking()
-                .Include(l => l.Property)
-                .ThenInclude(p => p.PropertyType)
                 .Where(l => l.ListingType.Name == type);
 
 
@@ -142,7 +140,6 @@ namespace Properly.Services.Data
                 query = query.Where(l => l.Property.PropertyType.Id == queryModel.PropertyType.Value);
             }
 
-            // ToDo : Fix price and size filters
             if (queryModel.MinPrice.HasValue)
             {
                 query = query.Where(l => l.Price >= queryModel.MinPrice.Value);
@@ -180,8 +177,10 @@ namespace Properly.Services.Data
                 );
             }
 
+            int totalCount = await query.CountAsync();
+
             // ToDO : Fix sorting parameters issue
-            query = sorting switch
+            query = queryModel.ListingSorting switch
             {
                 ListingSorting.Newest => query.OrderByDescending(l => l.CreatedOn),
                 ListingSorting.Oldest => query.OrderBy(l => l.CreatedOn),
@@ -190,14 +189,13 @@ namespace Properly.Services.Data
                 _ => query.OrderByDescending(l => l.CreatedOn),
             };
 
-            // ToDO : Issue with pagination extra empty page
             var listings = await query
-                .Skip((page - 1) * itemsPerPage)
-                .Take(itemsPerPage)
+                .Skip((page - 1) * queryModel.ItemsPerPage)
+                .Take(queryModel.ItemsPerPage)
                 .To<BaseListingViewModel>()
                 .ToListAsync();
 
-            return listings;
+            return (listings, totalCount);
         }
 
         public async Task<BaseListingViewModel> GetListingById(Guid id)

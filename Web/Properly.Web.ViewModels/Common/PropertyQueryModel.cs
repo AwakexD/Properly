@@ -25,8 +25,6 @@
 
         public int? Bathrooms { get; set; }
 
-        public int? Rooms { get; set; }
-
         public List<int> Features { get; set; }
     }
 }

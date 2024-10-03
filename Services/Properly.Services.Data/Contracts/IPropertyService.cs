@@ -19,7 +19,7 @@ namespace Properly.Services.Data.Contracts
 
         Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6);
 
-        Task<IEnumerable<BaseListingViewModel>> GetAllAsync(BuyViewModel queryModel, int page, string type, ListingSorting sorting,int itemsPerPage = 6);
+        Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllAsync(BuyViewModel queryModel, int page, string type);
 
         Task<BaseListingViewModel> GetListingById(Guid id);
 
