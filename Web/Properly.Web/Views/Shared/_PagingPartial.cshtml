@@ -4,7 +4,7 @@
     <li>
         <a class="nav-item" asp-controller="Property" asp-action="Buy"
            asp-route-id="@Model.PreviousPageNumber"
-           asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+           asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
            asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
            asp-route-Keyword="@Model.QueryParameters["Keyword"]"
            asp-route-Location="@Model.QueryParameters["Location"]"
@@ -28,7 +28,7 @@
             <li>
                 <a class="nav-item" asp-controller="Property" asp-action="Buy"
                    asp-route-id="@i"
-                   asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+                   asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
                    asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
                    asp-route-Keyword="@Model.QueryParameters["Keyword"]"
                    asp-route-Location="@Model.QueryParameters["Location"]"
@@ -56,7 +56,7 @@
             <li>
                 <a class="nav-item" asp-controller="Property" asp-action="Buy"
                    asp-route-id="@i"
-                   asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+                   asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
                    asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
                    asp-route-Keyword="@Model.QueryParameters["Keyword"]"
                    asp-route-Location="@Model.QueryParameters["Location"]"
@@ -77,7 +77,7 @@
     <li>
         <a class="nav-item" asp-controller="Property" asp-action="Buy"
            asp-route-id="@Model.NextPageNumber"
-           asp-route-ListingsPerPage="@Model.QueryParameters["ListingsPerPage"]"
+           asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
            asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
            asp-route-Keyword="@Model.QueryParameters["Keyword"]"
            asp-route-Location="@Model.QueryParameters["Location"]"

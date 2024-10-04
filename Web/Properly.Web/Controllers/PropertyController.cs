@@ -132,8 +132,8 @@ namespace Properly.Web.Controllers
                 { "Bathrooms", queryModel.Bathrooms?.ToString() ?? "" },
                 { "Bedrooms", queryModel.Bedrooms?.ToString() ?? "" },
                 { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : "" },
-                { "ListingsPerPage", queryModel.ListingsPerPage.ToString() },
-                { "ListingSorting", ((int)queryModel.ListingSorting).ToString() }
+                { "ItemsPerPage", queryModel.ItemsPerPage.ToString() },
+                { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
             };
 
             var (listings, totalCount) = await this.propertyService.GetAllAsync(queryModel, id, listingType);
@@ -141,12 +141,12 @@ namespace Properly.Web.Controllers
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
-                ItemsPerPage = queryModel.ListingsPerPage,
+                ItemsPerPage = queryModel.ItemsPerPage,
                 ListingSorting = queryModel.ListingSorting,
                 Listings = listings,
                 ListingCount = totalCount,
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
-                QueryParameters = queryParams
+                QueryParameters = queryParams,
             };
 
 
@@ -162,20 +162,35 @@ namespace Properly.Web.Controllers
                 return this.NotFound();
             }
 
+            var queryParams = new Dictionary<string, string>
+            {
+                { "Keyword", queryModel.Keyword ?? "" },
+                { "Location", queryModel.Location ?? "" },
+                { "PropertyType", queryModel.PropertyType?.ToString() ?? "" },
+                { "MinPrice", queryModel.MinPrice?.ToString() ?? "" },
+                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? "" },
+                { "MinSize", queryModel.MinSize?.ToString() ?? "" },
+                { "MaxSize", queryModel.MaxSize?.ToString() ?? "" },
+                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? "" },
+                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? "" },
+                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : "" },
+                { "ItemsPerPage", queryModel.ItemsPerPage.ToString() },
+                { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
+            };
+
+            var (listings, totalCount) = await this.propertyService.GetAllAsync(queryModel, id, listingType);
+
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
                 ItemsPerPage = queryModel.ListingsPerPage,
                 ListingSorting = queryModel.ListingSorting,
-                Listings = await this.propertyService.GetAll(id, listingType, queryModel.ListingSorting, queryModel.ListingsPerPage),
-                ListingCount = this.propertyService.GetCount(listingType),
+                Listings = listings,
+                ListingCount = totalCount,
                 PropertyTypes = await this.optionsService.GetPropertyTypes(),
-                QueryParameters = new Dictionary<string, string>()
-                {
-                    { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
-                    { "ListingsPerPage", queryModel.ListingsPerPage.ToString() }
-                }
+                QueryParameters = queryParams,
             };
+
 
             return this.View(viewModel);
         }

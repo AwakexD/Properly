@@ -14,7 +14,6 @@
                     <option value="6">6 Per Page</option>
                     <option value="8">8 Per Page</option>
                     <option value="10">10 Per Page</option>
-                    <option value="10">12 Per Page</option>
                     </ul>
                 </select>
                 <select asp-for="@Model.ListingSorting" id="sortingSelect" class="nice-select list-sort" tabindex="0">
@@ -152,4 +151,8 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script type="module" src="~/js/listingSortingHandler.js" asp-append-version="true"></script>
+}
 

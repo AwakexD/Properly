@@ -12,7 +12,6 @@ namespace Properly.Services.Data
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
     using Properly.Services.Data.Contracts;
-    using static System.Runtime.InteropServices.JavaScript.JSType;
 
     public class CloudinaryService : ICloudinaryService
     {

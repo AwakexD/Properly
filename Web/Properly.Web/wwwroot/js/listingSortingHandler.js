@@ -5,7 +5,7 @@ $(document).ready(function () {
 
         const url = new URL(window.location.href);
 
-        url.searchParams.set('ListingsPerPage', itemsPerPage);
+        url.searchParams.set('ItemsPerPage', itemsPerPage);
         url.searchParams.set('ListingSorting', sorting);
 
         window.location.href = url.toString();

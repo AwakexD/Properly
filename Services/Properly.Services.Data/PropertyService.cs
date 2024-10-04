@@ -132,7 +132,7 @@ namespace Properly.Services.Data
                     l.Property.Address.City.ToLower().Contains(location) ||
                     l.Property.Address.StreetName.ToLower().Contains(location) ||
                     l.Property.Address.Country.ToLower().Contains(location) ||
-                    l.Property.Address.ZipCode.ToLower().Contains(location)); ;
+                    l.Property.Address.ZipCode.ToLower().Contains(location));
             }
 
             if (queryModel.PropertyType.HasValue)
@@ -179,7 +179,6 @@ namespace Properly.Services.Data
 
             int totalCount = await query.CountAsync();
 
-            // ToDO : Fix sorting parameters issue
             query = queryModel.ListingSorting switch
             {
                 ListingSorting.Newest => query.OrderByDescending(l => l.CreatedOn),
