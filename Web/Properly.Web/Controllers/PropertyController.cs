@@ -65,7 +65,7 @@ namespace Properly.Web.Controllers
                 viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
             }
             catch (Exception)
-            {
+            {             
                 return StatusCode(500, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
 
@@ -122,16 +122,16 @@ namespace Properly.Web.Controllers
 
             var queryParams = new Dictionary<string, string>
             {
-                { "Keyword", queryModel.Keyword ?? "" },
-                { "Location", queryModel.Location ?? "" },
-                { "PropertyType", queryModel.PropertyType?.ToString() ?? "" },
-                { "MinPrice", queryModel.MinPrice?.ToString() ?? "" },
-                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? "" },
-                { "MinSize", queryModel.MinSize?.ToString() ?? "" },
-                { "MaxSize", queryModel.MaxSize?.ToString() ?? "" },
-                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? "" },
-                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? "" },
-                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : "" },
+                { "Keyword", queryModel.Keyword ?? string.Empty },
+                { "Location", queryModel.Location ?? string.Empty },
+                { "PropertyType", queryModel.PropertyType?.ToString() ?? string.Empty },
+                { "MinPrice", queryModel.MinPrice?.ToString() ?? string.Empty },
+                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? string.Empty },
+                { "MinSize", queryModel.MinSize?.ToString() ?? string.Empty },
+                { "MaxSize", queryModel.MaxSize?.ToString() ?? string.Empty },
+                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? string.Empty },
+                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? string.Empty },
+                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : string.Empty },
                 { "ItemsPerPage", queryModel.ItemsPerPage.ToString() },
                 { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
             };
@@ -165,15 +165,15 @@ namespace Properly.Web.Controllers
             var queryParams = new Dictionary<string, string>
             {
                 { "Keyword", queryModel.Keyword ?? "" },
-                { "Location", queryModel.Location ?? "" },
-                { "PropertyType", queryModel.PropertyType?.ToString() ?? "" },
-                { "MinPrice", queryModel.MinPrice?.ToString() ?? "" },
-                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? "" },
-                { "MinSize", queryModel.MinSize?.ToString() ?? "" },
-                { "MaxSize", queryModel.MaxSize?.ToString() ?? "" },
-                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? "" },
-                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? "" },
-                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : "" },
+                { "Location", queryModel.Location ?? string.Empty },
+                { "PropertyType", queryModel.PropertyType?.ToString() ?? string.Empty },
+                { "MinPrice", queryModel.MinPrice?.ToString() ?? string.Empty },
+                { "MaxPrice", queryModel.MaxPrice?.ToString() ?? string.Empty },
+                { "MinSize", queryModel.MinSize?.ToString() ?? string.Empty },
+                { "MaxSize", queryModel.MaxSize?.ToString() ?? string.Empty },
+                { "Bathrooms", queryModel.Bathrooms?.ToString() ?? string.Empty },
+                { "Bedrooms", queryModel.Bedrooms?.ToString() ?? string.Empty },
+                { "Features", queryModel.Features != null ? string.Join(",", queryModel.Features) : string.Empty},
                 { "ItemsPerPage", queryModel.ItemsPerPage.ToString() },
                 { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
             };
@@ -183,7 +183,7 @@ namespace Properly.Web.Controllers
             BuyViewModel viewModel = new BuyViewModel()
             {
                 PageNumber = id,
-                ItemsPerPage = queryModel.ListingsPerPage,
+                ItemsPerPage = queryModel.ItemsPerPage,
                 ListingSorting = queryModel.ListingSorting,
                 Listings = listings,
                 ListingCount = totalCount,
