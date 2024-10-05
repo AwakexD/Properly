@@ -1,4 +1,7 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+
+using System.ComponentModel.DataAnnotations;
+
 namespace Properly.Data.Models.User
 {
     using System;
@@ -19,6 +22,14 @@ namespace Properly.Data.Models.User
             Listings = new HashSet<Listing>();
             FavoriteListings = new HashSet<FavoriteListing>();
         }
+
+        [Required]
+        [StringLength(30)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        public string LastName { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

@@ -12,9 +12,24 @@
                     <h3 class="title text-center">Register</h3>
                     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                         <fieldset class="box-fieldset">
+                            <label asp-for="Input.FirstName">First Name<span>*</span>:</label>
+                            <input asp-for="Input.FirstName" autocomplete="username" aria-required="true" placeholder="First Name" type="text" class="form-contact style-1">
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </fieldset>
+                       <fieldset class="box-fieldset">
+                            <label asp-for="Input.LastName">Last Name<span>*</span>:</label>
+                            <input asp-for="Input.LastName" autocomplete="username" aria-required="true" placeholder="Last Name" type="text" class="form-contact style-1">
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="box-fieldset">
                             <label asp-for="Input.Email">Email Address<span>*</span>:</label>
                             <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" type="text" class="form-contact style-1">
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Input.PhoneNumber">PhoneNumber<span>*</span>:</label>
+                            <input asp-for="Input.PhoneNumber" autocomplete="phonenumber" aria-required="true" placeholder="Phone Number" type="text" class="form-contact style-1">
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                         </fieldset>
                         <fieldset class="box-fieldset">
                             <label asp-for="Input.Password">Password<span>*</span>:</label>

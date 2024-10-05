@@ -32,5 +32,11 @@ namespace Properly.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Messages()
+        {
+            return this.View();
+        }
     }
 }
