@@ -1,7 +1,13 @@
-﻿@model Properly.Web.ViewModels.Common.BaseListingViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Properly.Data.Models.User
+@inject UserManager<ApplicationUser> UserManager
+@model Properly.Web.ViewModels.Common.BaseListingViewModel
 @{
     this.ViewData["Title"] = "Listing view";
     var photosList = Model.Photos.ToList();
+
+    var isOwner = UserManager.GetUserId(this.User) == Model.CreatorId;
 
     var featureCount = Model.PropertyFeatures.Count();
     var featuresPerColumn = (int)Math.Ceiling((double)featureCount / 3);
@@ -28,215 +34,222 @@
 </section>
 
 <section class="flat-section-v6 flat-property-detail-v3">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="header-property-detail">
-                    <div class="content-top d-flex justify-content-between align-items-center">
-                        <div class="box-name">
-                            <a href="#" class="flag-tag primary">For Rent</a>
-                            <h4 class="title link">@Model.FullAddress</h4>
-                        </div>
-                        <div class="box-price d-flex align-items-center">
-                            <h5>@Model.Price.ToString("C0")</h5>
-                            @if (Model.ListingType == "For Rent")
-                            {
-                                <h6 class="text-variant-1">/mo.</h6>
-                            }
-                        </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-@(isOwner ? "12" : "8" )">
+            <div class="header-property-detail">
+                <div class="content-top d-flex justify-content-between align-items-center">
+                    <div class="box-name">
+                        <a href="#" class="flag-tag primary">@Model.ListingType</a>
+                        <h4 class="title link">@Model.FullAddress</h4>
                     </div>
-                    <div class="content-bottom">
-                        <div class="info-box">
-                            <div class="label">FEATUREs:</div>
-                            <ul class="meta">
-                                <li class="meta-item"><span class="icon icon-bed"></span> @Model.Bedrooms Bedroom</li>
-                                <li class="meta-item"><span class="icon icon-bathtub"></span> @Model.Bathrooms Bathroom</li>
-                                <li class="meta-item"><span class="icon icon-ruler"></span> @Model.Size SqFT</li>
-                            </ul>
-                        </div>
-
-                        <ul class="icon-box">
-                            <li><a href="#" class="item"><span class="icon icon-heart"></span></a></li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div class="single-property-element single-property-desc">
-                    <div class="h7 title fw-7">Description</div>
-                    <p class="mt-8 body-2 text-variant-1">@Model.Description</p>
-                    <a href="#" class="btn-view"><span class="text">View More</span> </a>
-                </div>
-                <div class="single-property-element single-property-overview">
-                    <div class="h7 title fw-7">Overview</div>
-                    <ul class="info-box">
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-arrLeftRight"></i></a>
-                            <div class="content">
-                                <span class="label">Type:</span>
-                                <span>@Model.PropertyTypeName</span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-bed"></i></a>
-                            <div class="content">
-                                <span class="label">Bedrooms:</span>
-                                <span>@Model.Bedrooms Rooms</span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-bathtub"></i></a>
-                            <div class="content">
-                                <span class="label">Bathrooms:</span>
-                                <span>@Model.Bathrooms Rooms</span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-garage"></i></a>
-                            <div class="content">
-                                <span class="label">Garage:</span>
-                                <span>@((Model.PropertyFeatures.Any(x => x.Name == "Garage")) ? "Yes" : "No")</span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-ruler"></i></a>
-                            <div class="content">
-                                <span class="label">Size:</span>
-                                <span>@Model.Size SqFt</span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <a href="#" class="box-icon w-52"><i class="icon icon-hammer"></i></a>
-                            <div class="content">
-                                <span class="label">Year Built:</span>
-                                <span>@Model.ConstructionDate.ToLocalTime()</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="single-property-element single-property-info">
-                    <div class="h7 title fw-7">Property Details</div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Bedrooms:</span>
-                                <div class="content fw-7">@Model.Bedrooms</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Price:</span>
-                                <div class="content fw-7">@Model.Price.ToString("C0") @* <span class="caption-1 fw-4 text-variant-1">/month</span> *@</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Property Size:</span>
-                                <div class="content fw-7">@Model.Size SqFt</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Bathrooms:</span>
-                                <div class="content fw-7">@Model.Bathrooms</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Year built:</span>
-                                <div class="content fw-7">@Model.ConstructionDate.Year</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Property Type:</span>
-                                <div class="content fw-7">@Model.PropertyTypeName</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inner-box">
-                                <span class="label">Property Status:</span>
-                                <div class="content fw-7">For Sale | For Rent</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-property-element single-property-feature">
-                    <div class="h7 title fw-7">Amenities and features</div>
-                    <div class="wrap-feature">
-                        @foreach (var column in columns)
+                    <div class="box-price d-flex align-items-center">
+                        <h5>@Model.Price.ToString("C0")</h5>
+                        @if (Model.ListingType == "For Rent")
                         {
-                            <div class="box-feature">
-                                <ul>
-                                    @foreach (var item in column)
-                                    {
-                                        <li class="feature-item">
-                                            <i class="@item.IconClass"></i> 
-                                            @item.Name
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
+                            <h6 class="text-variant-1">/mo.</h6>
                         }
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="widget-sidebar fixed-sidebar wrapper-sidebar-right">
-                    <div class="widget-box single-property-contact bg-surface">
-                        <div class="h7 title fw-7">Contact Sellers</div>
-                        <div class="box-avatar">
-                            <div class="avatar avt-100 round">
-                                <img src="images/avatar/avt-12.jpg" alt="avatar">
-                            </div>
-                            <div class="info">
-                                <div class="text-1 name">Shara Conner</div>
-                                <span>1-333-345-6868 themesflat@gmail.com</span>
-                            </div>
-                        </div>
-                        <form action="#" class="contact-form">
-                            <div class="ip-group">
-                                <label for="fullname">Full Name:</label>
-                                <input type="text" placeholder="Jony Dane" class="form-control">
-                            </div>
-                            <div class="ip-group">
-                                <label for="phone">Phone Number:</label>
-                                <input type="text" placeholder="ex 0123456789" class="form-control">
-                            </div>
-                            <div class="ip-group">
-                                <label for="email">Email Address:</label>
-                                <input type="text" placeholder="themesflat@gmail.com" class="form-control">
-                            </div>
-                            <div class="ip-group">
-                                <label for="message">Your Message:</label>
-                                <textarea id="comment-message" name="message" rows="4" tabindex="4" placeholder="Message" aria-required="true"></textarea>
-                            </div>
-                            <button class="tf-btn primary w-100">Send Message</button>
-                        </form>
-                    </div>
-                    <div class="widget-box single-property-whychoose bg-surface">
-                        <div class="h7 title fw-7">Why Choose Us?</div>
-                        <ul class="box-whychoose">
-                            <li class="item-why">
-                                <i class="icon icon-secure"></i>
-                                Secure Booking
-                            </li>
-                            <li class="item-why">
-                                <i class="icon icon-guarantee"></i>
-                                Best Price Guarantee
-                            </li>
-                            <li class="item-why">
-                                <i class="icon icon-booking"></i>
-                                Easy Booking Process
-                            </li>
-                            <li class="item-why">
-                                <i class="icon icon-support"></i>
-                                Available Support 24/7
-                            </li>
+                <div class="content-bottom">
+                    <div class="info-box">
+                        <div class="label">FEATUREs:</div>
+                        <ul class="meta">
+                            <li class="meta-item"><span class="icon icon-bed"></span> @Model.Bedrooms Bedroom</li>
+                            <li class="meta-item"><span class="icon icon-bathtub"></span> @Model.Bathrooms Bathroom</li>
+                            <li class="meta-item"><span class="icon icon-ruler"></span> @Model.Size SqFT</li>
                         </ul>
+                    </div>
+
+                    <ul class="icon-box">
+                        <li><a href="#" class="item"><span class="icon icon-heart"></span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="single-property-element single-property-desc">
+                <div class="h7 title fw-7">Description</div>
+                <p class="mt-8 body-2 text-variant-1">@Model.Description</p>
+                <a href="#" class="btn-view"><span class="text">View More</span> </a>
+            </div>
+            <div class="single-property-element single-property-overview">
+                <div class="h7 title fw-7">Overview</div>
+                <ul class="info-box">
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-arrLeftRight"></i></a>
+                        <div class="content">
+                            <span class="label">Type:</span>
+                            <span>@Model.PropertyTypeName</span>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-bed"></i></a>
+                        <div class="content">
+                            <span class="label">Bedrooms:</span>
+                            <span>@Model.Bedrooms Rooms</span>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-bathtub"></i></a>
+                        <div class="content">
+                            <span class="label">Bathrooms:</span>
+                            <span>@Model.Bathrooms Rooms</span>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-garage"></i></a>
+                        <div class="content">
+                            <span class="label">Garage:</span>
+                            <span>@((Model.PropertyFeatures.Any(x => x.Name == "Garage")) ? "Yes" : "No")</span>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-ruler"></i></a>
+                        <div class="content">
+                            <span class="label">Size:</span>
+                            <span>@Model.Size SqFt</span>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="box-icon w-52"><i class="icon icon-hammer"></i></a>
+                        <div class="content">
+                            <span class="label">Year Built:</span>
+                                <span>@Model.ConstructionDate.ToLocalTime().ToString("yyyy")</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="single-property-element single-property-info">
+                <div class="h7 title fw-7">Property Details</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Bedrooms:</span>
+                            <div class="content fw-7">@Model.Bedrooms</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Price:</span>
+                            <div class="content fw-7">@Model.Price.ToString("C0") @* <span class="caption-1 fw-4 text-variant-1">/month</span> *@</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Property Size:</span>
+                            <div class="content fw-7">@Model.Size SqFt</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Bathrooms:</span>
+                            <div class="content fw-7">@Model.Bathrooms</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Year built:</span>
+                            <div class="content fw-7">@Model.ConstructionDate.Year</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Property Type:</span>
+                            <div class="content fw-7">@Model.PropertyTypeName</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inner-box">
+                            <span class="label">Property Status:</span>
+                            <div class="content fw-7">@Model.ListingType</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="single-property-element single-property-feature">
+                <div class="h7 title fw-7">Amenities and features</div>
+                <div class="wrap-feature">
+                    @foreach (var column in columns)
+                    {
+                        <div class="box-feature">
+                            <ul>
+                                @foreach (var item in column)
+                                {
+                                    <li class="feature-item">
+                                        <i class="@item.IconClass"></i> 
+                                        @item.Name
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
+        
+        @if (!isOwner)
+        {
+                <div class="col-lg-4">
+                    <div class="widget-sidebar fixed-sidebar wrapper-sidebar-right">
+                        <div class="widget-box single-property-contact bg-surface">
+                            <div class="h7 title fw-7">Contact Sellers</div>
+                            <div class="box-avatar">
+                                @* ToDO : Display Listing Owner Information *@
+                                <div class="info">
+                                    <div class="text-1 name">@Model.CreatorName</div>
+                                </div>
+                            </div>
+                            <form id="messageForm" class="contact-form">
+                                <div class="ip-group">
+                                    <label for="fullname">Full Name:</label>
+                                    <input type="text" id="fullname" placeholder="Jony Dane" class="form-control">
+                                </div>
+                                <div class="ip-group">
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="text" id="phone" placeholder="ex 0123456789" class="form-control">
+                                </div>
+                                <div class="ip-group">
+                                    <label for="email">Email Address:</label>
+                                    <input type="text" id="email" placeholder="themesflat@gmail.com" class="form-control">
+                                </div>
+                                <div class="ip-group">
+                                    <label for="message">Your Message:</label>
+                                    <textarea id="message" rows="4" tabindex="4" placeholder="Message" aria-required="true"></textarea>
+                                </div>
+                                <input type="hidden" id="listingId" value="@Model.Id" />
+                                <button type="button" id="sendMessageButton" class="tf-btn primary w-100">Send Message</button>
+                            </form>
+                        </div>
+                        <div class="widget-box single-property-whychoose bg-surface">
+                            <div class="h7 title fw-7">Why Choose Us?</div>
+                            <ul class="box-whychoose">
+                                <li class="item-why">
+                                    <i class="icon icon-secure"></i>
+                                    Secure Booking
+                                </li>
+                                <li class="item-why">
+                                    <i class="icon icon-guarantee"></i>
+                                    Best Price Guarantee
+                                </li>
+                                <li class="item-why">
+                                    <i class="icon icon-booking"></i>
+                                    Easy Booking Process
+                                </li>
+                                <li class="item-why">
+                                    <i class="icon icon-support"></i>
+                                    Available Support 24/7
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        }
     </div>
+</div>
 </section>
+
+@section Scripts
+{
+    <script type="module" src="~/js/messageRequestHandler.js" asp-append-version="true"></script>
+}
 

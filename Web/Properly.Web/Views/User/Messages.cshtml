@@ -2,106 +2,48 @@
     this.ViewData["Title"] = "Messages";
 }
 
+ToDO : Display the messages in the view.
+
 <div class="widget-box-2 wd-listing">
     <h6 class="title">Messages</h6>
     <div class="wrap-table">
         <div class="table-responsive">
             <table>
                 <thead>
-                <tr>
-                    <th>Invoice ID</th>
-                    <th>Package Name</th>
-                    <th>Price ($)</th>
-                    <th>Payment Method</th>
-                    <th>Payment Status</th>
-                    <th>Purchase Date</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th style="width: auto;">Listing</th>
+                        <th>Information</th>
+                        <th>Message Content</th>
+                        <th>Received Date</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <span class="text-center">
-                            1524
-                        </span>
-                    </td>
-                    <td>
-                        <span>Free</span>
-                    </td>
-                    <td>
-                        <span>$5050,00</span>
-                    </td>
-                    <td>
-                        <span>Free Package</span>
-                    </td>
-                    <td>
-                        <span>Paid</span>
-                    </td>
-                    <td>
-                        <span>April 9, 2024</span>
-                    </td>
-                    <td class="box-action-print">
-                        <a href="#" class="icon icon-eye"></a>
-                    </td>
-                </tr>
-                <!-- col 2 -->
-                <tr>
-                    <td>
-                        <span class="text-center">
-                            1525
-                        </span>
-                    </td>
-                    <td>
-                        <span>Free</span>
-                    </td>
-                    <td>
-                        <span>$5050,00</span>
-                    </td>
-                    <td>
-                        <span>Free Package</span>
-                    </td>
-                    <td>
-                        <span>Not Paid</span>
-                    </td>
-                    <td>
-                        <span>February 18, 2024</span>
-                    </td>
-                    <td class="box-action-print">
-                        <a href="#" class="icon icon-eye"></a>
-                    </td>
-                </tr>
-                <!-- col 3 -->
-                <tr>
-                    <td>
-                        <span class="text-center">
-                            1526
-                        </span>
-                    </td>
-                    <td>
-                        <span>Free</span>
-                    </td>
-                    <td>
-                        <span>$5050,00</span>
-                    </td>
-                    <td>
-                        <span>Free Package</span>
-                    </td>
-                    <td>
-                        <span>Paid</span>
-                    </td>
-                    <td>
-                        <span>April 9, 2024</span>
-                    </td>
-                    <td class="box-action-print">
-                        <a href="#" class="icon icon-eye"></a>
-                    </td>
-                </tr>
-                <!-- col 4 -->
-
+                    <tr>
+                        <td class="listing">
+                            <div class="listing-container">
+                                <img src="https://res.cloudinary.com/dw1d9xffg/image/upload/v1715980117/Properly/9f3cfbd4-ab5a-4b27-b01e-64eff0a5ff49.webp" alt="Listing"/>
+                                <span>2890 Lime St, Riverside, CA 92501</span>
+                            </div>
+                        </td>
+                        <td class="information">
+                            <span>Jane Smith</span>
+                            <span>+987654321</span>
+                            <span>jane@example.com</span>
+                        </td>
+                        <td class="message-content">
+                            <span>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum passages have been used in various parts of literature since.</span>
+                        </td>
+                        <td><span>September 20, 2024</span></td>
+                        <td style="padding-left: 20px;" class="box-action-print">
+                            <a href="#" class="tf-btn small btn-archive">Archive</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
+        <!-- Pagination buttons here -->
         <ul class="wd-navigation">
             <li><a href="#" class="nav-item active">1</a></li>
             <li><a href="#" class="nav-item">2</a></li>
@@ -111,7 +53,86 @@
     </div>
 </div>
 
+
+
+<div class="widget-box-2 wd-listing">
+    <h6 class="title">Archived Messages</h6>
+    <div class="wrap-table">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: auto;">Listing</th>
+                        <th>Information</th>
+                        <th>Message Content</th>
+                        <th>Received Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="listing">
+                            <div class="listing-container">
+                                <img src="https://res.cloudinary.com/dw1d9xffg/image/upload/v1715980117/Properly/9f3cfbd4-ab5a-4b27-b01e-64eff0a5ff49.webp" alt="Listing" />
+                                <span>2890 Lime St, Riverside, CA 92501</span>
+                            </div>
+                        </td>
+                        <td class="information">
+                            <span>Jane Smith</span>
+                            <span>+987654321</span>
+                            <span>jane@example.com</span>
+                        </td>
+                        <td class="message-content">
+                            <span>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum passages have been used in various parts of literature since.</span>
+                        </td>
+                        <td><span>September 20, 2024</span></td>
+                        <td style="padding-left: 20px;" class="box-action-print">
+                            <a href="#" class="tf-btn small btn-archive">Archive</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination buttons here -->
+        <ul class="wd-navigation">
+            <li><a href="#" class="nav-item active">1</a></li>
+            <li><a href="#" class="nav-item">2</a></li>
+            <li><a href="#" class="nav-item">3</a></li>
+            <li><a href="#" class="nav-item"><i class="icon icon-arr-r"></i></a></li>
+        </ul>
+    </div>
+</div>
+
+
 @section Styles
 {
+    <style>
+        td.message-content {
+            min-width: 300px; 
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all;
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        .information span {
+            display: block;
+        }
+
+       
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td.listing img {
+            width: 30%;
+            height: 100%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="~/theme/scss/_dashboard.css" />
 }

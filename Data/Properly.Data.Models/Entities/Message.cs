@@ -14,12 +14,8 @@ namespace Properly.Data.Models.Entities
         }
 
         [Required]
-        [MaxLength(100)]
-        public string FirstName { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        public string LastName { get; set; }
+        [MaxLength(80)]
+        public string FullName { get; set; }
 
         [Required]
         [MaxLength(20)]
@@ -31,6 +27,12 @@ namespace Properly.Data.Models.Entities
 
         [Required]
         public string MessageContent { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Listing))]
+        public Guid ListingId { get; set; }
+
+        public Listing Listing { get; set; }
 
         [Required]
         [ForeignKey(nameof(Sender))]

@@ -46,6 +46,8 @@
 
         public virtual ICollection<Photo> Photos { get; set; }
 
+        public virtual ICollection<Message> Messages { get; set; }
+
         public virtual ICollection<FavoriteListing> Users { get; set; }
     }
 }

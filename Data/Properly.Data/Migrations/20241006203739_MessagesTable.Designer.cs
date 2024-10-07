@@ -12,7 +12,7 @@ using Properly.Data;
 namespace Properly.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241005194033_MessagesTable")]
+    [Migration("20241006203739_MessagesTable")]
     partial class MessagesTable
     {
         /// <inheritdoc />
@@ -383,18 +383,16 @@ namespace Properly.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<Guid>("ListingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
@@ -419,6 +417,8 @@ namespace Properly.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ListingId");
 
                     b.HasIndex("ReceiverId");
 
@@ -848,6 +848,12 @@ namespace Properly.Data.Migrations
 
             modelBuilder.Entity("Properly.Data.Models.Entities.Message", b =>
                 {
+                    b.HasOne("Properly.Data.Models.Entities.Listing", "Listing")
+                        .WithMany("Messages")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Properly.Data.Models.User.ApplicationUser", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId")
@@ -859,6 +865,8 @@ namespace Properly.Data.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Listing");
 
                     b.Navigation("Receiver");
 
@@ -919,6 +927,8 @@ namespace Properly.Data.Migrations
 
             modelBuilder.Entity("Properly.Data.Models.Entities.Listing", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Photos");
 
                     b.Navigation("Users");
