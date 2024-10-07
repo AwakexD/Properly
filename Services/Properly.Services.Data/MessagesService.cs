@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
 using Properly.Data.Common.Repositories;
 using Properly.Data.Models.Entities;
 using Properly.Services.Data.Contracts;
+using Properly.Services.Mapping;
 using Properly.Web.ViewModels.Messages;
 
 namespace Properly.Services.Data
@@ -22,7 +24,7 @@ namespace Properly.Services.Data
 
         public async Task CreateMessageAsync(string userId, MessageRequest messageRequest)
         {
-            var receiverId = await GetListingOwnerIdAsync(userId);
+            var receiverId = await GetListingOwnerIdAsync(messageRequest.ListingId);
 
             if (string.IsNullOrEmpty(receiverId))
             {
@@ -44,10 +46,30 @@ namespace Properly.Services.Data
             await messagesRepository.SaveChangesAsync();
         }
 
-        private async Task<string> GetListingOwnerIdAsync(string userId)
+        public async Task<IEnumerable<MessageViewModel>> GetActiveMessagesForUser(string userId)
+        {
+            var activeMessages = await this.messagesRepository.AllAsNoTracking()
+                .Where(m => m.ReceiverId == userId)
+                .To<MessageViewModel>()
+                .ToListAsync();
+
+            return activeMessages;
+        }
+
+        public async Task<IEnumerable<MessageViewModel>> GetArchivedMessagesForUser(string userId)
+        {
+            var archivedMessages = await this.messagesRepository.AllAsNoTrackingWithDeleted()
+                .Where(m => m.ReceiverId == userId && m.IsDeleted) 
+                .To<MessageViewModel>()
+                .ToListAsync();
+
+            return archivedMessages;
+        }
+
+        private async Task<string> GetListingOwnerIdAsync(string listingId)
         {
             var listing = await listingsRepository.AllAsNoTracking()
-                .FirstOrDefaultAsync(l => l.CreatorId ==  userId);
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
                
 
             if (listing == null)
