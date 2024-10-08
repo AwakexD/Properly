@@ -54,7 +54,7 @@
     <h6 class="title">Archived Messages</h6>
     <div class="wrap-table">
         <div class="table-responsive">
-            <table>
+            <table id="archivedMessages">
                 <thead>
                     <tr>
                         <th style="width: auto;">Listing</th>
@@ -127,4 +127,9 @@
         }
     </style>
     <link rel="stylesheet" type="text/css" href="~/theme/scss/_dashboard.css" />
+}
+
+@section Scripts
+{
+    <script type="module" src="~/js/archiveButtonHandler.js" asp-append-version="true"></script>
 }

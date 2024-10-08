@@ -46,6 +46,23 @@ namespace Properly.Services.Data
             await messagesRepository.SaveChangesAsync();
         }
 
+        public async Task ArchiveMessageAsync(string userId, string messageId)
+        {
+            var messageToArchive = await this.messagesRepository.AllAsNoTracking()
+                .Where(m => m.ReceiverId == userId)
+                .FirstOrDefaultAsync(m => m.Id == new Guid(messageId));
+
+            if (messageToArchive == null)
+            {
+                throw new InvalidOperationException("Message Not Found!");
+            }
+
+            messageToArchive.IsDeleted = true;
+
+            this.messagesRepository.Update(messageToArchive);
+            await this.messagesRepository.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<MessageViewModel>> GetActiveMessagesForUser(string userId)
         {
             var activeMessages = await this.messagesRepository.AllAsNoTracking()

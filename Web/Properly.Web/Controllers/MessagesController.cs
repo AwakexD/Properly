@@ -49,5 +49,28 @@ namespace Properly.Web.Controllers
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ArchiveMessage([FromBody] string messageId)
+        {
+            try
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return Unauthorized("User is not authenticated.");
+                }
+
+                await messagesService.ArchiveMessageAsync(user.Id, messageId);
+
+                return Ok(new { success = true, messageId = "Message archived successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
+        }
     }
 }
