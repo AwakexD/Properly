@@ -27,10 +27,10 @@
                                 </li>
                                 <li class="dropdown2">
                                     <a href="#">Properties</a>
-                                    <ul>
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy a property</a></li>
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent a property</a></li>
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell a property</a></li>
+                                    <ul>    
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy property</a></li>
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent property</a></li>
+                                        <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell property</a></li>
                                     </ul>
                                 </li>
                                 @if (this.SignInManager.IsSignedIn(this.User))
@@ -39,9 +39,9 @@
                                         <a href="#">Dashboard</a>
                                         <ul>
                                             <li><a asp-area="" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
-                                            <li><a asp-area="" asp-controller="Property" asp-action="Sell">Add Property</a></li>
                                             <li><a asp-area="" asp-controller="User" asp-action="Messages">Messages</a></li>
                                             <li><a>My Favorites</a></li>
+                                            <li><a asp-area="" asp-controller="Property" asp-action="Sell">Add Property</a></li>
                                         </ul>
                                     </li>
                                 }

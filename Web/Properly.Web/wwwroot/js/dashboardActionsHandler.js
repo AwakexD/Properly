@@ -73,19 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     soldButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
-            const listingRow = event.target.closest('tr.file-delete');
-            const routePath = listingRow.querySelector('.link').href;
-            const listingId = routePath.split('/').pop();
-            const statusSpan = listingRow.querySelector('td.align-middle > span');
-            const currentStatus = statusSpan.innerText.trim();
-            let newStatus;
+            const listingRow = event.target.closest('tr');
+            const listingId = button.getAttribute('data-listing-id');
+            const currentStatus = button.getAttribute('data-listing-status');
+            const listingType = button.getAttribute('data-listing-type');
 
+            console.log("Listing row: ", listingRow);
+            console.log("Listing Id: ", listingId);
+            console.log("Current status: ", currentStatus);
+            console.log("Listing type: ", listingType);
+
+            let newStatus;
             if (currentStatus === "Active") {
-                newStatus = "Sold";
-            } else if (currentStatus === "Sold") {
+                newStatus = (listingType === "For Rent") ? "Rented" : "Sold";
+                console.log("New status: ", newStatus);
+            } else if (currentStatus === "Sold" || currentStatus === "Rented") {
                 newStatus = "Active";
-            } else if (["Pending", "Rented", "Coming Soon", "Off Market"].includes(currentStatus)) {
-                event.preventDefault();
+                console.log("New status: ", newStatus);
+            } else {
                 return;
             }
 
@@ -110,22 +115,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await post('/api/PropertyInteractions/UpdateStatus', data, antiForgeryToken);
 
                     if (response.success) {
-                        statusSpan.innerText = newStatus;
-
-                        const button = event.target.closest('button');
+                        button.setAttribute('data-listing-status', newStatus); 
+                        const buttonTextNode = button.querySelector('span.button-text');
                         const icon = button.querySelector('i');
-                        const buttonTextNode = button.querySelector('span.button-text')
 
-                        console.log(buttonTextNode)
-
-                        if (newStatus === "Sold") {
+                        if (newStatus === "Rented" || newStatus === "Sold") {
                             icon.className = "fa-solid fa-angle-up";
-                            buttonTextNode.innerText = " Activate"; 
+                            buttonTextNode.innerText = "Activate";  
                         } else if (newStatus === "Active") {
                             icon.className = "fa-regular fa-handshake";
-                            buttonTextNode.innerText = " Sold";
-                        } else {
-                            event.target.disabled = true;
+                            buttonTextNode.innerText = (listingType === "For Rent") ? "Rented" : "Sold"; 
+                        }
+
+                       
+                        const statusSpan = listingRow.querySelector('td.align-middle > span'); 
+                        if (statusSpan) {
+                            statusSpan.innerText = newStatus;
                         }
 
                         Swal.fire({
@@ -137,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             timerProgressBar: true,
                             backdrop: false,
                         });
+                    } else {
+                        throw new Error(response.message || "Failed to update status.");
                     }
                 } catch (error) {
                     Swal.fire({
@@ -144,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         width: '22em',
                         title: 'Error!',
                         icon: 'error',
-                        text: `${response.message}`,
+                        text: `An error occurred: ${error.message}`,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: false,
@@ -154,5 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
 
 });

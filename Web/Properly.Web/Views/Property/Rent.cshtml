@@ -1,4 +1,5 @@
-﻿@model Properly.Web.ViewModels.Buy.BuyViewModel
+﻿@using Properly.Web.ViewModels.Listing.Enums
+@model Properly.Web.ViewModels.Buy.BuyViewModel
 
 @{
     this.ViewData["Title"] = "Properties For Rent";
@@ -44,6 +45,10 @@
                                             <div class="top">
                                                 <ul class="d-flex gap-4 flex-wrap">
                                                     <li class="flag-tag style-1">For Rent</li>
+                                                    @if (listing.ListingStatus == ListingStatus.Rented.ToString())
+                                                    {
+                                                        <li class="flag-tag style-1" style="background-color: #5dade2;">Rented Out</li>
+                                                    }
                                                 </ul>
                                                 <ul class="d-flex gap-4">
                                                     <li class="box-icon w-32">

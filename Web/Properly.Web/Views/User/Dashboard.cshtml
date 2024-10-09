@@ -46,26 +46,34 @@
 
                                             @if (listing.ListingStatus == ListingStatus.Active.ToString())
                                             {
-                                                <button type="button" class="btn btn-sm btn-success mb-1 soldBtn">
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-success mb-1 soldBtn" 
+                                                        data-listing-id="@listing.Id" 
+                                                        data-listing-status="Active"
+                                                        data-listing-type="@listing.ListingType">
                                                     <i class="fa-regular fa-handshake"></i>
-                                                    <span class="button-text"> Sold</span>
+                                                    <span class="button-text">@((listing.ListingType == "For Rent") ? "Rented" : "Sold")</span>
                                                 </button>
                                             }
-                                            else if (listing.ListingStatus == ListingStatus.Sold.ToString())
+                                            else if (listing.ListingStatus == ListingStatus.Sold.ToString() || 
+                                                     listing.ListingStatus == ListingStatus.Rented.ToString())
                                             {
-                                                <button type="button" class="btn btn-sm btn-success mb-1 soldBtn">
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-success mb-1 soldBtn" 
+                                                        data-listing-id="@listing.Id" 
+                                                        data-listing-status="Sold"
+                                                        data-listing-type="@listing.ListingType">
                                                     <i class="fa-solid fa-angle-up"></i>
-                                                    <span class="button-text"> Activate</span>
+                                                    <span class="button-text">Activate</span>
                                                 </button>
                                             }
                                             else if (listing.ListingStatus == ListingStatus.Pending.ToString() ||
-                                                listing.ListingStatus == ListingStatus.Rented.ToString() ||
-                                                listing.ListingStatus == ListingStatus.ComingSoon.ToString() ||
-                                                listing.ListingStatus == ListingStatus.OffMarket.ToString())
+                                                     listing.ListingStatus == ListingStatus.ComingSoon.ToString() ||
+                                                     listing.ListingStatus == ListingStatus.OffMarket.ToString())
                                             {
                                                 <button type="button" class="btn btn-sm btn-secondary mb-1" disabled>
                                                     <i class="icon icon-status"></i>
-                                                    <span class="button-text"> @listing.ListingStatus</span>
+                                                    <span class="button-text">@listing.ListingStatus</span>
                                                 </button>
                                             }
 
