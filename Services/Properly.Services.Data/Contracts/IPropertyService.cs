@@ -37,6 +37,8 @@ namespace Properly.Services.Data.Contracts
 
         Task<bool> AddToFavoritesAsync(string userId, string listingId);
 
+        Task<bool> RemoveFromFavoritesAsync(string userId, string listingId);
+
         Task<bool> IsFavoriteAsync(string userId, string listingId);
 
         int GetCount(string type);

@@ -395,6 +395,22 @@ namespace Properly.Services.Data
             return saveResult > 0;
         }
 
+        public async Task<bool> RemoveFromFavoritesAsync(string userId, string listingId)
+        {
+            var listing = await this.favouriteListingRepository.All()
+                .FirstOrDefaultAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
+
+            if (listing == null)
+            {
+                return false;
+            }
+
+            this.favouriteListingRepository.HardDelete(listing);
+            var saveResult = await this.favouriteListingRepository.SaveChangesAsync();
+
+            return saveResult > 0;
+        }
+
         public async Task<bool> IsFavoriteAsync(string userId, string listingId)
         {
             return await this.favouriteListingRepository.AllAsNoTracking()

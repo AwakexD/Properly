@@ -25,20 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         icon.addEventListener('click', async function (event) {
+            event.stopPropagation();
             event.preventDefault();
 
+            const isFavorited = icon.classList.contains('fa-solid');
             const favoriteData = { ListingId: listingId };
 
             try {
-                const response = await post('/api/PropertyInteractions/AddToFavorites', favoriteData, antiForgeryToken);
+                let response;
+                if (isFavorited) {
+                    response = await post('/api/PropertyInteractions/RemoveFromFavorites', favoriteData, antiForgeryToken);
+                } else {
+                    response = await post('/api/PropertyInteractions/AddToFavorites', favoriteData, antiForgeryToken);
+                }
 
                 if (response.success) {
                     icon.classList.toggle('fa-solid');
                     icon.classList.toggle('fa-regular');
 
                     Swal.fire({
-                        title: response.success ? 'Added!' : 'Removed!',
-                        text: `This listing has been ${response.success ? 'added to' : 'removed from'} your favorites.`,
+                        title: isFavorited ? 'Removed!' : 'Added!',
+                        text: `This listing has been ${isFavorited ? 'removed from' : 'added to'} your favorites.`,
                         icon: 'success',
                         timer: 1500,
                         showConfirmButton: false

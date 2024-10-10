@@ -122,6 +122,27 @@ namespace Properly.Web.Controllers
             return Ok(new { success = true });
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> RemoveFromFavorites([FromBody] PropertyInteractionRequest input)
+        {
+            var userId = this.userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var result = await this.propertyService.RemoveFromFavoritesAsync(userId, input.ListingId);
+
+            if (!result)
+            {
+                return BadRequest("Failed to remove property from favorites.");
+            }
+
+            return Ok(new { success = true });
+        }
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> IsFavorite(string listingId)
