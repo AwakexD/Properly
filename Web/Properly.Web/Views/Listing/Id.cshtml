@@ -41,7 +41,9 @@
                 <div class="content-top d-flex justify-content-between align-items-center">
                     <div class="box-name">
                         <a href="#" class="flag-tag primary">@Model.ListingType</a>
-                        <h4 class="title link">@Model.FullAddress</h4>
+                        <h4 class="title link">
+                            <a asp-controller="Listing" asp-action="Id" asp-route-id="@Model.Id" class="images-group">@Model.FullAddress</a>
+                        </h4>
                     </div>
                     <div class="box-price d-flex align-items-center">
                         <h5>@Model.Price.ToString("C0")</h5>
@@ -62,7 +64,7 @@
                     </div>
 
                     <ul class="icon-box">
-                        <li><a href="#" class="item"><span class="icon icon-heart"></span></a></li>
+                        <li><a href="#" class="item"><span class="fa-regular fa-heart favorite-icon" data-listing-id="@Model.Id" style="font-size: 1.7em;color: #fd1c32;" aria-hidden="true"></span></a></li>
                     </ul>
 
                 </div>
@@ -249,6 +251,7 @@
 
 @section Scripts
 {
+        <script type="module" src="~/js/listingFavouriteHandelr.js" asp-append-version="true"></script>
     <script type="module" src="~/js/messageRequestHandler.js" asp-append-version="true"></script>
 }
 

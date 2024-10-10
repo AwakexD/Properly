@@ -41,16 +41,16 @@
                                 <div class="col-md-12">
                                     <div class="homeya-box list-style-1 list-style-2">
                                         <a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="images-group">
-                                            <div class="images-style">
-                                                <img src="@listing.Photos.FirstOrDefault()" alt="img" width="330px">
-                                            </div>
+                                                <div class="images-style">
+                                                    <img src="@listing.Photos.FirstOrDefault()" alt="img" width="330px">
+                                                </div>
                                             <div class="top">
                                                 <ul class="d-flex gap-4 flex-wrap">
                                                     <li class="flag-tag style-1">For Sale</li>
                                                 </ul>
                                                 <ul class="d-flex gap-4">
                                                     <li class="box-icon w-32">
-                                                        <span class="icon icon-heart"></span>
+                                                        <span class="fa-regular fa-heart favorite-icon" data-listing-id="@listing.Id" style="color: #fd1c32;"></span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -61,7 +61,8 @@
                                         <div class="content">
                                             <div class="archive-top">
                                                 <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
-                                                <div class="desc"><i class="icon icon-mapPin"></i><p>@listing.FullAddress</p> </div>
+                                                <div class="desc"><i class="icon icon-mapPin"></i>
+                                                    <p>@listing.FullAddress</p> </div>
                                                 <ul class="meta-list">
                                                     <li class="item">
                                                         <i class="icon icon-bed"></i>
@@ -98,4 +99,5 @@
 
 @section Scripts {
     <script type="module" src="~/js/listingSortingHandler.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/listingFavouriteHandelr.js" asp-append-version="true"></script>
 }

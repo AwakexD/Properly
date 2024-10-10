@@ -29,9 +29,7 @@ namespace Properly.Web.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize]
         public async Task<IActionResult> DeleteImage([FromBody]DeleteImageRequest input)
         {
             try
@@ -101,8 +99,43 @@ namespace Properly.Web.Controllers
             {
                 return this.StatusCode(501, ExceptionsAndNotificationsMessages.AnErrorOccurred);
             }
-
-
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToFavorites([FromBody]PropertyInteractionRequest input)
+        {
+            var userId = this.userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var result = await this.propertyService.AddToFavoritesAsync(userId, input.ListingId);
+
+            if (!result)
+            {
+                return BadRequest("Failed to add property to favorites.");
+            }
+
+            return Ok(new { success = true });
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> IsFavorite(string listingId)
+        {
+            var userId = this.userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(listingId))
+            {
+                return BadRequest("Invalid user or listing.");
+            }
+
+            var isFavorite = await this.propertyService.IsFavoriteAsync(userId, listingId);
+            return Ok(new { isFavorite });
+        }
+
     }
 }

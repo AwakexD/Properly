@@ -373,6 +373,35 @@ namespace Properly.Services.Data
             return saveResult > 0;
         }
 
+        public async Task<bool> AddToFavoritesAsync(string userId, string listingId)
+        {
+            var listing = await this.favouriteListingRepository.AllAsNoTracking()
+                .FirstOrDefaultAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
+
+            if (listing != null)
+            {
+                return false;
+            }
+
+            var listingToAdd = new FavoriteListing()
+            {
+                ListingId = new Guid(listingId),
+                UserId = userId,
+            };
+
+            await this.favouriteListingRepository.AddAsync(listingToAdd);
+            var saveResult = await this.favouriteListingRepository.SaveChangesAsync();
+
+            return saveResult > 0;
+        }
+
+        public async Task<bool> IsFavoriteAsync(string userId, string listingId)
+        {
+            return await this.favouriteListingRepository.AllAsNoTracking()
+                .AnyAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
+        }
+
+
         public int GetCount(string listingType)
         {
              int count = this.listingRepository

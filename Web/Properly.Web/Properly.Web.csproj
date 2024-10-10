@@ -61,12 +61,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\css\Home\index.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
 </Project>

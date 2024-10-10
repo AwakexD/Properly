@@ -191,7 +191,7 @@
                                             </ul>
                                             <ul class="d-flex gap-4">
                                                 <li class="box-icon w-32">
-                                                    <span class="icon icon-heart"></span>
+                                                    <i class="fa-regular fa-heart favorite-icon" data-listing-id="@listing.Id" style="color: #fd1c32;"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -245,5 +245,6 @@
 <!-- End Recommended -->
 @section Scripts
 {
+    <script type="module" src="~/js/listingFavouriteHandelr.js" asp-append-version="true"></script>
     <script type="module" src="~/js/setSearchFromAction.js" asp-append-version="true"></script>
 }

@@ -35,6 +35,10 @@ namespace Properly.Services.Data.Contracts
 
         Task<bool> ChangeListingStatus(string userId, string listingId, ListingStatus status);
 
+        Task<bool> AddToFavoritesAsync(string userId, string listingId);
+
+        Task<bool> IsFavoriteAsync(string userId, string listingId);
+
         int GetCount(string type);
 
     }
