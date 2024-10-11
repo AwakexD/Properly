@@ -1,6 +1,103 @@
 ﻿@{
-    this.ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy Policy";
 }
-<h1>@this.ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="flat-title-page style-2">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li>/ Privacy Policy</li>
+        </ul>
+        <h2 class="text-center">Privacy and Policy</h2>
+    </div>
+</section>
+
+<section class="flat-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <ul class="nav-tab-privacy" role="tablist">
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#terms" class="nav-link-item active" data-bs-toggle="tab" aria-selected="true" role="tab">1. Information We Collect</a>
+                    </li>
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#limitations" class="nav-link-item" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">2. How We Use Your Information</a>
+                    </li>
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#revisions" class="nav-link-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">3. How We Share Your Information</a>
+                    </li>
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#modifications" class="nav-link-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">4. Data Security</a>
+                    </li>
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#risks" class="nav-link-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">5. Your Privacy Rights</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-7">
+                <h5 class="text-capitalize title">Privacy Policy</h5>
+                <div class="tab-content content-box-privacy">
+                    <div class="tab-pane fade active show" id="terms" role="tabpanel">
+                        <h6>1. Information We Collect</h6>
+                        <p>We collect personal information to provide and improve our services. The types of information we collect include:</p>
+                        <ul class="box-list">
+                            <li><strong>Personal Information:</strong> Name, email address, phone number, and postal address.</li>
+                            <li><strong>Property Information:</strong> Details about the property you list, including address, photos, and listing price.</li>
+                            <li><strong>Automatically Collected Information:</strong> IP address, device type, browser version, and activity on our site.</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="limitations" role="tabpanel">
+                        <h6>2. How We Use Your Information</h6>
+                        <p>We use the collected data for the following purposes:</p>
+                        <ul class="box-list">
+                            <li><strong>Providing Services:</strong> Managing your account, listing properties, and interacting with other users.</li>
+                            <li><strong>Personalization:</strong> Tailoring property suggestions and preferences based on your profile.</li>
+                            <li><strong>Communication:</strong> Sending notifications, updates, and responses to inquiries.</li>
+                            <li><strong>Improvement:</strong> Analyzing trends to enhance the platform’s usability and features.</li>
+                            <li><strong>Marketing:</strong> Sending promotional offers and updates, if you consent.</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="revisions" role="tabpanel">
+                        <h6>3. How We Share Your Information</h6>
+                        <p>We respect your privacy and only share information under the following circumstances:</p>
+                        <ul class="box-list">
+                            <li><strong>With Service Providers:</strong> Third-party companies that help us deliver our services.</li>
+                            <li><strong>Legal Obligations:</strong> If required to comply with legal obligations or protect user safety.</li>
+                            <li><strong>Business Transactions:</strong> In the event of a merger or acquisition, user information may be transferred.</li>
+                            <li><strong>With Other Users:</strong> Necessary details may be shared with buyers or sellers for property-related communications.</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="modifications" role="tabpanel">
+                        <h6>4. Data Security</h6>
+                        <p>Your data security is our priority. We implement the following safeguards:</p>
+                        <ul class="box-list">
+                            <li>Encryption of sensitive data during transmission and storage.</li>
+                            <li>Regular security assessments and vulnerability monitoring.</li>
+                            <li>Access to personal data is restricted to authorized personnel only.</li>
+                        </ul>
+                        <p>While we strive to protect your personal information, no system is 100% secure. We recommend taking personal precautions when sharing information online.</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="risks" role="tabpanel">
+                        <h6>5. Your Privacy Rights</h6>
+                        <p>You have the following rights regarding your personal information:</p>
+                        <ul class="box-list">
+                            <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+                            <li><strong>Correction:</strong> Request corrections to your personal information if it’s inaccurate.</li>
+                            <li><strong>Deletion:</strong> Request deletion of your account and associated data.</li>
+                            <li><strong>Opt-Out:</strong> Unsubscribe from marketing communications at any time.</li>
+                        </ul>
+                        <p>To exercise any of these rights, please contact us at <a href="mailto:aleksparvanow@gmail.com">aleksparvanow@gmail.com</a>.</p>
+                        <p class="last-updated">Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
