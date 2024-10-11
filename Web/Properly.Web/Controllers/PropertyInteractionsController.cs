@@ -157,6 +157,5 @@ namespace Properly.Web.Controllers
             var isFavorite = await this.propertyService.IsFavoriteAsync(userId, listingId);
             return Ok(new { isFavorite });
         }
-
     }
 }

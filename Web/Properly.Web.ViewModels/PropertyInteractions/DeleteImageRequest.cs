@@ -1,9 +1,7 @@
 ﻿namespace Properly.Web.ViewModels.PropertyInteractions
 {
-    public class DeleteImageRequest
+    public class DeleteImageRequest : PropertyInteractionRequest
     {
-        public string ListingId { get; set; }
-
         public string ImageUrl { get; set; }
     }
 }

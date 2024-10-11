@@ -2,10 +2,8 @@
 {
     using Properly.Web.ViewModels.Listing.Enums;
     
-    public class UpdateStatusRequest
+    public class UpdateStatusRequest : PropertyInteractionRequest
     {
-        public string ListingId { get; set; }
-
         public string ListingStatus { get; set; }
     }
 }

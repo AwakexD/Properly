@@ -91,7 +91,7 @@ namespace Properly.Services.Data
 
             if (listing == null)
             {
-                throw new Exception("Listing not found");
+                throw new Exception("Listing Not Found!");
             }
 
             return listing.CreatorId;

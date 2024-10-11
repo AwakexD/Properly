@@ -1,6 +1,7 @@
 namespace Properly.Web
 {
     using System;
+    using System.Globalization;
     using System.Reflection;
 
     using AutoMapper;
@@ -8,6 +9,7 @@ namespace Properly.Web
     using dotenv.net;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -124,6 +126,15 @@ namespace Properly.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // Enforce default culture
+            var defaultCulture = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(defaultCulture),
+                SupportedCultures = new[] { defaultCulture },
+                SupportedUICultures = new[] { defaultCulture }
+            };
 
             app.UseRouting();
 
