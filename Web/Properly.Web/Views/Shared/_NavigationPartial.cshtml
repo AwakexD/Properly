@@ -20,7 +20,7 @@
                                     <a href="#">Home</a>
                                     <ul>
                                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                                        <li><a asp-controller="Home" asp-action="Privacy">Privacy and Policy</a></li>
+                                        <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown2">
@@ -38,7 +38,7 @@
                                         <ul>
                                             <li><a asp-area="" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
                                             <li><a asp-area="" asp-controller="User" asp-action="Messages">Messages</a></li>
-                                            <li><a>My Favorites</a></li>
+                                            <li><a asp-area="" asp-controller="User" asp-action="MyFavorites">My Favorites</a></li>
                                             <li><a asp-area="" asp-controller="Property" asp-action="Sell">Add Property</a></li>
                                         </ul>
                                     </li>

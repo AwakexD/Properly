@@ -4,10 +4,63 @@
     this.ViewData["Title"] = "Dashboard";
 }
 
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-controller="User" asp-action="Dashboard">User</a></li>
+            <li><a>/ Dashboard</a></li>
+        </ul>
+        <h2 class="text-center">Dashboard</h2>
+    </div>
+</section>
+
+
 <div class="main-content p-0">
     <div class="main-content-inner">
-        <div class="button-show-hide show-mb">
-            <span class="body-1">Show Dashboard</span>
+        @* ToDO : Display the numbers  *@
+        <div class="flat-counter-v2 tf-counter" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="counter-box">
+                <div class="box-icon w-68 round">
+                    <span class="icon icon-list-dashes"></span>
+                </div>
+                <div class="content-box">
+                    <div class="title-count">Listings</div>
+                    <div class="d-flex align-items-end">
+                        <h6 class="number" data-speed="2000" data-to="17" data-inviewport="yes">17</h6>
+                        <span class="fw-7 text-variant-2">/17 remaining</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="counter-box">
+                <div class="box-icon w-68 round">
+                    <a asp-controller="User" asp-action="Messages">
+                        <span class="icon icon-bookmark"></span>
+                    </a>
+                </div>
+                <div class="content-box">
+                    <div class="title-count">Favorites</div>
+                    <div class="d-flex align-items-end">
+                        <h6 class="number" data-speed="2000" data-to="1" data-inviewport="yes">1</h6>
+                    </div>
+                </div>
+                <a asp-controller="User" asp-action="MyFavorites">
+                </a>
+            </div>
+            <div class="counter-box">
+                <div class="box-icon w-68 round">
+                    <a asp-controller="User" asp-action="Messages">
+                        <span class="icon icon-review"></span>
+                    </a>
+                </div>
+                <div class="content-box">
+                    <div class="title-count">Messages</div>
+                    <div class="d-flex align-items-end">
+                        <h6 class="number" data-speed="2000" data-to="17" data-inviewport="yes">0</h6>
+                    </div>
+
+                </div>
+            </div>
         </div>
         <div class="widget-box-2 wd-listing">
             <h6 class="title">My Listings</h6>
@@ -15,73 +68,77 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
-                            <tr>
-                                <th class="align-middle">Listing</th>
-                                <th class="align-middle">Status</th>
-                                <th class="align-middle text-center">Action</th>
-                            </tr>
+                        <tr>
+                            <th class="align-middle">Listing</th>
+                            <th class="align-middle">Status</th>
+                            <th class="align-middle text-center">Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var listing in Model.Listings)
-                            {
-                                <tr class="file-delete">
-                                    <td>
-                                        <div class="listing-box">
-                                            <div class="images">
-                                                <img src="@listing.Photos.FirstOrDefault()" alt="images" class="img-fluid">
-                                            </div>
-                                            <div class="content">
-                                                <div class="title"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
-                                                <div class="text-1 fw-7">@listing.Price.ToString("C0")
-                                                    @if(listing.ListingType == "For Rent"){<span class="text-variant-1">/mo.</span>}</div>
+                        @foreach (var listing in Model.Listings)
+                        {
+                            <tr class="file-delete">
+                                <td>
+                                    <div class="listing-box">
+                                        <div class="images">
+                                            <img src="@listing.Photos.FirstOrDefault()" alt="images" class="img-fluid">
+                                        </div>
+                                        <div class="content">
+                                            <div class="title"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
+                                            <div class="text-1 fw-7">@listing.Price.ToString("C0")
+                                                @if (listing.ListingType == "For Rent")
+                                                {
+                                                    <span class="text-variant-1">/mo.</span>
+                                                }
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <span>@listing.ListingStatus</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="btn-group-vertical">
-                                            <a class="btn btn-sm btn-primary mb-1" asp-action="Sell" asp-controller="Property" asp-route-id="@listing.Id"><i class="icon icon-edit"></i> Edit</a>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <span>@listing.ListingStatus</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <div class="btn-group-vertical">
+                                        <a class="btn btn-sm btn-primary mb-1" asp-action="Sell" asp-controller="Property" asp-route-id="@listing.Id"><i class="icon icon-edit"></i> Edit</a>
 
-                                            @if (listing.ListingStatus == ListingStatus.Active.ToString())
-                                            {
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-success mb-1 soldBtn" 
-                                                        data-listing-id="@listing.Id" 
-                                                        data-listing-status="Active"
-                                                        data-listing-type="@listing.ListingType">
-                                                    <i class="fa-regular fa-handshake"></i>
-                                                    <span class="button-text">@((listing.ListingType == "For Rent") ? "Rented" : "Sold")</span>
-                                                </button>
-                                            }
-                                            else if (listing.ListingStatus == ListingStatus.Sold.ToString() || 
-                                                     listing.ListingStatus == ListingStatus.Rented.ToString())
-                                            {
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-success mb-1 soldBtn" 
-                                                        data-listing-id="@listing.Id" 
-                                                        data-listing-status="Sold"
-                                                        data-listing-type="@listing.ListingType">
-                                                    <i class="fa-solid fa-angle-up"></i>
-                                                    <span class="button-text">Activate</span>
-                                                </button>
-                                            }
-                                            else if (listing.ListingStatus == ListingStatus.Pending.ToString() ||
-                                                     listing.ListingStatus == ListingStatus.ComingSoon.ToString() ||
-                                                     listing.ListingStatus == ListingStatus.OffMarket.ToString())
-                                            {
-                                                <button type="button" class="btn btn-sm btn-secondary mb-1" disabled>
-                                                    <i class="icon icon-status"></i>
-                                                    <span class="button-text">@listing.ListingStatus</span>
-                                                </button>
-                                            }
+                                        @if (listing.ListingStatus == ListingStatus.Active.ToString())
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success mb-1 soldBtn"
+                                                    data-listing-id="@listing.Id"
+                                                    data-listing-status="Active"
+                                                    data-listing-type="@listing.ListingType">
+                                                <i class="fa-regular fa-handshake"></i>
+                                                <span class="button-text">@((listing.ListingType == "For Rent") ? "Rented" : "Sold")</span>
+                                            </button>
+                                        }
+                                        else if (listing.ListingStatus == ListingStatus.Sold.ToString() ||
+                                                 listing.ListingStatus == ListingStatus.Rented.ToString())
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success mb-1 soldBtn"
+                                                    data-listing-id="@listing.Id"
+                                                    data-listing-status="Sold"
+                                                    data-listing-type="@listing.ListingType">
+                                                <i class="fa-solid fa-angle-up"></i>
+                                                <span class="button-text">Activate</span>
+                                            </button>
+                                        }
+                                        else if (listing.ListingStatus == ListingStatus.Pending.ToString() ||
+                                                 listing.ListingStatus == ListingStatus.ComingSoon.ToString() ||
+                                                 listing.ListingStatus == ListingStatus.OffMarket.ToString())
+                                        {
+                                            <button type="button" class="btn btn-sm btn-secondary mb-1" disabled>
+                                                <i class="icon icon-status"></i>
+                                                <span class="button-text">@listing.ListingStatus</span>
+                                            </button>
+                                        }
 
-                                            <button type="button" class="btn btn-sm btn-danger mb-1 deleteBtn"><i class="icon icon-trash"></i> Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
+                                        <button type="button" class="btn btn-sm btn-danger mb-1 deleteBtn"><i class="icon icon-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>

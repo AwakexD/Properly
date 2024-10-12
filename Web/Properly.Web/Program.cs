@@ -135,6 +135,7 @@ namespace Properly.Web
                 SupportedCultures = new[] { defaultCulture },
                 SupportedUICultures = new[] { defaultCulture }
             };
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseRouting();
 
