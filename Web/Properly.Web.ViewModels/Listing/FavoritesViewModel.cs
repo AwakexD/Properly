@@ -1,4 +1,6 @@
-﻿namespace Properly.Web.ViewModels.Listing
+﻿using Properly.Web.ViewModels.Common;
+
+namespace Properly.Web.ViewModels.Listing
 {
     using System.Collections.Generic;
 
@@ -6,9 +8,9 @@
     {
         public FavoritesViewModel()
         {
-            this.FavoriteListings = new HashSet<FavouritesDto>();
+            this.FavoriteListings = new HashSet<BaseListingViewModel>();
         }
 
-        public IEnumerable<FavouritesDto> FavoriteListings { get; set; }
+        public IEnumerable<BaseListingViewModel> FavoriteListings { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Properly.Data.Models.User;
 using Properly.Services.Data.Contracts;
 using Properly.Web.ViewModels.Dashboard;
+using Properly.Web.ViewModels.Listing;
 using Properly.Web.ViewModels.Messages;
 
 namespace Properly.Web.Controllers
@@ -31,6 +32,9 @@ namespace Properly.Web.Controllers
 
             var viewModel = new DashboardViewModel()
             {
+                ActiveMessagesCount = await messagesService.GetActiveMessagesCountForUser(user.Id),
+                FavoritesCount = await propertyService.GetUserFavoritesCountAsync(user.Id),
+                ListingsCount = await propertyService.GetUserListingsCountAsync(user.Id),
                 Listings = await this.propertyService.GetUserListings(user.Id),
             };
 
@@ -54,7 +58,14 @@ namespace Properly.Web.Controllers
         [Authorize]
         public async Task<IActionResult> MyFavorites()
         {
-            return this.View();
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var viewModel = new FavoritesViewModel()
+            {
+                FavoriteListings = await this.propertyService.GetUserFavoritesAsync(user.Id),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

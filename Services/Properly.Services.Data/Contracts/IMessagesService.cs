@@ -13,5 +13,7 @@ namespace Properly.Services.Data.Contracts
         Task<IEnumerable<MessageViewModel>> GetActiveMessagesForUser(string userId);
 
         Task<IEnumerable<MessageViewModel>> GetArchivedMessagesForUser(string userId);
+
+        Task<int> GetActiveMessagesCountForUser(string userId);
     }
 }

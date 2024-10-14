@@ -417,12 +417,32 @@ namespace Properly.Services.Data
                 .AnyAsync(x => x.ListingId == new Guid(listingId) && x.UserId == userId);
         }
 
-
-        public int GetCount(string listingType)
+        public async Task<IEnumerable<BaseListingViewModel>> GetUserFavoritesAsync(string userId)
         {
-             int count = this.listingRepository
+            var favorites = await this.favouriteListingRepository.AllAsNoTracking()
+                .Where(fl => fl.UserId == userId)
+                .Select(l => l.Listing)
+                .To<BaseListingViewModel>()
+                .ToListAsync();
+
+            return favorites;
+        }
+
+        public async Task<int> GetUserFavoritesCountAsync(string userId)
+        {
+            int count = await this.favouriteListingRepository.AllAsNoTracking()
+                .Where(fl => fl.UserId == userId)
+                .CountAsync();
+
+            return count;
+        }
+             
+        public async Task<int> GetUserListingsCountAsync(string userId)
+        {
+             int count = await this.listingRepository
                 .AllAsNoTracking()
-                .Count(l => l.ListingType.Name == listingType);
+                .Where(l => l.CreatorId == userId)
+                .CountAsync();
 
              return count;
         }

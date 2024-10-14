@@ -96,5 +96,15 @@ namespace Properly.Services.Data
 
             return listing.CreatorId;
         }
+
+        public async Task<int> GetActiveMessagesCountForUser(string userId)
+        {
+            int count = await this.messagesRepository.AllAsNoTracking()
+                .Where(m => m.ReceiverId == userId)
+
+                .CountAsync();
+            
+            return count;
+        }
     }
 }

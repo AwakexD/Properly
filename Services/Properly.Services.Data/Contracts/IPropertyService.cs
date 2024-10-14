@@ -41,7 +41,11 @@ namespace Properly.Services.Data.Contracts
 
         Task<bool> IsFavoriteAsync(string userId, string listingId);
 
-        int GetCount(string type);
+        Task<IEnumerable<BaseListingViewModel>> GetUserFavoritesAsync(string userId);
+
+        Task<int> GetUserFavoritesCountAsync(string userId);
+
+        Task<int> GetUserListingsCountAsync(string userId);
 
     }
 }
