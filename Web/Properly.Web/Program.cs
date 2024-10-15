@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Properly.Web
 {
     using System;
@@ -94,6 +96,11 @@ namespace Properly.Web
             Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
             cloudinary.Api.Secure = true;
             services.AddSingleton(cloudinary);
+
+            // SendGrid
+            DotEnv.Load(options: new DotEnvOptions(probeForEnv:true));
+            services.AddSingleton<IEmailSender>(
+                new SendGridEmailSender(Environment.GetEnvironmentVariable("SENDGRID_API_KEY")));
 
             // Register AutoMapper
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
