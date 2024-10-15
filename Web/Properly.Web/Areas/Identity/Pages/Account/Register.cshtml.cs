@@ -15,12 +15,13 @@ namespace Properly.Web.Areas.Identity.Pages.Account
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
     using Properly.Data.Models.User;
+    using Properly.Services.Messaging;
+    using Properly.Services.Messaging.Constants;
 
     public class RegisterModel : PageModel
     {
@@ -98,6 +99,7 @@ namespace Properly.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= this.Url.Content("~/");
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (this.ModelState.IsValid)
             {
                 var user = this.CreateUser();
@@ -107,11 +109,12 @@ namespace Properly.Web.Areas.Identity.Pages.Account
 
                 await this.userStore.SetUserNameAsync(user, this.Input.Email, CancellationToken.None);
                 await this.emailStore.SetEmailAsync(user, this.Input.Email, CancellationToken.None);
+
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
 
                 if (result.Succeeded)
                 {
-                    logger.LogInformation("User created a new account with password.");
+                    this.logger.LogInformation("User created a new account with password.");
 
                     var userId = await this.userManager.GetUserIdAsync(user);
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -122,11 +125,25 @@ namespace Properly.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: this.Request.Scheme);
 
+                    // Send confirmation email
                     await this.emailSender.SendEmailAsync(
-                        this.Input.Email, 
-                        "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        EmailSenderData.Email,
+                        EmailSenderData.Nickname,
+                        this.Input.Email,
+                        EmailTemplates.ConfirmEmailSubject,
+                        EmailTemplates.GetPasswordResetEmailBody(callbackUrl)
+                    );
 
+                    // Send welcome email
+                    await this.emailSender.SendEmailAsync(
+                        EmailSenderData.Email,
+                        EmailSenderData.Nickname,
+                        this.Input.Email, 
+                        EmailTemplates.WelcomeEmailSubject, 
+                        EmailTemplates.GetWelcomeEmailBody(this.Input.FirstName)
+                    );
+
+                    // Sign-in or redirect logic
                     if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return this.RedirectToPage("RegisterConfirmation", new { email = this.Input.Email, returnUrl = returnUrl });
