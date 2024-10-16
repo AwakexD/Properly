@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Properly.Data.Models.User;
+using Properly.Services.Messaging;
+using Properly.Services.Messaging.Constants;
 
 namespace Properly.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -18,15 +20,18 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IEmailSender _emailSender;
 
         public ChangePasswordModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -96,8 +101,17 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
 
+            // Send a notification email to the user
+            var userEmail = await _userManager.GetEmailAsync(user);
+            await _emailSender.SendEmailAsync(
+                EmailSenderData.Email,
+                EmailSenderData.Nickname,
+                userEmail,
+                EmailTemplates.PasswordChangeSubject,
+                EmailTemplates.GetPasswordChangeNotificationBody());
+
+            StatusMessage = "Your password has been changed.";
             return RedirectToPage();
         }
     }

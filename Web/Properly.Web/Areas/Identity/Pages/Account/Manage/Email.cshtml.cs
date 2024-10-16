@@ -8,11 +8,13 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Properly.Data.Models.User;
+using Properly.Services.Messaging;
+using Properly.Services.Messaging.Constants;
 
 namespace Properly.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -100,10 +102,13 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
                     pageHandler: null,
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
+
                 await _emailSender.SendEmailAsync(
+                    EmailSenderData.Email,
+                    EmailSenderData.Nickname,
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    EmailTemplates.EmailChangeSubject,
+                    EmailTemplates.GetEmailChangeNotificationBody(email, Input.NewEmail));
 
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
@@ -136,10 +141,13 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
+
             await _emailSender.SendEmailAsync(
+                EmailSenderData.Email,
+                EmailSenderData.Nickname,
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                EmailTemplates.EmailChangeSubject,
+                EmailTemplates.GetEmailChangeNotificationBody(email, Input.NewEmail));
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

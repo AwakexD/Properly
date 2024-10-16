@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Properly.Data.Models.User;
+using Properly.Services.Messaging;
+using Properly.Services.Messaging.Constants;
 
 namespace Properly.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -17,13 +19,16 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         public string Username { get; set; }
@@ -89,6 +94,15 @@ namespace Properly.Web.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+
+                // Send a notification email to the user
+                var userEmail = await _userManager.GetEmailAsync(user);
+                await _emailSender.SendEmailAsync(
+                    EmailSenderData.Email,
+                    EmailSenderData.Nickname,
+                    userEmail,
+                    EmailTemplates.PhoneNumberChangeSubject,
+                    EmailTemplates.GetPhoneNumberChangeNotificationBody(userEmail, Input.PhoneNumber));
             }
 
             await _signInManager.RefreshSignInAsync(user);

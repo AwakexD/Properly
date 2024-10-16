@@ -131,7 +131,7 @@ namespace Properly.Web.Areas.Identity.Pages.Account
                         EmailSenderData.Nickname,
                         this.Input.Email,
                         EmailTemplates.ConfirmEmailSubject,
-                        EmailTemplates.GetPasswordResetEmailBody(callbackUrl)
+                        EmailTemplates.GetConfirmEmailBody(callbackUrl)
                     );
 
                     // Send welcome email
