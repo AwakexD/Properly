@@ -1,0 +1,20 @@
+﻿@using Properly.Data.Models.User
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<div class="sidebar-menu-dashboard">
+    <ul class="box-menu-dashboard">
+        <li class="nav-menu-item"><a class="nav-menu-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+        <li class="nav-menu-item"><a class="nav-menu-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+        <li class="nav-menu-item"><a class="nav-menu-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+        @if (hasExternalLogins)
+        {
+            <li id="external-logins" class="nav-menu-item"><a id="external-login" class="nav-menu-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        }
+        <li class="nav-menu-item"><a class="nav-menu-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+        <li class="nav-menu-item"><a class="nav-menu-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    </ul>
+</div>
+

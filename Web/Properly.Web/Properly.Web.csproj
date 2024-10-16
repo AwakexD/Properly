@@ -9,24 +9,12 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Shared\_NotificationPartial.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Shared\_NotificationPartial.cshtml" />
-  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<InternalsVisibleTo Include="Properly.Web.Tests" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Include="Views\Shared\_NotificationPartial.cshtml" />
 	</ItemGroup>
 
   <ItemGroup>
@@ -58,9 +46,5 @@
     <ProjectReference Include="..\..\Services\Properly.Services\Properly.Services.csproj" />
     <ProjectReference Include="..\Properly.Web.Infrastructure\Properly.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Properly.Web.ViewModels\Properly.Web.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
 </Project>
