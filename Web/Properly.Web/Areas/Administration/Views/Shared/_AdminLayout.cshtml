@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@RenderBody()
+
+@section Styles
+{
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> 
+    <!-- DataTables Configuration-->
+    <script src="~/js/datatablesConfiguration.js" asp-append-version="true"></script>
+    <!--Remove Theme Preload-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.addEventListener('load', function () {
+                document.querySelector('.preload').classList.add('d-none');
+                document.getElementById('wrapper').classList.remove('d-none');
+            });
+        });
+    </script>
+}
+
