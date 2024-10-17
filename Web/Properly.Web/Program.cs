@@ -89,6 +89,7 @@ namespace Properly.Web
             services.AddTransient<IOptionsService, OptionService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IMessagesService, MessagesService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Cloudinary
             DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));

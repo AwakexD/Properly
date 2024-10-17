@@ -43,6 +43,10 @@
         "css/all.min.css",
         "webfonts/*"
       ]
+    },
+    {
+      "library": "datatables.net-bs4@2.1.8",
+      "destination": "wwwroot/lib/datatables/"
     }
   ]
 }

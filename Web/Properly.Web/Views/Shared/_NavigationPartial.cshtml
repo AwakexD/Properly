@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Properly.Common
 @using Properly.Data.Models.User
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -9,41 +10,61 @@
             <div class="inner-container d-flex justify-content-between align-items-center">
                 <!-- Logo Box -->
                 <div class="logo-box">
-                    <div class="logo"><a asp-controller="Home" asp-action="Index"><img src="~/theme/images/logo/icons8-real-estate-80.png" alt="logo" width="64" height="64"></a></div>
+                    <div class="logo"><a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/theme/images/logo/icons8-real-estate-80.png" alt="logo" width="64" height="64"></a></div>
                 </div>
                 <div class="nav-outer">
                     <!-- Main Menu -->
                     <nav class="main-menu show navbar-expand-md">
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
-                            <ul class="navigation clearfix">
-                                <li class="dropdown2">
-                                    <a href="#">Home</a>
-                                    <ul>
-                                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                                        <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown2">
-                                    <a href="#">Properties</a>
-                                    <ul>    
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy property</a></li>
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent property</a></li>
-                                        <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell property</a></li>
-                                    </ul>
-                                </li>
-                                @if (this.SignInManager.IsSignedIn(this.User))
-                                {
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
+                                <ul class="navigation clearfix">
+                                    <li>
+                                        <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" >Admin Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="Administration" asp-controller="User" asp-action="All">All Users</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="Administration">Listings for Sale</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="Administration">Listings for Rent</a>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="navigation clearfix">
                                     <li class="dropdown2">
-                                        <a href="#">Dashboard</a>
+                                        <a href="#">Home</a>
                                         <ul>
-                                            <li><a asp-area="" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
-                                            <li><a asp-area="" asp-controller="User" asp-action="Messages">Messages</a></li>
-                                            <li><a asp-area="" asp-controller="User" asp-action="MyFavorites">My Favorites</a></li>
-                                            <li><a asp-area="" asp-controller="Property" asp-action="Sell">Add Property</a></li>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
                                         </ul>
                                     </li>
-                                }
-                            </ul>
+                                    <li class="dropdown2">
+                                        <a href="#">Properties</a>
+                                        <ul>    
+                                            <li><a asp-area="" asp-controller="Property" asp-action="Buy">Buy property</a></li>
+                                            <li><a asp-area="" asp-controller="Property" asp-action="Rent">Rent property</a></li>
+                                            <li><a asp-area="" asp-controller="Property" asp-action="Sell">Sell property</a></li>
+                                        </ul>
+                                    </li>
+                                    @if (this.SignInManager.IsSignedIn(this.User))
+                                    {
+                                        <li class="dropdown2">
+                                            <a href="#">Dashboard</a>
+                                            <ul>
+                                                <li><a asp-area="" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
+                                                <li><a asp-area="" asp-controller="User" asp-action="Messages">Messages</a></li>
+                                                <li><a asp-area="" asp-controller="User" asp-action="MyFavorites">My Favorites</a></li>
+                                                <li><a asp-area="" asp-controller="Property" asp-action="Sell">Add Property</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </nav>
                     <!-- Main Menu End-->
@@ -53,7 +74,7 @@
                         <partial name="_LoginPartial"/>
                     </div>
                     <div class="flat-bt-top">
-                        <a class="tf-btn primary" asp-controller="Property" asp-action="Sell">Submit Property</a>
+                        <a class="tf-btn primary" asp-area="" asp-controller="Property" asp-action="Sell">Submit Property</a>
                     </div>
                 </div>
 
