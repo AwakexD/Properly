@@ -26,6 +26,7 @@ namespace Properly.Web
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Services.Messaging;
+    using Properly.Web.Infrastructure.Middlewares;
     using Properly.Web.Infrastructure.ModelBinders;
     using Properly.Web.ViewModels;
 
@@ -131,6 +132,8 @@ namespace Properly.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseMiddleware<OnlineUsersMiddleware>();
 
             // Enforce default culture
             var defaultCulture = new CultureInfo("en-US");
