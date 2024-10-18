@@ -7,6 +7,7 @@ namespace Properly.Web.Areas.Administration.Controllers
     public class UserController : AdministrationController
     {
         private readonly IUserService userService;
+
         public UserController(IUserService userService)
         {
             this.userService = userService;

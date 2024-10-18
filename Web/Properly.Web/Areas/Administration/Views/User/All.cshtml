@@ -1,56 +1,54 @@
-﻿@using static Properly.Web.Infrastructure.Middlewares.OnlineUsersMiddleware
-@model IEnumerable<Properly.Web.ViewModels.Administration.User.UserViewModel>
+﻿@model IEnumerable<Properly.Web.ViewModels.Administration.User.UserViewModel>
 
 @{
     ViewData["Title"] = "All Users";
 }
 
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a>/ All Users</a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
 <div class="container mt-5">
-    <h2>All Users</h2>
     <table id="usersTable" class="display">
         <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Email Confirmed</th>
-                <th>Status</th>
-            </tr>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Email Confirmed</th>
+            <th>Status</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@(user.FirstName + " " + user.LastName)</td>
-                    <td>@user.Email</td>
-                    <td>@user.PhoneNumber</td>
-                    @if (user.EmailConfirmed)
-                    {
-                        <td>
-                            <span class="badge badge-success">Yes</span>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <span class="badge badge-danger">No</span>
-                        </td>
-                    }
-                    @* ToDo : Test if the middleware is working? *@
-                    @if (CheckIfUserIsOnline(user.Id))
-                    {
-                        <td>
-                            <span class="badge badge-success">Online</span>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <span class="badge badge-danger">Offline</span>
-                        </td>
-                    }
-                </tr>
-            }
+        @foreach (var user in Model)
+        {
+            <tr data-userId="@user.Id">
+                <td>@(user.FirstName + " " + user.LastName)</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                @if (user.EmailConfirmed)
+                {
+                    <td>
+                        <span class="badge badge-success">Yes</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="badge badge-danger">No</span>
+                    </td>
+                }
+                <td>
+                    <span class="user-status badge badge-danger">Offline</span>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

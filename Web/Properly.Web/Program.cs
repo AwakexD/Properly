@@ -26,7 +26,7 @@ namespace Properly.Web
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Services.Messaging;
-    using Properly.Web.Infrastructure.Middlewares;
+    using Properly.Web.Hubs;
     using Properly.Web.Infrastructure.ModelBinders;
     using Properly.Web.ViewModels;
 
@@ -81,6 +81,9 @@ namespace Properly.Web
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+            
+            // SignalR
+            services.AddSignalR();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
@@ -134,8 +137,6 @@ namespace Properly.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMiddleware<OnlineUsersMiddleware>();
-
             // Enforce default culture
             var defaultCulture = new CultureInfo("en-US");
             var localizationOptions = new RequestLocalizationOptions
@@ -153,6 +154,10 @@ namespace Properly.Web
 
             app.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<UserStatusHub>("/userStatusHub"); 
+            });
             app.MapRazorPages();
         }
     }

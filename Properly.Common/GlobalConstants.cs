@@ -11,9 +11,5 @@
 
         public const string AgencyRoleName = "Agency";
 
-
-        public const string OnlineUsersCookieName = "IsOnline";
-
-        public const int LastActivityBeforeOfflineMinutes = 4;
     }
 }
