@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Properly.Services.Data.Contracts;
+using Properly.Web.ViewModels;
 
 namespace Properly.Web.Areas.Administration.Controllers
 {
@@ -15,9 +18,21 @@ namespace Properly.Web.Areas.Administration.Controllers
 
         public async Task<IActionResult> All()
         {
-            var users = await this.userService.GetAllUsersAsync();
+            try
+            {
+                var users = await this.userService.GetAllUsersAsync();
 
-            return this.View(users);
+                if (users == null || !users.Any())
+                {
+                    return View("Error", new ErrorViewModel());
+                }
+
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel());
+            }
         }
     }
 }
