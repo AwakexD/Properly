@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Properly.Web.ViewModels.Sell.Options.PropertyTypeFormModel>
+@{
+    ViewData["Title"] = "Manage Property Types";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a asp-area="Administration" asp-controller="PropertyTypes" asp-action="All">/ Property Types</a></li>
+            <li><a>/ All </a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<div class="text-center my-3">
+    <p>Below are the property types currently stored in the database. As an administrator, you can edit, delete, or add new property types as needed.</p>
+    <a class="btn btn-primary">Add New Property Type</a>
+</div>
+
+<div class="container mt-5">
+    <table id="propertyTypesTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var propertyType in Model)
+            {
+                <tr>
+                    <td>@propertyType.Id</td>
+                    <td>@propertyType.Name</td>
+                    <td>
+                        <a class="btn btn-sm btn-info">Edit</a>
+                        <a class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -5,4 +5,11 @@
         "info": true,
         "responsive": true
     });
+
+    $('#propertyTypesTable').DataTable({
+        "paging": true,
+        searching: true,
+        info: true,
+        responsive: true,
+    });
 });
