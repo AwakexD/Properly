@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Properly.Web.ViewModels.Sell.Options.PropertyTypeFormModel>
+﻿@model IEnumerable<Properly.Web.ViewModels.AdminListingOptions.PropertyTypeAdminModel>
 @{
     ViewData["Title"] = "Manage Property Types";
 }
@@ -16,7 +16,7 @@
 
 <div class="text-center my-3">
     <p>Below are the property types currently stored in the database. As an administrator, you can edit, delete, or add new property types as needed.</p>
-    <a class="btn btn-primary">Add New Property Type</a>
+    <a asp-area="Administration" asp-controller="PropertyTypes" asp-action="Add" class="btn btn-primary">Add New Property Type</a>
 </div>
 
 <div class="container mt-5">
@@ -25,6 +25,7 @@
             <tr>
                 <th>ID</th>
                 <th>Type Name</th>
+                <th>Is Deleted</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -35,8 +36,19 @@
                     <td>@propertyType.Id</td>
                     <td>@propertyType.Name</td>
                     <td>
+                        @if (propertyType.IsDeleted)
+                        {
+                            <span class="badge badge-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">No</span>
+                        }
+                    </td>
+                    <td>
                         <a class="btn btn-sm btn-info">Edit</a>
-                        <a class="btn btn-sm btn-danger">Delete</a>
+                        <a class="btn btn-sm btn-warning">Soft Delete</a>
+                        <a class="btn btn-sm btn-danger">Hard Delete</a>
                     </td>
                 </tr>
             }

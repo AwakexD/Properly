@@ -4,22 +4,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Properly.Services.Data.Contracts;
 using Properly.Web.ViewModels;
+using Properly.Web.ViewModels.AdminListingOptions;
 
 namespace Properly.Web.Areas.Administration.Controllers
 {
     public class PropertyTypesController : AdministrationController
     {
-        private readonly IOptionsService optionsService;
-        public PropertyTypesController(IOptionsService optionsService)
+        private readonly IAdminListingOptionsService adminListingOptionsService;
+        public PropertyTypesController(IAdminListingOptionsService adminListingOptionsService)
         {
-            this.optionsService = optionsService;
+            this.adminListingOptionsService = adminListingOptionsService;
         }
 
         public async Task<IActionResult> All()
         {
             try
             {
-                var viewModel = await this.optionsService.GetPropertyTypes();
+                var viewModel = await this.adminListingOptionsService.GetAllPropertyTypesAsync();
 
                 if (viewModel == null || !viewModel.Any())
                 {
@@ -31,6 +32,32 @@ namespace Properly.Web.Areas.Administration.Controllers
             catch (Exception e)
             {
                 return View("Error", new ErrorViewModel());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(PropertyTypeAdminModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return this.View();
+                }
+
+                await this.adminListingOptionsService.AddPropertyTypeAsync(model);
+
+                return this.RedirectToAction("All", "PropertyTypes");
+            }
+            catch (Exception e)
+            {
+                return this.View("Error", new ErrorViewModel());
             }
         }
     }
