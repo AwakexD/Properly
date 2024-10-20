@@ -60,5 +60,37 @@ namespace Properly.Web.Areas.Administration.Controllers
                 return this.View("Error", new ErrorViewModel());
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var propertyType = await adminListingOptionsService.GetPropertyTypeByIdAsync(id);
+            if (propertyType == null)
+            {
+                return NotFound();
+            }
+
+            return this.View(propertyType);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PropertyTypeAdminModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return this.View(model);
+                }
+
+                await this.adminListingOptionsService.UpdatePropertyTypeAsync(model.Id, model);
+
+                return this.RedirectToAction("All", "PropertyTypes");
+            }
+            catch (Exception e)
+            {
+                return this.View("Error", new ErrorViewModel());
+            }
+        }
     }
 }

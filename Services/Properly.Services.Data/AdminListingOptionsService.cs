@@ -36,6 +36,20 @@ namespace Properly.Services.Data
             return propertyTypes;
         }
 
+        public async Task<PropertyTypeAdminModel> GetPropertyTypeByIdAsync(int id)
+        {
+            if (!await this.propertyTypesRepository.AllAsNoTrackingWithDeleted().AnyAsync())
+            {
+                throw new InvalidOperationException("PropertyTypes repository is empty.");
+            }
+
+            var propertyType = await propertyTypesRepository.AllAsNoTrackingWithDeleted()
+                .To<PropertyTypeAdminModel>()
+                .FirstOrDefaultAsync(pt => pt.Id == id);
+
+            return propertyType;
+        }
+
         public async Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync()
         {
             if (!await this.featuresRepository.AllAsNoTrackingWithDeleted().AnyAsync())
@@ -66,9 +80,19 @@ namespace Properly.Services.Data
             await this.propertyTypesRepository.SaveChangesAsync();
         }
 
-        public Task UpdatePropertyTypeAsync(PropertyTypeAdminModel model)
+        public async Task UpdatePropertyTypeAsync(int id, PropertyTypeAdminModel model)
         {
-            throw new System.NotImplementedException();
+            var propertyType = await this.propertyTypesRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(pt => pt.Id == id);
+            if (propertyType == null)
+            {
+                throw new InvalidOperationException("Property Type not found.");
+            }
+
+            propertyType.Name = model.Name;
+
+            this.propertyTypesRepository.Update(propertyType);
+            await this.propertyTypesRepository.SaveChangesAsync();
         }
 
         public Task DeletePropertyTypeAsync(int id, bool hardDelete)

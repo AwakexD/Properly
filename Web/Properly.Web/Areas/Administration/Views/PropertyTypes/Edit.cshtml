@@ -1,0 +1,36 @@
+﻿@model Properly.Web.ViewModels.AdminListingOptions.PropertyTypeAdminModel
+@{
+    this.ViewData["Title"] = "Edit Property Type";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a asp-area="Administration" asp-controller="PropertyTypes" asp-action="All">/ Property Types</a></li>
+            <li><a>/ Edit </a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<div class="text-center my-3">
+    <p>Use this form to update the details of an existing property type in the database. Ensure that the type name accurately reflects the category, as this will be used in property listings across the platform.</p>
+</div>
+
+<div class="container col-md-4 mt-3">
+    <div class="flat-account bg-surface">
+        <h4 class="text-center mb-3">Edit A Property Type</h4>
+        <form method="post">
+            <fieldset class="box-fieldset">
+                <label for="Name">Type Name</label>
+                <input type="text" class="form-control" id="Name" name="Name" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </fieldset>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-area="Administration" asp-controller="PropertyTypes" asp-action="All" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
