@@ -89,7 +89,8 @@ namespace Properly.Web
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IPropertyService, PropertyService>();
-            services.AddTransient<IOptionsService, OptionService>();
+            services.AddTransient<IListingOptionsService, ListingOptionsService>();
+            services.AddTransient<IAdminListingOptionsService, AdminListingOptionsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IMessagesService, MessagesService>();
             services.AddTransient<IUserService, UserService>();

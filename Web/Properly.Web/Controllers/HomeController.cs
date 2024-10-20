@@ -13,12 +13,12 @@
     public class HomeController : BaseController
     {
         private readonly IPropertyService propertyService;
-        private readonly IOptionsService optionsService;
+        private readonly IListingOptionsService listingOptionsService;
 
-        public HomeController(IPropertyService propertyService, IOptionsService optionsService)
+        public HomeController(IPropertyService propertyService, IListingOptionsService listingOptionsService)
         {
             this.propertyService = propertyService;
-            this.optionsService = optionsService;
+            this.listingOptionsService = listingOptionsService;
         }
 
         public async Task<IActionResult> Index()
@@ -26,8 +26,8 @@
             var viewModel = new IndexViewModel()
             {
                 ListingModels = await this.propertyService.GetAllListingsByAddedDate(6),
-                Features = await this.optionsService.GetFeatures(),
-                PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                Features = await this.listingOptionsService.GetFeatures(),
+                PropertyTypes = await this.listingOptionsService.GetPropertyTypes(),
             };
             return this.View(viewModel);
         }

@@ -21,16 +21,16 @@ namespace Properly.Web.Controllers
 
     public class PropertyController : BaseController
     {
-        private readonly IOptionsService optionsService;
+        private readonly IListingOptionsService listingOptionsService;
         private readonly IPropertyService propertyService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public PropertyController(
-            IOptionsService optionsService,
+            IListingOptionsService listingOptionsService,
             IPropertyService propertyService,
             UserManager<ApplicationUser> userManager)
         {
-            this.optionsService = optionsService;
+            this.listingOptionsService = listingOptionsService;
             this.propertyService = propertyService;
             this.userManager = userManager;
         }
@@ -62,7 +62,7 @@ namespace Properly.Web.Controllers
                     TempData.Clear();
                 }
 
-                viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
+                viewModel.ListingOptions = await this.listingOptionsService.GetListingOptionsAsync();
             }
             catch (Exception)
             {             
@@ -78,7 +78,7 @@ namespace Properly.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.ListingOptions = await this.optionsService.GetListingOptionsAsync();
+                viewModel.ListingOptions = await this.listingOptionsService.GetListingOptionsAsync();
                 return View(viewModel);
             }
 
@@ -145,7 +145,7 @@ namespace Properly.Web.Controllers
                 ListingSorting = queryModel.ListingSorting,
                 Listings = listings,
                 ListingCount = totalCount,
-                PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                PropertyTypes = await this.listingOptionsService.GetPropertyTypes(),
                 QueryParameters = queryParams,
             };
 
@@ -187,7 +187,7 @@ namespace Properly.Web.Controllers
                 ListingSorting = queryModel.ListingSorting,
                 Listings = listings,
                 ListingCount = totalCount,
-                PropertyTypes = await this.optionsService.GetPropertyTypes(),
+                PropertyTypes = await this.listingOptionsService.GetPropertyTypes(),
                 QueryParameters = queryParams,
             };
 
