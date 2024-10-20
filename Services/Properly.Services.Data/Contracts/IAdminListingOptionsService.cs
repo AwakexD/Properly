@@ -20,9 +20,13 @@ namespace Properly.Services.Data.Contracts
 
         Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync();
 
+        Task<FeatureAdminModel> GetFeatureByIdAsync(int id);
+
         Task AddFeatureAsync(FeatureAdminModel model);
 
-        Task UpdateFeatureAsync(FeatureAdminModel model);
+        Task UpdateFeatureAsync(int id, FeatureAdminModel model);
+
+        Task ActivateFeatureAsync(int id);
 
         Task DeleteFeatureAsync(int id, bool hardDelete);
     }

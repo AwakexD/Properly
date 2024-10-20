@@ -1,0 +1,41 @@
+﻿@model Properly.Web.ViewModels.AdminListingOptions.FeatureAdminModel
+@{
+    this.ViewData["Title"] = "Edit A Feature";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a asp-area="Administration" asp-controller="Features" asp-action="All">/ Features </a></li>
+            <li><a>/ Edit </a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<div class="text-center my-3">
+    <p>Update the details of an existing feature. Ensure that the feature name and icon class are accurate to maintain consistency in property listings across the platform.</p>
+</div>
+
+<div class="container col-md-4 mt-3">
+    <div class="flat-account bg-surface">
+        <h4 class="text-center mb-3">Edit A Feature</h4>
+        <form asp-controller="Features" asp-action="Edit" method="post">
+            <fieldset class="box-fieldset">
+                <label for="Name">Feature Name</label>
+                <input type="text" class="form-control" id="Name" name="Name" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </fieldset>
+            <fieldset class="box-fieldset">
+                <label for="IconClass">Icon Class</label>
+                <input type="text" class="form-control" id="Name" name="IconClass" asp-for="IconClass" />
+                <span asp-validation-for="IconClass" class="text-danger"></span>
+            </fieldset>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-area="Administration" asp-controller="Features" asp-action="All" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

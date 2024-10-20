@@ -114,19 +114,82 @@ namespace Properly.Services.Data
             return features;
         }
 
-        public Task AddFeatureAsync(FeatureAdminModel model)
+        public async Task<FeatureAdminModel> GetFeatureByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var feature = await featuresRepository.AllAsNoTrackingWithDeleted()
+                .To<FeatureAdminModel>()
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            if (feature == null)
+            {
+                throw new InvalidOperationException("Feature not found.");
+            }
+
+            return feature;
         }
 
-        public Task UpdateFeatureAsync(FeatureAdminModel model)
+        public async Task AddFeatureAsync(FeatureAdminModel model)
         {
-            throw new System.NotImplementedException();
+            if (model == null)
+            {
+                throw new ArgumentNullException("Parameter cannot be null.");
+            }
+
+            var feature = new Feature()
+            {
+                Name = model.Name,
+                IconClass = model.IconClass
+            };
+
+            await this.featuresRepository.AddAsync(feature);
+            await this.featuresRepository.SaveChangesAsync();
         }
 
-        public Task DeleteFeatureAsync(int id, bool hardDelete)
+        public async Task UpdateFeatureAsync(int id, FeatureAdminModel model)
         {
-            throw new System.NotImplementedException();
+            var feature = await GetFeatureByIdInternalAsync(id);
+
+            feature.Name = model.Name;
+            feature.IconClass = model.IconClass;
+
+            this.featuresRepository.Update(feature);
+            await this.featuresRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteFeatureAsync(int id, bool hardDelete)
+        {
+            var feature = await GetFeatureByIdInternalAsync(id);
+
+            if (hardDelete)
+            {
+                this.featuresRepository.HardDelete(feature);
+            }
+            else
+            {
+                this.featuresRepository.Delete(feature);
+            }
+
+            await this.featuresRepository.SaveChangesAsync();
+        }
+
+        public async Task ActivateFeatureAsync(int id)
+        {
+            var feature = await GetFeatureByIdInternalAsync(id);
+
+            feature.IsDeleted = false;
+            await this.featuresRepository.SaveChangesAsync();
+        }
+
+        private async Task<Feature> GetFeatureByIdInternalAsync(int id)
+        {
+            var feature = await featuresRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            if (feature == null)
+            {
+                throw new ArgumentNullException($"Feature with ID {id} not found.");
+            }
+            return feature;
         }
 
         private async Task<PropertyType> GetPropertyTypeByIdInternalAsync(int id)

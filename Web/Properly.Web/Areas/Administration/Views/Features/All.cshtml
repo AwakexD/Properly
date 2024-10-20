@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Properly.Web.ViewModels.AdminListingOptions.FeatureAdminModel>
+@{
+    ViewData["Title"] = "Manage Features";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a asp-area="Administration" asp-controller="Features" asp-action="All">/ Features </a></li>
+            <li><a>/ All </a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<div class="text-center my-3">
+    <p>Below are the features currently stored in the database. As an administrator, you can edit, delete, or add new features as needed.</p>
+    <a asp-area="Administration" asp-controller="Features" asp-action="Add" class="btn btn-primary">Add New Feature</a>
+</div>
+
+<div class="container mt-5">
+    <table id="featuresTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type Name</th>
+                <th>Icon</th>
+                <th>Icon Class</th>
+                <th>Is Deleted</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var feature in Model)
+            {
+                <tr>
+                    <td>@feature.Id</td>
+                    <td>@feature.Name</td>
+                    <td><i class="@feature.IconClass"></i></td>
+                    <td>@feature.IconClass</td>
+                    <td>
+                        @if (feature.IsDeleted)
+                        {
+                            <span class="badge badge-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">No</span>
+                        }
+                    </td>
+                    <td class="align-items-center">
+                        <a asp-controller="Features" asp-action="Edit" asp-route-id="@feature.Id" class="btn btn-sm btn-info">Edit</a>
+
+                        @if (feature.IsDeleted)
+                        {
+                            <form asp-controller="Features" asp-action="Activate" class="activate-form" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@feature.Id" />
+                                <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-controller="Features" asp-action="Delete" class="delete-form" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@feature.Id" />
+                                <input type="hidden" name="hardDelete" value="false" />
+                                <button type="submit" id="softDeleteBtn" class="btn btn-sm btn-warning">Soft Delete</button>
+                            </form>
+                        }
+
+                        <form asp-controller="Features" asp-action="Delete" class="delete-form" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@feature.Id" />
+                            <input type="hidden" name="hardDelete" value="true" />
+                            <button type="submit" id="hardDeleteBtn" class="btn btn-sm btn-danger">Hard Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/deleteConfirmation.js" asp-append-version="true"></script>
+}

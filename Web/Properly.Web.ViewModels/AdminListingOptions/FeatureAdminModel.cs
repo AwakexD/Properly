@@ -9,6 +9,8 @@ namespace Properly.Web.ViewModels.AdminListingOptions
 
         public string Name { get; set; }
 
+        public string IconClass { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

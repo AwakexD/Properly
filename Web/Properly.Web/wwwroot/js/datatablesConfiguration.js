@@ -8,8 +8,15 @@
 
     $('#propertyTypesTable').DataTable({
         "paging": true,
-        searching: true,
-        info: true,
-        responsive: true,
+        "searching": true,
+        "info": true,
+        "responsive": true,
     });
+
+    $('#featuresTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "info": true,
+        "responsive": true,
+    })
 });
