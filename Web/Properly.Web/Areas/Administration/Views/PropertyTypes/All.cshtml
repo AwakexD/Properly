@@ -22,36 +22,61 @@
 <div class="container mt-5">
     <table id="propertyTypesTable" class="display">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Type Name</th>
-                <th>Is Deleted</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Type Name</th>
+            <th>Is Deleted</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var propertyType in Model)
-            {
-                <tr>
-                    <td>@propertyType.Id</td>
-                    <td>@propertyType.Name</td>
-                    <td>
-                        @if (propertyType.IsDeleted)
-                        {
-                            <span class="badge badge-success">Yes</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-danger">No</span>
-                        }
-                    </td>
-                    <td>
-                        <a asp-controller="PropertyTypes" asp-action="Edit" asp-route-id="@propertyType.Id" class="btn btn-sm btn-info">Edit</a>
-                        <a class="btn btn-sm btn-warning">Soft Delete</a>
-                        <a class="btn btn-sm btn-danger">Hard Delete</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var propertyType in Model)
+        {
+            <tr>
+                <td>@propertyType.Id</td>
+                <td>@propertyType.Name</td>
+                <td>
+                    @if (propertyType.IsDeleted)
+                    {
+                        <span class="badge badge-success">Yes</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">No</span>
+                    }
+                </td>
+                <td class="align-items-center">
+                    <a asp-controller="PropertyTypes" asp-action="Edit" asp-route-id="@propertyType.Id" class="btn btn-sm btn-info">Edit</a>
+                        
+                    @if (propertyType.IsDeleted)
+                    {
+                        <form asp-controller="PropertyTypes" asp-action="Activate" class="activate-form" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@propertyType.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="PropertyTypes" asp-action="Delete" class="delete-form" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@propertyType.Id"/>
+                            <input type="hidden" name="hardDelete" value="false"/>
+                            <button type="submit" id="softDeleteBtn" class="btn btn-sm btn-warning">Soft Delete</button>
+                        </form>
+                    }
+
+                    <form asp-controller="PropertyTypes" asp-action="Delete" class="delete-form" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@propertyType.Id"/>
+                        <input type="hidden" name="hardDelete" value="true"/>
+                        <button type="submit" id="hardDeleteBtn" class="btn btn-sm btn-danger">Hard Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/deleteConfirmation.js" asp-append-version="true"></script>
+}

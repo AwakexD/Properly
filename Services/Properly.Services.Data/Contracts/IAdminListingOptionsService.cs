@@ -10,13 +10,15 @@ namespace Properly.Services.Data.Contracts
 
         Task<PropertyTypeAdminModel> GetPropertyTypeByIdAsync(int id);
 
-        Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync();
-
         Task AddPropertyTypeAsync(PropertyTypeAdminModel model);
 
         Task UpdatePropertyTypeAsync(int id, PropertyTypeAdminModel model);
 
         Task DeletePropertyTypeAsync(int id, bool hardDelete);
+
+        Task ActivatePropertyTypeAsync(int id);
+
+        Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync();
 
         Task AddFeatureAsync(FeatureAdminModel model);
 

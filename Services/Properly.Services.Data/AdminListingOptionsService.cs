@@ -24,44 +24,30 @@ namespace Properly.Services.Data
 
         public async Task<IEnumerable<PropertyTypeAdminModel>> GetAllPropertyTypesAsync()
         {
-            if (!await this.propertyTypesRepository.AllAsNoTrackingWithDeleted().AnyAsync())
-            {
-                throw new InvalidOperationException("PropertyTypes repository is empty.");
-            }
-
             var propertyTypes = await propertyTypesRepository.AllAsNoTrackingWithDeleted()
                 .To<PropertyTypeAdminModel>()
                 .ToListAsync();
+
+            if (propertyTypes == null)
+            {
+                throw new InvalidOperationException("PropertyTypes repository is empty.");
+            }
 
             return propertyTypes;
         }
 
         public async Task<PropertyTypeAdminModel> GetPropertyTypeByIdAsync(int id)
         {
-            if (!await this.propertyTypesRepository.AllAsNoTrackingWithDeleted().AnyAsync())
-            {
-                throw new InvalidOperationException("PropertyTypes repository is empty.");
-            }
-
             var propertyType = await propertyTypesRepository.AllAsNoTrackingWithDeleted()
                 .To<PropertyTypeAdminModel>()
                 .FirstOrDefaultAsync(pt => pt.Id == id);
 
-            return propertyType;
-        }
-
-        public async Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync()
-        {
-            if (!await this.featuresRepository.AllAsNoTrackingWithDeleted().AnyAsync())
+            if (propertyType == null)
             {
-                throw new InvalidOperationException("Features repository is empty.");
+                throw new InvalidOperationException("PropertyTypes repository is empty.");
             }
 
-            var features = await this.featuresRepository.AllAsNoTrackingWithDeleted()
-                .To<FeatureAdminModel>()
-                .ToListAsync();
-
-            return features;
+            return propertyType;
         }
 
         public async Task AddPropertyTypeAsync(PropertyTypeAdminModel model)
@@ -82,12 +68,7 @@ namespace Properly.Services.Data
 
         public async Task UpdatePropertyTypeAsync(int id, PropertyTypeAdminModel model)
         {
-            var propertyType = await this.propertyTypesRepository.AllWithDeleted()
-                .FirstOrDefaultAsync(pt => pt.Id == id);
-            if (propertyType == null)
-            {
-                throw new InvalidOperationException("Property Type not found.");
-            }
+            var propertyType = await GetPropertyTypeByIdInternalAsync(id);
 
             propertyType.Name = model.Name;
 
@@ -95,9 +76,42 @@ namespace Properly.Services.Data
             await this.propertyTypesRepository.SaveChangesAsync();
         }
 
-        public Task DeletePropertyTypeAsync(int id, bool hardDelete)
+        public async Task DeletePropertyTypeAsync(int id, bool hardDelete)
         {
-            throw new System.NotImplementedException();
+            var propertyType = await GetPropertyTypeByIdInternalAsync(id);
+
+            if (hardDelete)
+            { 
+                this.propertyTypesRepository.HardDelete(propertyType);
+            }
+            else
+            {
+                this.propertyTypesRepository.Delete(propertyType);
+            }
+
+            await this.propertyTypesRepository.SaveChangesAsync();
+        }
+
+        public async Task ActivatePropertyTypeAsync(int id)
+        {
+            var propertyType = await GetPropertyTypeByIdInternalAsync(id);
+
+            propertyType.IsDeleted = false;
+            await this.propertyTypesRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<FeatureAdminModel>> GetAllFeaturesAsync()
+        {
+            if (!await this.featuresRepository.AllAsNoTrackingWithDeleted().AnyAsync())
+            {
+                throw new InvalidOperationException("Features repository is empty.");
+            }
+
+            var features = await this.featuresRepository.AllAsNoTrackingWithDeleted()
+                .To<FeatureAdminModel>()
+                .ToListAsync();
+
+            return features;
         }
 
         public Task AddFeatureAsync(FeatureAdminModel model)
@@ -113,6 +127,16 @@ namespace Properly.Services.Data
         public Task DeleteFeatureAsync(int id, bool hardDelete)
         {
             throw new System.NotImplementedException();
+        }
+
+        private async Task<PropertyType> GetPropertyTypeByIdInternalAsync(int id)
+        {
+            var propertyType = await propertyTypesRepository.AllWithDeleted().FirstOrDefaultAsync(pt => pt.Id == id);
+            if (propertyType == null)
+            {
+                throw new ArgumentNullException($"Property Type with ID {id} not found.");
+            }
+            return propertyType;
         }
     }
 }
