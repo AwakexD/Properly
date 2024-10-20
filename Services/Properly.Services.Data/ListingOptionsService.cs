@@ -15,13 +15,13 @@
     using Properly.Web.ViewModels.Sell;
     using Properly.Web.ViewModels.Sell.Options;
 
-    public class OptionService : IOptionsService
+    public class ListingOptionsService : IListingOptionsService
     {
         private readonly IDeletableEntityRepository<PropertyType> propertyTypesRepository;
         private readonly IDeletableEntityRepository<ListingType> listingTypesRepository;
         private readonly IDeletableEntityRepository<Feature> featuresRepository;
 
-        public OptionService(
+        public ListingOptionsService(
             IDeletableEntityRepository<PropertyType> propertyTypesRepository,
             IDeletableEntityRepository<ListingType> listingTypesRepository,
             IDeletableEntityRepository<Feature> featuresRepository)
@@ -78,6 +78,19 @@
                 ListingTypes = await this.GetListingTypes(),
                 Features = await this.GetFeatures(),
             };
+        }
+
+        
+        // 1. Add Property Type
+        public async Task AddPropertyTypeAsync(PropertyTypeFormModel model)
+        {
+            var propertyType = new PropertyType
+            {
+                Name = model.Name,
+            };
+
+            await this.propertyTypesRepository.AddAsync(propertyType);
+            await this.propertyTypesRepository.SaveChangesAsync();
         }
     }
 }

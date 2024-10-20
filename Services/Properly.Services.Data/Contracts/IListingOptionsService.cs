@@ -6,7 +6,7 @@
     using Properly.Web.ViewModels.Sell;
     using Properly.Web.ViewModels.Sell.Options;
 
-    public interface IOptionsService
+    public interface IListingOptionsService
     {
         Task<IEnumerable<PropertyTypeFormModel>> GetPropertyTypes();
 
