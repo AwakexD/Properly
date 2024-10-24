@@ -1,8 +1,14 @@
 ﻿@model Properly.Web.ViewModels.Common.PagingViewModel
+@{
+    var routeData = ViewContext.RouteData;
+    var currentArea = routeData.Values["area"]?.ToString();
+    var currentController = routeData.Values["controller"]?.ToString();
+    var currentAction = routeData.Values["action"]?.ToString();
+}
 
 <ul class="justify-content-center wd-navigation">
     <li>
-        <a class="nav-item" asp-controller="Property" asp-action="Buy"
+        <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
            asp-route-id="@Model.PreviousPageNumber"
            asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
            asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
@@ -26,7 +32,7 @@
         if (i > 0)
         {
             <li>
-                <a class="nav-item" asp-controller="Property" asp-action="Buy"
+                <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
                    asp-route-id="@i"
                    asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
                    asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
@@ -54,7 +60,7 @@
         if (i <= Model.PagesCount)
         {
             <li>
-                <a class="nav-item" asp-controller="Property" asp-action="Buy"
+                <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
                    asp-route-id="@i"
                    asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
                    asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
@@ -75,7 +81,7 @@
     }
 
     <li>
-        <a class="nav-item" asp-controller="Property" asp-action="Buy"
+        <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
            asp-route-id="@Model.NextPageNumber"
            asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
            asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
