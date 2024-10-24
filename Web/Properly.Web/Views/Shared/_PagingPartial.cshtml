@@ -4,24 +4,18 @@
     var currentArea = routeData.Values["area"]?.ToString();
     var currentController = routeData.Values["controller"]?.ToString();
     var currentAction = routeData.Values["action"]?.ToString();
+
+    // Filter out null or empty values from QueryParameters
+    var filteredParameters = Model.QueryParameters
+        .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
+        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 }
 
 <ul class="justify-content-center wd-navigation">
     <li>
         <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
+           asp-all-route-data="@filteredParameters"
            asp-route-id="@Model.PreviousPageNumber"
-           asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
-           asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
-           asp-route-Keyword="@Model.QueryParameters["Keyword"]"
-           asp-route-Location="@Model.QueryParameters["Location"]"
-           asp-route-PropertyType="@Model.QueryParameters["PropertyType"]"
-           asp-route-MinPrice="@Model.QueryParameters["MinPrice"]"
-           asp-route-MaxPrice="@Model.QueryParameters["MaxPrice"]"
-           asp-route-MinSize="@Model.QueryParameters["MinSize"]"
-           asp-route-MaxSize="@Model.QueryParameters["MaxSize"]"
-           asp-route-Bathrooms="@Model.QueryParameters["Bathrooms"]"
-           asp-route-Bedrooms="@Model.QueryParameters["Bedrooms"]"
-           asp-route-Features="@Model.QueryParameters["Features"]"
            style="@(Model.HasPreviousPage ? "" : "pointer-events: none; opacity: 0.5;")">
             <i class="icon icon-arr-l"></i>
         </a>
@@ -33,19 +27,8 @@
         {
             <li>
                 <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
-                   asp-route-id="@i"
-                   asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
-                   asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
-                   asp-route-Keyword="@Model.QueryParameters["Keyword"]"
-                   asp-route-Location="@Model.QueryParameters["Location"]"
-                   asp-route-PropertyType="@Model.QueryParameters["PropertyType"]"
-                   asp-route-MinPrice="@Model.QueryParameters["MinPrice"]"
-                   asp-route-MaxPrice="@Model.QueryParameters["MaxPrice"]"
-                   asp-route-MinSize="@Model.QueryParameters["MinSize"]"
-                   asp-route-MaxSize="@Model.QueryParameters["MaxSize"]"
-                   asp-route-Bathrooms="@Model.QueryParameters["Bathrooms"]"
-                   asp-route-Bedrooms="@Model.QueryParameters["Bedrooms"]"
-                   asp-route-Features="@Model.QueryParameters["Features"]">
+                   asp-all-route-data="@filteredParameters"
+                   asp-route-id="@i">
                     @i
                 </a>
             </li>
@@ -61,19 +44,8 @@
         {
             <li>
                 <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
-                   asp-route-id="@i"
-                   asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
-                   asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
-                   asp-route-Keyword="@Model.QueryParameters["Keyword"]"
-                   asp-route-Location="@Model.QueryParameters["Location"]"
-                   asp-route-PropertyType="@Model.QueryParameters["PropertyType"]"
-                   asp-route-MinPrice="@Model.QueryParameters["MinPrice"]"
-                   asp-route-MaxPrice="@Model.QueryParameters["MaxPrice"]"
-                   asp-route-MinSize="@Model.QueryParameters["MinSize"]"
-                   asp-route-MaxSize="@Model.QueryParameters["MaxSize"]"
-                   asp-route-Bathrooms="@Model.QueryParameters["Bathrooms"]"
-                   asp-route-Bedrooms="@Model.QueryParameters["Bedrooms"]"
-                   asp-route-Features="@Model.QueryParameters["Features"]">
+                   asp-all-route-data="@filteredParameters"
+                   asp-route-id="@i">
                     @i
                 </a>
             </li>
@@ -82,19 +54,8 @@
 
     <li>
         <a class="nav-item" asp-area="@currentArea" asp-controller="@currentController" asp-action="@currentAction"
+           asp-all-route-data="@filteredParameters"
            asp-route-id="@Model.NextPageNumber"
-           asp-route-ItemsPerPage="@Model.QueryParameters["ItemsPerPage"]"
-           asp-route-ListingSorting="@Model.QueryParameters["ListingSorting"]"
-           asp-route-Keyword="@Model.QueryParameters["Keyword"]"
-           asp-route-Location="@Model.QueryParameters["Location"]"
-           asp-route-PropertyType="@Model.QueryParameters["PropertyType"]"
-           asp-route-MinPrice="@Model.QueryParameters["MinPrice"]"
-           asp-route-MaxPrice="@Model.QueryParameters["MaxPrice"]"
-           asp-route-MinSize="@Model.QueryParameters["MinSize"]"
-           asp-route-MaxSize="@Model.QueryParameters["MaxSize"]"
-           asp-route-Bathrooms="@Model.QueryParameters["Bathrooms"]"
-           asp-route-Bedrooms="@Model.QueryParameters["Bedrooms"]"
-           asp-route-Features="@Model.QueryParameters["Features"]"
            style="@(Model.HasNextPage ? "" : "pointer-events: none; opacity: 0.5;")">
             <i class="icon icon-arr-r"></i>
         </a>
