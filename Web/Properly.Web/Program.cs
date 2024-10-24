@@ -1,3 +1,5 @@
+using Properly.Services.Data.Admin;
+
 namespace Properly.Web
 {
     using System;
@@ -91,6 +93,7 @@ namespace Properly.Web
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<IListingOptionsService, ListingOptionsService>();
             services.AddTransient<IAdminListingOptionsService, AdminListingOptionsService>();
+            services.AddTransient<IAdminListingService, AdminListingService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IMessagesService, MessagesService>();
             services.AddTransient<IUserService, UserService>();

@@ -1,0 +1,136 @@
+﻿@model Properly.Web.ViewModels.Listing.AdminListingViewModel
+@{
+    this.ViewData["Title"] = "All Listings";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a>/ All Listings</a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<section class="flat-section-v5 flat-recommended flat-recommended-v2">
+    <p class="text-center">All listings are displayed here</p>
+    <div class="container">
+        <div class="box-title-listing justify-content-center mt-3">
+            <div class="box-filter-tab d-flex justify-content-between align-items-center">
+                <!-- Filter by Listing Type (All, For Sale, For Rent) -->
+                <div class="d-flex gap-4 align-items-center">
+                    <select asp-for="ListingType" class="nice-select list-page" tabindex="0">
+                        <span class="current">All</span>
+                        <ul class="list">
+                            <option class="option selected">All Listings</option>
+                            <option data-value="0" class="option">For Sale</option>
+                            <option data-value="1" class="option">For Rent</option>
+                        </ul>
+                    </select>
+                </div>
+
+                <!-- Filter by Status (Active, Deactivated) -->
+                <select class="nice-select list-page" tabindex="0">
+                    <span class="current">Status</span>
+                    <ul class="list">
+                        <option data-value="_" class="option">Status</option>
+                        <option data-value="active" class="option selected">Active Listings</option>
+                        <option data-value="active" class="option selected">Deactivated Listings</option>
+                    </ul>
+                </select>
+
+                <!-- Sort Options -->
+                <select class="nice-select list-sort" tabindex="0">
+                    <span class="current">Sort by (Default)</span>
+                    <ul class="list">
+                        <option data-value="_" class="option selected">Sort by (Default)</option>
+                        <option data-value="new" class="option">Newest</option>
+                        <option data-value="old" class="option">Oldest</option>
+                    </ul>
+                </select>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="gridLayout" role="tabpanel">
+                <div class="row">
+                    <!-- Example Listing (Static for now) -->
+                    @foreach (var listing in Model.Listings)
+                    {
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="homeya-box">
+                                <div class="archive-top">
+                                    <a asp-area="" asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" as class="images-group">
+                                        <div class="images-style">
+                                            <img src="@listing.Photos.FirstOrDefault()" alt="property-image">
+                                        </div>
+                                        <div class="top">
+                                            <ul class="d-flex gap-8">
+                                                <li class="flag-tag style-1">@listing.ListingStatus</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bottom">
+                                            <span class="flag-tag style-2">@listing.PropertyTypeName</span>
+                                        </div>
+                                    </a>
+                                    <div class="content">
+                                        <div class="h7 text-capitalize fw-7">
+                                            <a href="" class="link">@listing.FullAddress</a>
+                                        </div>
+                                        <div class="desc"><i class="fs-16 icon icon-mapPin"></i>
+                                            <p>Construction Date : @listing.ConstructionDate</p></div>
+                                        <ul class="meta-list">
+                                            <li class="item">
+                                                <i class="icon icon-bed"></i>
+                                                <span>@listing.Bedrooms</span>
+                                            </li>
+                                            <li class="item">
+                                                <i class="icon icon-bathtub"></i>
+                                                <span>@listing.Bathrooms</span>
+                                            </li>
+                                            <li class="item">
+                                                <i class="icon icon-ruler"></i>
+                                                <span>@listing.Size</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="archive-bottom d-flex justify-content-between align-items-center">
+                                    <div class="d-flex gap-8 align-items-center">
+                                        <span>@listing.CreatorName</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <h6>@listing.Price.ToString("C0")</h6>
+                                        @if (listing.ListingType == "For Rent")
+                                        {
+                                            <span class="text-variant-1">/mo.</span>
+                                        }
+                                    </div>
+                                </div>
+                                <!-- Admin Controls -->
+                                <div class=" d-flex justify-content-between m-1">
+                                    <div>
+                                        <a href="#" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="#" class="btn btn-warning btn-sm">Deactivate</a>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="btn btn-danger btn-sm">Hard Delete</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">Soft Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- Additional listings will go here in future using foreach -->
+                </div>
+            </div>
+            <partial name="_PagingPartial"/>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    
+}

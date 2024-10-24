@@ -8,7 +8,7 @@ using Properly.Services.Data.Contracts;
 using Properly.Services.Mapping;
 using Properly.Web.ViewModels.AdminListingOptions;
 
-namespace Properly.Services.Data
+namespace Properly.Services.Data.Admin
 {
     public class AdminListingOptionsService : IAdminListingOptionsService
     {
