@@ -13,6 +13,7 @@ using Properly.Web.ViewModels.Common;
 using Properly.Web.ViewModels.Listing;
 using Properly.Web.ViewModels.Listing.Enums;
 using Properly.Web.ViewModels.Sell;
+using ListingStatus = Properly.Web.ViewModels.Listing.Enums.ListingStatus;
 using ListingType = Properly.Web.ViewModels.Listing.Enums.ListingType;
 
 namespace Properly.Services.Data.Admin 
@@ -39,7 +40,6 @@ namespace Properly.Services.Data.Admin
             this.photoRepository = photoRepository;
         }
 
-        // Admin can get all listings, including those that are soft deleted
         public async Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllListingsAsync(AdminListingViewModel queryModel, int page)
         {
             var query = this.listingRepository.AllAsNoTrackingWithDeleted();
@@ -48,6 +48,18 @@ namespace Properly.Services.Data.Admin
             {
                 ListingType.ForSale => query.Where(l => l.ListingType.Name == "For Sale"),
                 ListingType.ForRent => query.Where(l => l.ListingType.Name == "For Rent"),
+                ListingType.All => query
+            };
+
+            query = queryModel.ListingStatus switch
+            {
+                ListingStatus.Active => query.Where(l => l.ListingStatus.Name == ListingStatus.Active.ToString()),
+                ListingStatus.Pending => query.Where(l => l.ListingStatus.Name == ListingStatus.Pending.ToString()),
+                ListingStatus.Sold => query.Where(l => l.ListingStatus.Name == "Sold"),
+                ListingStatus.Rented => query.Where(l => l.ListingStatus.Name == "Rented"),
+                ListingStatus.Withdrawn => query.Where(l => l.ListingStatus.Name == ListingStatus.Withdrawn.ToString()),
+                ListingStatus.ComingSoon => query.Where(l => l.ListingStatus.Name == ListingStatus.ComingSoon.ToString()),
+                ListingStatus.OffMarket => query.Where(l => l.ListingStatus.Name == ListingStatus.OffMarket.ToString()),
                 _ => query
             };
 

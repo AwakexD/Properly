@@ -18,35 +18,39 @@
     <div class="container">
         <div class="box-title-listing justify-content-center mt-3">
             <div class="box-filter-tab d-flex justify-content-between align-items-center">
-                <!-- Filter by Listing Type (All, For Sale, For Rent) -->
                 <div class="d-flex gap-4 align-items-center">
-                    <select asp-for="ListingType" class="nice-select list-page" tabindex="0">
+                    <select asp-for="ListingType" id="listingTypesSelect" class="nice-select list-page" tabindex="0">
                         <span class="current">All</span>
                         <ul class="list">
-                            <option class="option selected">All Listings</option>
-                            <option data-value="0" class="option">For Sale</option>
-                            <option data-value="1" class="option">For Rent</option>
+                            <option value="0" class="option selected">All Listings</option>
+                            <option value="1" class="option">For Sale</option>
+                            <option value="2" class="option">For Rent</option>
                         </ul>
                     </select>
                 </div>
 
-                <!-- Filter by Status (Active, Deactivated) -->
-                <select class="nice-select list-page" tabindex="0">
+                <select asp-for="ListingStatus" class="nice-select list-page" id="listingStatusSelect" tabindex="0">
                     <span class="current">Status</span>
                     <ul class="list">
-                        <option data-value="_" class="option">Status</option>
-                        <option data-value="active" class="option selected">Active Listings</option>
-                        <option data-value="active" class="option selected">Deactivated Listings</option>
+                        <option value="" class="option">Status</option>
+                        <option value="1" class="option selected">Active</option>
+                        <option value="2" class="option selected">Pending</option>
+                        <option value="3" class="option selected">Sold</option>
+                        <option value="4" class="option selected">Rented</option>
+                        <option value="5" class="option selected">Withdrawn</option>
+                        <option value="6" class="option selected">Coming Soon</option>
+                        <option value="7" class="option selected">Off Market</option>
                     </ul>
                 </select>
 
-                <!-- Sort Options -->
-                <select class="nice-select list-sort" tabindex="0">
+                <select asp-for="ListingSorting" class="nice-select list-sort" id="listingSortingSelect" tabindex="0">
                     <span class="current">Sort by (Default)</span>
                     <ul class="list">
-                        <option data-value="_" class="option selected">Sort by (Default)</option>
-                        <option data-value="new" class="option">Newest</option>
-                        <option data-value="old" class="option">Oldest</option>
+                        <option value="" class="option selected">Sort by (Default)</option>
+                        <option value="0">Newest</option>
+                        <option value="1">Oldest</option>
+                        <option value="2">Ascending Price</option>
+                        <option value="3">Descending Price</option>
                     </ul>
                 </select>
             </div>
@@ -55,7 +59,6 @@
         <div class="tab-content">
             <div class="tab-pane fade active show" id="gridLayout" role="tabpanel">
                 <div class="row">
-                    <!-- Example Listing (Static for now) -->
                     @foreach (var listing in Model.Listings)
                     {
                         <div class="col-xl-4 col-lg-6 col-md-6">
@@ -122,7 +125,6 @@
                             </div>
                         </div>
                     }
-                    <!-- Additional listings will go here in future using foreach -->
                 </div>
             </div>
             <partial name="_PagingPartial"/>
@@ -132,5 +134,5 @@
 
 @section Scripts
 {
-    
+    <script type="module" src="~/js/adminListingFiltering.js" asp-append-version="true"></script>
 }

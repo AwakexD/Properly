@@ -24,6 +24,7 @@ namespace Properly.Web.Areas.Administration.Controllers
             {
                 { "ItemsPerPage", queryModel.ItemsPerPage.ToString() },
                 { "ListingSorting", ((int)queryModel.ListingSorting).ToString() },
+                { "ListingType", ((int)queryModel.ListingType).ToString() }
             };
 
             var viewModel = new AdminListingViewModel()

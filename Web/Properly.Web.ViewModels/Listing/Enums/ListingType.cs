@@ -2,7 +2,8 @@
 {
     public enum ListingType
     {
-        ForSale = 0,
-        ForRent = 1,
+        All = 0,
+        ForSale = 1,
+        ForRent = 2,
     }
 }
