@@ -81,8 +81,24 @@
                                         <div class="h7 text-capitalize fw-7">
                                             <a href="" class="link">@listing.FullAddress</a>
                                         </div>
-                                        <div class="desc"><i class="fs-16 icon icon-mapPin"></i>
-                                            <p>Construction Date : @listing.ConstructionDate</p></div>
+                                        <hr/>
+                                        <div class="desc">
+                                            <span class="text-center"><strong>@listing.Id</strong></span>
+                                        </div>
+                                            @if (listing.IsDeleted)
+                                            {
+                                                <div class="desc justify-content-center">
+                                                    <h1 class="flag-tag primary">DELETED </h1>
+                                                </div>
+                                            }
+                                        <hr/>
+                                        <div class="desc"><i class="fs-16 icon icon-hand"></i>
+                                            <span>Price : @listing.Price.ToString("C0")</span>
+                                        </div>
+                                        <div class="desc">
+                                            <i class="icon icon-share"></i>
+                                            <span>Created on : @listing.CreatedOn</span>
+                                        </div>
                                         <ul class="meta-list">
                                             <li class="item">
                                                 <i class="icon icon-bed"></i>
@@ -96,30 +112,31 @@
                                                 <i class="icon icon-ruler"></i>
                                                 <span>@listing.Size</span>
                                             </li>
+                                            <li class="item">
+                                                <i class="icon icon-profile"></i>
+                                                <span>@listing.CreatorEmail</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="archive-bottom d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-8 align-items-center">
-                                        <span>@listing.CreatorName</span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <h6>@listing.Price.ToString("C0")</h6>
-                                        @if (listing.ListingType == "For Rent")
+                                <div class="archive-bottom d-flex justify-content-center align-items-center">
+                                    <div>
+                                        <a href="#" class="btn btn-success btn-md">Edit</a>
+                                        <a href="#" class="btn btn-info btn-md">Update Status</a>
+                                        @if (listing.IsDeleted)
                                         {
-                                            <span class="text-variant-1">/mo.</span>
+                                            <form asp-controller="Listings" asp-action="Undelete" class="activate-form" method="post" style="display:inline;">
+                                                <input type="hidden" name="listingId" value="@listing.Id"/>
+                                                <button class="btn btn-primary btn-md">Undelete</button>
+                                            </form>
                                         }
-                                    </div>
-                                </div>
-                                <!-- Admin Controls -->
-                                <div class=" d-flex justify-content-between m-1">
-                                    <div>
-                                        <a href="#" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="#" class="btn btn-warning btn-sm">Deactivate</a>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="btn btn-danger btn-sm">Hard Delete</a>
-                                        <a href="#" class="btn btn-secondary btn-sm">Soft Delete</a>
+                                        else
+                                        {
+                                            <form asp-controller="Listings" asp-action="SoftDelete" class="delete-form" method="post" style="display:inline;">
+                                                <input type="hidden" name="listingId" value="@listing.Id"/>
+                                                <button type="submit" class="btn btn-danger btn-md">Soft Delete</button>
+                                            </form>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -135,4 +152,6 @@
 @section Scripts
 {
     <script type="module" src="~/js/adminListingFiltering.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/deleteConfirmation.js" asp-append-version="true"></script>
+
 }

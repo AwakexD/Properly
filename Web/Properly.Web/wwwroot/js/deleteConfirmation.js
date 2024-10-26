@@ -27,13 +27,13 @@
             e.preventDefault();
 
             Swal.fire({
-                title: 'Activate Item?',
-                text: "Are you sure you want to activate this item?",
+                title: 'Undelete Item?',
+                text: "Are you sure you want to undelete this item?",
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, activate it!'
+                confirmButtonText: 'Yes, undelete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();

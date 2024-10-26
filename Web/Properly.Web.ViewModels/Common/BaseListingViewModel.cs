@@ -39,9 +39,13 @@ namespace Properly.Web.ViewModels.Common
 
         public DateTime CreatedOn { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string CreatorId { get; set; }
 
         public string CreatorName { get; set; }
+
+        public string CreatorEmail { get; set; }
 
         public IEnumerable<string> Photos { get; set; }
 
@@ -67,8 +71,10 @@ namespace Properly.Web.ViewModels.Common
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.Property.Address.City))
                 .ForMember(d => d.ZipCode, opt => opt.MapFrom(src => src.Property.Address.ZipCode))
                 .ForMember(d => d.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn))
+                .ForMember(d => d.IsDeleted, opt => opt.MapFrom(src => src.IsDeleted))
                 .ForMember(d => d.CreatorId, opt => opt.MapFrom(src => src.CreatorId))
                 .ForMember(d => d.CreatorName, opt => opt.MapFrom(src => (src.Creator.FirstName + " " + src.Creator.LastName)))
+                .ForMember(d => d.CreatorEmail, opt => opt.MapFrom(src => (src.Creator.Email)))
                 .ForMember(d => d.Photos, opt => opt.MapFrom(src => src.Photos.Select(p => p.Url)))
                 .ForMember(d => d.FullAddress, opt => opt.Ignore());
         }

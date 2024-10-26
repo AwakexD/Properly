@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Properly.Data.Common.Repositories;
 using Properly.Data.Models.Entities;
@@ -55,8 +56,8 @@ namespace Properly.Services.Data.Admin
             {
                 ListingStatus.Active => query.Where(l => l.ListingStatus.Name == ListingStatus.Active.ToString()),
                 ListingStatus.Pending => query.Where(l => l.ListingStatus.Name == ListingStatus.Pending.ToString()),
-                ListingStatus.Sold => query.Where(l => l.ListingStatus.Name == "Sold"),
-                ListingStatus.Rented => query.Where(l => l.ListingStatus.Name == "Rented"),
+                ListingStatus.Sold => query.Where(l => l.ListingStatus.Name == ListingStatus.Sold.ToString()),
+                ListingStatus.Rented => query.Where(l => l.ListingStatus.Name == ListingStatus.Rented.ToString()),
                 ListingStatus.Withdrawn => query.Where(l => l.ListingStatus.Name == ListingStatus.Withdrawn.ToString()),
                 ListingStatus.ComingSoon => query.Where(l => l.ListingStatus.Name == ListingStatus.ComingSoon.ToString()),
                 ListingStatus.OffMarket => query.Where(l => l.ListingStatus.Name == ListingStatus.OffMarket.ToString()),
@@ -83,29 +84,35 @@ namespace Properly.Services.Data.Admin
             return (listings, totalCount);
         }
 
-        public Task<CreateListingViewModel> GetListingEditDataAsync(Guid listingId)
+        public async Task SoftDeleteListingAsync(string listingId)
         {
-            throw new NotImplementedException();
+            var listing = await this.listingRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
+
+            if (listing == null)
+            {
+                throw new ArgumentNullException($"Listing with ID {listingId} not found.");
+            }
+
+            listing.ListingStatusId = (int)ListingStatus.OffMarket;
+
+            this.listingRepository.Delete(listing);
+            var result = await this.listingRepository.SaveChangesAsync();
         }
 
-        public Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId)
+        public async Task UndeleteListingAsync(string listingId)
         {
-            throw new NotImplementedException();
-        }
+            var listing = await this.listingRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
 
-        public Task<bool> DeactivateListingAsync(string listingId)
-        {
-            throw new NotImplementedException();
-        }
+            if (listing == null)
+            {
+                throw new ArgumentNullException($"Listing with ID {listingId} not found.");
+            }
 
-        public Task<bool> DeleteListingImageAsync(string listingId, string imageUrl)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> HardDeleteListingAsync(string listingId)
-        {
-            throw new NotImplementedException();
+            listing.ListingStatusId = (int)ListingStatus.Active;
+            listingRepository.Undelete(listing);
+            await this.listingRepository.SaveChangesAsync();
         }
     }
 }

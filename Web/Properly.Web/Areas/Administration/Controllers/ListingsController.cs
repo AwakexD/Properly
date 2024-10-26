@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Properly.Services.Data.Contracts;
+using Properly.Web.ViewModels;
 using Properly.Web.ViewModels.Listing;
 
 namespace Properly.Web.Areas.Administration.Controllers
@@ -37,6 +39,36 @@ namespace Properly.Web.Areas.Administration.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SoftDelete(string listingId)
+        {
+            try
+            {
+                await this.adminListingService.SoftDeleteListingAsync(listingId);
+                
+                return RedirectToAction("All", "Listings");
+            }
+            catch (Exception e)
+            {
+                return this.View("Error", new ErrorViewModel());
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Undelete(string listingId)
+        {
+            try
+            {
+                await this.adminListingService.UndeleteListingAsync(listingId);
+
+                return RedirectToAction("All", "Listings");
+            }
+            catch (Exception e)
+            {
+                return this.View("Error", new ErrorViewModel());
+            }
         }
     }
 }
