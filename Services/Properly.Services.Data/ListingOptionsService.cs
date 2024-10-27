@@ -1,4 +1,6 @@
-﻿namespace Properly.Services.Data
+﻿using Properly.Web.ViewModels.Listing;
+
+namespace Properly.Services.Data
 {
     using System;
     using System.Collections;
@@ -20,15 +22,18 @@
         private readonly IDeletableEntityRepository<PropertyType> propertyTypesRepository;
         private readonly IDeletableEntityRepository<ListingType> listingTypesRepository;
         private readonly IDeletableEntityRepository<Feature> featuresRepository;
+        private readonly IDeletableEntityRepository<ListingStatus> listingStatusesRepository;
 
         public ListingOptionsService(
             IDeletableEntityRepository<PropertyType> propertyTypesRepository,
             IDeletableEntityRepository<ListingType> listingTypesRepository,
-            IDeletableEntityRepository<Feature> featuresRepository)
+            IDeletableEntityRepository<Feature> featuresRepository,
+            IDeletableEntityRepository<ListingStatus> listingStatusesRepository)
         {
             this.propertyTypesRepository = propertyTypesRepository;
             this.listingTypesRepository = listingTypesRepository;
             this.featuresRepository = featuresRepository;
+            this.listingStatusesRepository = listingStatusesRepository;
         }
 
         public async Task<IEnumerable<PropertyTypeFormModel>> GetPropertyTypes()
@@ -78,19 +83,6 @@
                 ListingTypes = await this.GetListingTypes(),
                 Features = await this.GetFeatures(),
             };
-        }
-
-        
-        // 1. Add Property Type
-        public async Task AddPropertyTypeAsync(PropertyTypeFormModel model)
-        {
-            var propertyType = new PropertyType
-            {
-                Name = model.Name,
-            };
-
-            await this.propertyTypesRepository.AddAsync(propertyType);
-            await this.propertyTypesRepository.SaveChangesAsync();
         }
     }
 }

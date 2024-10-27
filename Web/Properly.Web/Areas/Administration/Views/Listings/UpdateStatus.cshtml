@@ -1,0 +1,85 @@
+﻿@model Properly.Web.ViewModels.Common.BaseListingViewModel
+@{
+    this.ViewData["Title"] = "Update Listing Status";
+}
+
+<section class="flat-title-page style-2" style="padding: 30px 0px 30px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><a asp-area="Administration" asp-controller="Listings" asp-action="All">/ All Listings</a></li>
+            <li><a>/ Update Status</a></li>
+        </ul>
+        <h2 class="text-center">@ViewData["Title"]</h2>
+    </div>
+</section>
+
+<div class="container col-md-4 mt-3">
+        <div class="homeya-box">
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-6">
+    </div>
+            <div class="archive-top">
+                <a asp-area="" asp-controller="Listing" asp-action="Id" asp-route-id="@Model.Id" as class="images-group">
+                    <div class="images-style">
+                        <img src="@Model.Photos.FirstOrDefault()" alt="property-image">
+                    </div>
+                    <div class="top">
+                        <ul class="d-flex gap-8">
+                            <li class="flag-tag style-1">@Model.ListingStatus</li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <span class="flag-tag style-2">@Model.PropertyTypeName</span>
+                    </div>
+                </a>
+                <div class="content">
+                    <div class="h7 text-capitalize fw-7">
+                        <a href="" class="link">@Model.FullAddress</a>
+                    </div>
+                    <hr/>
+                    <div class="desc">
+                        <span class="text-center"><strong>@Model.Id</strong></span>
+                    </div>
+                    <hr/>
+                    <div class="desc">
+                        <i class="fs-16 icon icon-hand"></i>
+                        <span>Price : @Model.Price.ToString("C0")</span>
+                    </div>
+                    <div class="desc">
+                        <i class="icon icon-profile"></i>
+                        <span>Creator : @Model.CreatorEmail</span>
+                    </div>
+                    <hr/>
+                    <ul class="meta-list  justify-content-center">
+                        <li class="item">
+                            <i class="h5 icon icon-clock-countdown"></i>
+                            <span class="h5 text-center">@Model.ListingStatus</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flat-account bg-surface">
+        <h4 class="text-center mb-3">Change Status</h4>
+        <form asp-controller="Listings" asp-action="UpdateStatus" method="post">
+            <input type="hidden" name="listingId" value="@Model.Id"/>
+            <select name="listingStatus" class="nice-select select-field">
+                <option value="">@Model.ListingStatus</option>
+                <option value="1">Active</option>
+                <option value="2">Pending</option>
+                <option value="3">Sold</option>
+                <option value="4">Rented</option>
+                <option value="5">Withdrawn</option>
+                <option value="6">Coming Soon</option>
+                <option value="7">Off Market</option>
+            </select>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-area="Administration" asp-controller="Listings" asp-action="All" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -2,19 +2,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Properly.Data.Models.Entities;
 using Properly.Services.Data.Contracts;
 using Properly.Web.ViewModels;
 using Properly.Web.ViewModels.Listing;
+using ListingStatus = Properly.Web.ViewModels.Listing.Enums.ListingStatus;
 
 namespace Properly.Web.Areas.Administration.Controllers
 {
     public class ListingsController : AdministrationController
     {
         private readonly IAdminListingService adminListingService;
+        private readonly IListingOptionsService listingOptionsService;
 
-        public ListingsController(IAdminListingService adminListingService)
+        public ListingsController(IAdminListingService adminListingService,
+            IListingOptionsService listingOptionsService)
         {
             this.adminListingService = adminListingService;
+            this.listingOptionsService = listingOptionsService;
         }
 
         [HttpGet]
@@ -64,6 +69,29 @@ namespace Properly.Web.Areas.Administration.Controllers
                 await this.adminListingService.UndeleteListingAsync(listingId);
 
                 return RedirectToAction("All", "Listings");
+            }
+            catch (Exception e)
+            {
+                return this.View("Error", new ErrorViewModel());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateStatus(string listingId)
+        {
+            var viewModel = await adminListingService.GetListingEditDataAsync(listingId);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(ListingStatus listingStatus, string listingId)
+        {
+            try
+            {
+                await this.adminListingService.UpdateListingStatus(listingId, listingStatus);
+
+                return this.RedirectToAction("All", "Listings");
             }
             catch (Exception e)
             {

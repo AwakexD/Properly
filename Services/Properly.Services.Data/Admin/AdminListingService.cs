@@ -84,6 +84,20 @@ namespace Properly.Services.Data.Admin
             return (listings, totalCount);
         }
 
+        public async Task<BaseListingViewModel> GetListingEditDataAsync(string listingId)
+        {
+            var listing = await this.listingRepository.AllWithDeleted()
+                .To<BaseListingViewModel>()
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
+
+            if (listing == null)
+            {
+                throw new ArgumentNullException($"Listing with ID {listingId} not found.");
+            }
+
+            return listing;
+        }
+
         public async Task SoftDeleteListingAsync(string listingId)
         {
             var listing = await this.listingRepository.AllWithDeleted()
@@ -112,6 +126,21 @@ namespace Properly.Services.Data.Admin
 
             listing.ListingStatusId = (int)ListingStatus.Active;
             listingRepository.Undelete(listing);
+            await this.listingRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateListingStatus(string listingId, ListingStatus listingStatus)
+        {
+            var listing = await this.listingRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(l => l.Id == new Guid(listingId));
+
+            if (listing == null)
+            {
+                throw new ArgumentNullException($"Listing with ID {listingId} not found.");
+            }
+
+            listing.ListingStatusId = (int)listingStatus;
+            listingRepository.Update(listing);
             await this.listingRepository.SaveChangesAsync();
         }
     }
