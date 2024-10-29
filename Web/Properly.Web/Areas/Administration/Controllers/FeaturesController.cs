@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System;
 using System.Threading.Tasks;
-using Humanizer.DateTimeHumanizeStrategy;
 using Microsoft.AspNetCore.Mvc;
 using Properly.Services.Data.Contracts;
 using Properly.Web.ViewModels;

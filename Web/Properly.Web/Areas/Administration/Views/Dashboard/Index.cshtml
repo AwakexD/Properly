@@ -11,23 +11,23 @@
         </div>
         <div class="row">
             <!-- All Users -->
-            <div class="box col-lg-4 col-md-6">
+            <div class="box col-lg-6 col-md-6">
                 <div class="box-service style-2" style="background-color:#b0e5ff;">
                     <div class="icon-box">
-                        <i class="fa-regular fa-user" style="font-size: 2.8em;"></i>
+                        <i class="fa-regular fa-user" style="font-size: 3em;"></i>
                     </div>
                     <div class="content">
                         <h5 class="title">All Users</h5>
-                        <p class="description">Manage all users, view their statuses, and perform administrative actions.</p>
+                        <p class="description">Manage all users and view their statuses.</p>
                         <a asp-controller="User" asp-action="All" class="tf-btn size-1">Manage Users</a>
                     </div>
                 </div>
             </div>
 
-            <div class="box col-lg-4 col-md-6">
+            <div class="box col-lg-6 col-md-6">
                 <div class="box-service style-2" style="background-color:#b0e5ff;">
                     <div class="icon-box">
-                        <i class="fa-solid fa-table" style="font-size: 2.8em;"></i>
+                        <i class="fa-solid fa-table" style="font-size: 3em;"></i>
                     </div>
                     <div class="content">
                         <h5 class="title">Property Types</h5>
@@ -37,10 +37,10 @@
                 </div>
             </div>
 
-            <div class="box col-lg-4 col-md-6">
-                <div class="box-service style-2" style="background-color:#b0e5ff;">
+            <div class="box col-lg-6 col-md-6">
+                <div class="mt-3 box-service style-2" style="background-color:#b0e5ff;">
                     <div class="icon-box">
-                        <i class="fa-solid fa-table" style="font-size: 2.8em;"></i>
+                        <i class="fa-solid fa-table" style="font-size: 3em;"></i>
                     </div>
                     <div class="content">
                         <h5 class="title">Features</h5>
@@ -50,28 +50,15 @@
                 </div>
             </div>
 
-            <div class="box col-lg-4 col-md-6">
+            <div class="box col-lg-6 col-md-6">
                 <div class="mt-3 box-service style-2" style="background-color:#b0e5ff;">
                     <div class="icon-box">
-                        <span class="icon icon-sale-home"></span>
+                        <span class="icon icon-sale-home" style="font-size:3em;"></span>
                     </div>
                     <div class="content">
-                        <h5 class="title">Listings For Sale</h5>
-                        <p class="description">View, approve, or manage property listings that are available for sale.</p>
-                        <a href="#" class="tf-btn size-1">Manage Sales Listings</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="box col-lg-4 col-md-6">
-                <div class="mt-3 box-service style-2" style="background-color:#b0e5ff;">
-                    <div class="icon-box">
-                        <span class="icon icon-rent-home"></span>
-                    </div>
-                    <div class="content">
-                        <h5 class="title">Listings For Rent</h5>
-                        <p class="description">View, approve, or manage property listings that are available for rent.</p>
-                        <a href="#" class="tf-btn size-1">Manage Rental Listings</a>
+                        <h5 class="title">Listings</h5>
+                        <p class="description">View or manage property listings that are available.</p>
+                        <a asp-controller="Listings" asp-action="All" class="tf-btn size-1">Manage Listings</a>
                     </div>
                 </div>
             </div>

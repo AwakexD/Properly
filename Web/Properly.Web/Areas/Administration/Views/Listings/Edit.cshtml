@@ -1,0 +1,189 @@
+﻿@model Properly.Web.ViewModels.Sell.CreateListingViewModel
+
+@{
+    this.ViewData["Title"] = "Edit a listing";
+
+    var featureCount = Model.ListingOptions.Features.Count();
+    var featuresPerColumn = (int)Math.Ceiling((double)featureCount / 4);
+
+    var columns = Model.ListingOptions.Features
+        .Select((pf, index) => new { Id = pf.Id, Name = pf.Name, IconClass = pf.IconClass, Index = index })
+        .GroupBy(x => x.Index / featuresPerColumn)
+        .ToList();
+}
+
+<form method="post" enctype="multipart/form-data" class="m-5 p-5 mt-3">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <input class="listingId" asp-for="Listing.Id" type="hidden" value="@Model.Listing.Id" />
+            <div class="widget-box-2" id="images-widget">
+                <h6 class="title">Upload Media</h6>
+                @if (Model.UploadedPhotoUrls.Any())
+                {
+                    <div class="d-flex flex-wrap justify-content-center align-items-center" id="display-uploaded-images">
+                        @foreach (var photoUrl in Model.UploadedPhotoUrls)
+                        {
+                            <div class="card m-2" style="width: 18rem;">
+                                <img src="@photoUrl" class="card-img-top" alt="...">
+                                <a href="#" class="delete-button position-absolute top-0 end-0 m-2 text-danger" title="Delete Image">
+                                    <i class="fa-solid fa-trash" style="color: #ed2027; font-size: 1.2rem;"></i>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="box-uploadfile text-center">
+                    <label class="uploadfile">
+                        <span class="icon icon-img-2"></span>
+                        <div class="btn-upload">
+                            <a class="tf-btn primary">Choose Images</a>
+                            @* Require images only when creating a new listing *@
+                            @if (Model.UploadedPhotoUrls.Any())
+                            {
+                                <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple>
+                            }
+                            else
+                            {
+                                <input type="file" asp-for="UploadedPhotos" name="UploadedPhotos" class="ip-file" multiple required>
+                            }
+                        </div>
+                        <span asp-validation-for="UploadedPhotos" class="text-danger"></span>
+                        <p class="display-files fw-5">Or drop images here to upload</p>
+                    </label>
+                </div>
+            </div>
+
+            <div class="widget-box-2">
+                <h6 class="title">Information</h6>
+                <div class="box-info-property">
+                    <fieldset class="box box-fieldset">
+                        <label asp-for="Property.Description">Description:</label>
+                        <textarea asp-for="Property.Description" name="Property.Description" class="form-control style-1"></textarea>
+                        <span asp-validation-for="Property.Description" class="text-danger"></span>
+                    </fieldset>
+                    <div class="box grid-3 gap-30">
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.StreetName">Street Name:<span>*</span></label>
+                            <input type="text" asp-for="Address.StreetName" name="Address.StreetName" class="form-contact style-1" placeholder="Enter street name">
+                            <span asp-validation-for="Address.StreetName" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.City">City:<span>*</span></label>
+                            <input type="text" asp-for="Address.City" name="Address.City" class="form-contact style-1" placeholder="Enter a city">
+                            <span asp-validation-for="Address.City" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.Country">Country:<span>*</span></label>
+                            <input type="text" asp-for="Address.Country" name="Address.Country" class="form-contact style-1" placeholder="Enter a country">
+                            <span asp-validation-for="Address.Country" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Address.ZipCode">Zip Code:<span>*</span></label>
+                            <input type="text" asp-for="Address.ZipCode" name="Address.ZipCode" class="form-control style-1" placeholder="Enter property zip code">
+                            <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-box-2">
+                <h6 class="title">Price</h6>
+                <div class="box-price-property">
+                    <div class="box grid-2 gap-30">
+                        <fieldset class="box-fieldset">
+                            <label asp-for="Listing.Price">Price:<span>*</span></label>
+                            <input type="text" asp-for="Listing.Price" name="Listing.Price" class="form-control style-1" placeholder="Example value: 12345.67">
+                            <span asp-validation-for="Listing.Price" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="widget-box-2">
+                <h6 class="title">Additional Information</h6>
+                <div class="box grid-3 gap-30">
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.PropertyTypeId" class="label-field">Property Type:<span>*</span></label>
+                        <select asp-for="Property.PropertyTypeId" name="Property.PropertyTypeId" class="nice-select select-field">
+                            <option value="">Select Property Type</option>
+                            @foreach (var propertyType in Model.ListingOptions.PropertyTypes)
+                            {
+                                <option value="@propertyType.Id">@propertyType.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Property.PropertyTypeId" class="text-danger"></span>
+                    </fieldset>
+
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Listing.ListingTypeId" class="label-field">Listing Type:<span>*</span></label>
+                        <select asp-for="Listing.ListingTypeId" name="Listing.ListingTypeId" class="nice-select select-field">
+                            <option value="">Select Listing Type</option>
+                            @foreach (var listingType in Model.ListingOptions.ListingTypes)
+                            {
+                                <option value="@listingType.Id">@listingType.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Listing.ListingTypeId" class="text-danger"></span>
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Size">Size (SqFt):<span>*</span></label>
+                        <input type="text" asp-for="Property.Size" name="Property.Size" class="form-control style-1">
+                        <span asp-validation-for="Property.Size" class="text-danger"></span>
+                    </fieldset>
+                </div>
+                <div class="box grid-3 gap-30">
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.ConstructionDate">Year Built:<span>*</span></label>
+                        <input type="text" asp-for="Property.ConstructionDate" name="Property.ConstructionDate" class="form-control style-1">
+                        <span asp-validation-for="Property.ConstructionDate" class="text-danger"></span>
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Bedrooms">Bedrooms:<span>*</span></label>
+                        <input type="text" asp-for="Property.Bedrooms" name="Property.Bedrooms" class="form-control style-1">
+                        <span asp-validation-for="Property.Bedrooms" class="text-danger"></span>
+                    </fieldset>
+                    <fieldset class="box-fieldset">
+                        <label asp-for="Property.Bathrooms">Bathrooms:<span>*</span></label>
+                        <input type="text" asp-for="Property.Bathrooms" name="Property.Bathrooms" class="form-control style-1">
+                        <span asp-validation-for="Property.Bathrooms" class="text-danger"></span>
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="widget-box-2">
+                <h6 class="title">Amenities<span>*</span></h6>
+                <div class="box-amenities-property">
+                    @foreach (var col in columns)
+                    {
+                        <div class="box-amenities">
+                            @foreach (var feature in col)
+                            {
+                                <fieldset class="amenities-item">
+                                    <input type="checkbox"
+                                           class="tf-checkbox style-1 primary"
+                                           id="feature-@feature.Id"
+                                           name="Property.SelectedFeatures"
+                                           value="@feature.Id"
+                                           @if (Model.Property.SelectedFeatures is not null)
+                                           {
+                                               @(Model.Property.SelectedFeatures.Contains(feature.Id) ? "checked" : "")
+                                           } />
+                                    <i class="@feature.IconClass"></i>
+                                    <label for="feature-@feature.Id" class="text-cb-amenities">@feature.Name</label>
+                                </fieldset>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button class="tf-btn primary" type="submit" style="display: block; margin: 10px auto;">Submit</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script type="module" src="~/js/listingImagesHandler.js" asp-append-version="true"></script>
+}

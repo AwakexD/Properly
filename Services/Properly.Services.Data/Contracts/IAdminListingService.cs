@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Properly.Web.ViewModels.Common;
 using Properly.Web.ViewModels.Listing;
@@ -11,7 +12,11 @@ namespace Properly.Services.Data.Contracts
     {
         Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllListingsAsync(AdminListingViewModel queryModel, int page);
 
-        Task<BaseListingViewModel> GetListingEditDataAsync(string listingId);
+        Task<CreateListingViewModel> GetListingEditDataAsync(Guid listingId);
+
+        Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId);
+
+        Task<BaseListingViewModel> GetListingDataAsync(string listingId);
 
         Task SoftDeleteListingAsync(string listingId);
 

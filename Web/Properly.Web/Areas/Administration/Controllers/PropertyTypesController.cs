@@ -16,6 +16,7 @@ namespace Properly.Web.Areas.Administration.Controllers
             this.adminListingOptionsService = adminListingOptionsService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             try

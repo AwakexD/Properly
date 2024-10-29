@@ -16,6 +16,7 @@ using Properly.Web.ViewModels.Listing.Enums;
 using Properly.Web.ViewModels.Sell;
 using ListingStatus = Properly.Web.ViewModels.Listing.Enums.ListingStatus;
 using ListingType = Properly.Web.ViewModels.Listing.Enums.ListingType;
+using Properly.Web.ViewModels.Sell.Models;
 
 namespace Properly.Services.Data.Admin 
 {
@@ -23,20 +24,17 @@ namespace Properly.Services.Data.Admin
     {
         private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Listing> listingRepository;
-        private readonly IDeletableEntityRepository<FavoriteListing> favouriteListingRepository;
         private readonly IDeletableEntityRepository<PropertyFeature> propertyFeatureRepository;
         private readonly IDeletableEntityRepository<Photo> photoRepository;
 
         public AdminListingService(
             ICloudinaryService cloudinaryService,
             IDeletableEntityRepository<Listing> listingRepository,
-            IDeletableEntityRepository<FavoriteListing> favouriteListingRepository,
             IDeletableEntityRepository<PropertyFeature> propertyFeatureRepository,
             IDeletableEntityRepository<Photo> photoRepository)
         {
             this.cloudinaryService = cloudinaryService;
             this.listingRepository = listingRepository;
-            this.favouriteListingRepository = favouriteListingRepository;
             this.propertyFeatureRepository = propertyFeatureRepository;
             this.photoRepository = photoRepository;
         }
@@ -84,7 +82,50 @@ namespace Properly.Services.Data.Admin
             return (listings, totalCount);
         }
 
-        public async Task<BaseListingViewModel> GetListingEditDataAsync(string listingId)
+        public async Task<CreateListingViewModel> GetListingEditDataAsync(Guid listingId)
+        {
+            var listing = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId)
+                .Include(x => x.Photos)
+                .To<ListingInputModel>()
+                .FirstOrDefaultAsync();
+
+            var property = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId)
+                .Select(x => x.Property)
+                .To<PropertyInputModel>()
+                .FirstOrDefaultAsync();
+
+            var address = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId)
+                .Select(x => x.Property.Address)
+                .To<AddressInputModel>()
+                .FirstOrDefaultAsync();
+
+            var selectedFeatureIds = await this.listingRepository.AllAsNoTracking()
+                .Where(x => x.Id == listingId)
+                .SelectMany(x => x.Property.PropertyFeatures.Select(pf => pf.FeatureId))
+                .ToListAsync();
+
+            var listingUploadedPhotos = await this.photoRepository.AllAsNoTracking()
+                .Where(x => x.ListingId == listingId)
+                .Select(x => x.Url)
+                .ToListAsync();
+
+            property.SelectedFeatures = selectedFeatureIds;
+
+            var model = new CreateListingViewModel()
+            {
+                Listing = listing,
+                Property = property,
+                Address = address,
+                UploadedPhotoUrls = listingUploadedPhotos
+            };
+
+            return model;
+        }
+
+        public async Task<BaseListingViewModel> GetListingDataAsync(string listingId)
         {
             var listing = await this.listingRepository.AllWithDeleted()
                 .To<BaseListingViewModel>()
@@ -96,6 +137,59 @@ namespace Properly.Services.Data.Admin
             }
 
             return listing;
+        }
+
+        public async Task<bool> UpdateListingAsync(CreateListingViewModel form, string listingId)
+        {
+            var listingGuid = new Guid(listingId);
+
+            var listing = await this.listingRepository.All()
+                .Include(l => l.Property)
+                .ThenInclude(p => p.PropertyFeatures)
+                .Include(l => l.Property.Address)
+                .Include(l => l.Photos)
+                .FirstOrDefaultAsync(l => l.Id == listingGuid);
+
+            if (listing == null)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to edit this listing.");
+            }
+
+            listing.Property.Size = form.Property.Size;
+            listing.Property.Bathrooms = form.Property.Bathrooms;
+            listing.Property.Bedrooms = form.Property.Bedrooms;
+            listing.Property.Description = form.Property.Description;
+            listing.Property.ConstructionDate = form.Property.ConstructionDate;
+            listing.Property.PropertyTypeId = form.Property.PropertyTypeId;
+
+            listing.Property.Address.StreetName = form.Address.StreetName;
+            listing.Property.Address.City = form.Address.City;
+            listing.Property.Address.ZipCode = form.Address.ZipCode;
+            listing.Property.Address.Country = form.Address.Country;
+
+            foreach (var feature in form.Property.SelectedFeatures)
+            {
+                if (listing.Property.PropertyFeatures.All(x => x.FeatureId != feature))
+                {
+                    await this.propertyFeatureRepository.AddAsync(new PropertyFeature()
+                    { PropertyId = listing.Property.Id, FeatureId = feature });
+                }
+            }
+
+            listing.Price = form.Listing.Price;
+            listing.ListingTypeId = form.Listing.ListingTypeId;
+
+            foreach (var photo in form.UploadedPhotos)
+            {
+                string url = await this.cloudinaryService.UploadImageAsync(photo);
+                await this.photoRepository.AddAsync(new Photo() { Url = url, ListingId = listing.Id });
+            }
+
+            this.listingRepository.Update(listing);
+
+            await this.listingRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task SoftDeleteListingAsync(string listingId)

@@ -13,13 +13,6 @@
         <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
 
 
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <li>
-                <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
-            </li>
-            <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
-        }
         <li>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
