@@ -1,5 +1,3 @@
-using Properly.Services.Data.Admin;
-
 namespace Properly.Web
 {
     using System;
@@ -16,6 +14,7 @@ namespace Properly.Web
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Hosting;
     using Properly.Common;
     using Properly.Data;
@@ -25,6 +24,7 @@ namespace Properly.Web
     using Properly.Data.Repositories;
     using Properly.Data.Seeding;
     using Properly.Services.Data;
+    using Properly.Services.Data.Admin;
     using Properly.Services.Data.Contracts;
     using Properly.Services.Mapping;
     using Properly.Services.Messaging;
@@ -32,11 +32,16 @@ namespace Properly.Web
     using Properly.Web.Infrastructure.ModelBinders;
     using Properly.Web.ViewModels;
 
+
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
             Configure(app);
