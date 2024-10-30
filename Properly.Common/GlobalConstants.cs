@@ -4,6 +4,8 @@
     {
         public const string SystemName = "Properly";
 
+        public const string CloudinaryDefaultFolderPath = "Properly";
+
         public const string AntiForgeryHeaderName = "X-CSRF-TOKEN";
 
 
