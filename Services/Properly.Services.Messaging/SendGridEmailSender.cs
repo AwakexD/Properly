@@ -5,16 +5,19 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.Extensions.Logging;
     using SendGrid;
     using SendGrid.Helpers.Mail;
 
     public class SendGridEmailSender : IEmailSender
     {
-        private readonly SendGridClient client;
+        private readonly ISendGridClient client;
+        private readonly ILogger<SendGridEmailSender> logger;
 
-        public SendGridEmailSender(string apiKey)
+        public SendGridEmailSender(ISendGridClient client, ILogger<SendGridEmailSender> logger)
         {
-            this.client = new SendGridClient(apiKey);
+            this.client = client;
+            this.logger = logger;
         }
 
         public async Task SendEmailAsync(string from, string fromName, string to, string subject, string htmlContent, IEnumerable<EmailAttachment> attachments = null)
@@ -23,6 +26,9 @@
             {
                 throw new ArgumentException("Subject and message should be provided.");
             }
+
+            if (string.IsNullOrWhiteSpace(from)) throw new ArgumentException("Sender email is required.", nameof(from));
+            if (string.IsNullOrWhiteSpace(to)) throw new ArgumentException("Recipient email is required.", nameof(to));
 
             var fromAddress = new EmailAddress(from, fromName);
             var toAddress = new EmailAddress(to);
@@ -38,12 +44,11 @@
             try
             {
                 var response = await this.client.SendEmailAsync(message);
-                Console.WriteLine(response.StatusCode);
-                Console.WriteLine(await response.Body.ReadAsStringAsync());
+                logger.LogInformation($"Email sent with code : {response.StatusCode}, Response body : {response.Body.ReadAsStringAsync()}");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.LogError(e, $"An error occurred while sending email to {to}");
                 throw;
             }
         }

@@ -7,6 +7,7 @@ namespace Properly.Web
     using AutoMapper;
     using CloudinaryDotNet;
     using dotenv.net;
+    using SendGrid;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
@@ -111,8 +112,12 @@ namespace Properly.Web
 
             // SendGrid
             DotEnv.Load(options: new DotEnvOptions(probeForEnv:true));
-            services.AddSingleton<IEmailSender>(
-                new SendGridEmailSender(Environment.GetEnvironmentVariable("SENDGRID_API_KEY")));
+            services.AddSingleton<ISendGridClient>(provider =>
+            {
+                var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                return new SendGridClient(apiKey);
+            });
+            services.AddSingleton<IEmailSender, SendGridEmailSender>();
 
             // Register AutoMapper
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);

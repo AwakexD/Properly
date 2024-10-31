@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Properly.Web.ViewModels.Messages;
-using System.Threading.Tasks;
-
-namespace Properly.Services.Data.Contracts
+﻿namespace Properly.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Properly.Web.ViewModels.Messages;
+
     public interface IMessagesService
     {
         Task CreateMessageAsync(string userId,  MessageRequest messageRequest);
