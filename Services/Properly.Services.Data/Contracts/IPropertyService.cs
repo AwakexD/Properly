@@ -15,10 +15,6 @@ namespace Properly.Services.Data.Contracts
     {
         Task<string> CreateListingAsync(CreateListingViewModel form, string userId);
 
-        Task<IEnumerable<ListingIndexViewModel>> GetAllListingsByAddedDate(int count);
-
-        Task<IEnumerable<BaseListingViewModel>> GetAll(int page, string type, ListingSorting sorting, int itemsPerPage = 6);
-
         Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllAsync(BuyViewModel queryModel, int page, string type);
 
         Task<BaseListingViewModel> GetListingById(Guid id);

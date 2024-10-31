@@ -1,4 +1,7 @@
-﻿namespace Properly.Web.Controllers
+﻿using Properly.Web.ViewModels.Buy;
+using Properly.Web.ViewModels.Listing.Enums;
+
+namespace Properly.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -23,9 +26,12 @@
 
         public async Task<IActionResult> Index()
         {
+            var (listings, totalCount) = await this.propertyService.GetAllAsync(
+                new BuyViewModel() { ListingSorting = ListingSorting.Newest }, 1, "For Sale");
+            
             var viewModel = new IndexViewModel()
             {
-                ListingModels = await this.propertyService.GetAllListingsByAddedDate(6),
+                ListingModels = listings,
                 Features = await this.listingOptionsService.GetFeatures(),
                 PropertyTypes = await this.listingOptionsService.GetPropertyTypes(),
             };

@@ -182,7 +182,7 @@
                                 <div class="archive-top">
                                         <a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="images-group">
                                         <div class="images-style">
-                                            <img src="@listing.PhotoUrl" alt="img">
+                                            <img src="@listing.Photos.FirstOrDefault()" alt="img">
                                         </div>
                                         <div class="top">
                                             <ul class="d-flex gap-8">
@@ -196,13 +196,13 @@
                                             </ul>
                                         </div>
                                         <div class="bottom">
-                                            <span class="flag-tag style-2">@listing.Type</span>
+                                            <span class="flag-tag style-2">@listing.ListingType</span>
                                         </div>
                                     </a>
                                     <div class="content">
-                                            <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.Address</a></div>
+                                            <div class="h7 text-capitalize fw-7"><a asp-controller="Listing" asp-action="Id" asp-route-id="@listing.Id" class="link">@listing.FullAddress</a></div>
                                         <div class="desc"><i class="fs-16 icon icon-mapPin"></i>
-                                            <p>@listing.Address</p> </div>
+                                            <p>@listing.FullAddress</p> </div>
                                         <ul class="meta-list">
                                             <li class="item">
                                                 <i class="icon icon-bed"></i>

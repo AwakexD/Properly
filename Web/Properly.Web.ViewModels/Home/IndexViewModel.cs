@@ -11,10 +11,10 @@ namespace Properly.Web.ViewModels.Home
     {
         public IndexViewModel()
         {
-            this.ListingModels = new HashSet<ListingIndexViewModel>();
+            this.ListingModels = new HashSet<BaseListingViewModel>();
         }
 
-        public IEnumerable<ListingIndexViewModel> ListingModels { get; set; }
+        public IEnumerable<BaseListingViewModel> ListingModels { get; set; }
 
         public IEnumerable<FeatureFormModel> Features { get; set; }
 
