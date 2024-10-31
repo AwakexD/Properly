@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Properly.Web.ViewModels.Common;
-using Properly.Web.ViewModels.Listing;
-using Properly.Web.ViewModels.Listing.Enums;
-using Properly.Web.ViewModels.Sell;
-
-namespace Properly.Services.Data.Contracts
+﻿namespace Properly.Services.Data.Contracts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Properly.Web.ViewModels.Common;
+    using Properly.Web.ViewModels.Listing;
+    using Properly.Web.ViewModels.Listing.Enums;
+    using Properly.Web.ViewModels.Sell;
+
     public interface IAdminListingService
     {
         Task<(IEnumerable<BaseListingViewModel>, int TotalCount)> GetAllListingsAsync(AdminListingViewModel queryModel, int page);
