@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Properly.Web.ViewModels.AdminListingOptions;
-
-namespace Properly.Services.Data.Contracts
+﻿namespace Properly.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Properly.Web.ViewModels.AdminListingOptions;
+
     public interface IAdminListingOptionsService
     {
         Task<IEnumerable<PropertyTypeAdminModel>> GetAllPropertyTypesAsync();
