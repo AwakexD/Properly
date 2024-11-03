@@ -44,6 +44,9 @@
                 {
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    PhoneNumber = "+35911111111"
                 };
                 string adminPassword = "Adm1nPassw@rd!";
 
