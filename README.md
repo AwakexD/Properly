@@ -1,5 +1,5 @@
 # Real Estate Management System - Properly
-
+ ⚠️*This application, Properly, was developed for educational purposes, It is not intended for production use.*
 ## Overview
 - __Properly__ is a full-stack ASP.NET application designed for managing properties, rentals, and leases. It enables users to buy, sell, or rent properties, providing seamless interactions between property owners, tenants, and administrators. This application is designed with a scalable architecture and incorporates role-based functionalities for various types of users.
 
@@ -107,6 +107,7 @@ https://github.com/user-attachments/assets/27bc0e1b-8da4-4ef2-9373-d5db2a1937d9
   __2. Database Setup__
   - Configure your SQL Server connection in `appsettings.json`.
   - Run migrations to set up the database schema.
+    
   __3. Configure External Services__
   - Store external service keys in a `.env` file in the root directory. Add the following keys: 
   ```
@@ -114,6 +115,7 @@ https://github.com/user-attachments/assets/27bc0e1b-8da4-4ef2-9373-d5db2a1937d9
    SENDGRID_API_KEY=<Your SendGrid API Key>
   ```
   - Ensure that `.env` is properly loaded to use these variables securely.
+    
   __4. Build and Run__
   ```
    dotnet build
